@@ -17,7 +17,7 @@ body{
 	font-weight: 300;
 }
 
-.content-wrapper{
+.election-districts{
 	margin-top:55px;
 	/*margin-left: -5%;*/
 	text-align: center;
@@ -96,10 +96,12 @@ a:hover {
 	padding:0;
 }
 
-
-
 #navbar{
 	float:center;
+}
+#navbar a{
+	font-weight: bold;
+	color:#555;
 }
 
 .home-button{
@@ -119,4 +121,22 @@ a:hover {
 .button-text {
     display: inline-block;
     vertical-align: middle;
+}
+
+.graphic-containter{
+	/*background-color: black;*/
+	height:500px;
+}
+
+.sidebar{
+	
+	padding: 0 65px 0 15px;
+}
+
+.map-container{
+	padding:0;
+}
+
+.input-group-btn{
+	display: block;
 }
