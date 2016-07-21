@@ -1,7 +1,14 @@
-body{
+footer{
+	border-top: 1px solid #999;
+	color:#999;
+	font-size: .6875em
+	line-height:10px;
+	margin: 25px -15px;
+	padding-top: 5px;
 }
-.navbar > .container {
-	/*margin-left:0;*/
+
+.container {
+	padding:0;
 }
 .headline{
 	text-align: center;
@@ -19,7 +26,6 @@ body{
 
 .election-districts{
 	margin-top:55px;
-	/*margin-left: -5%;*/
 	text-align: center;
 }
 ul.election-navigation li{
@@ -49,26 +55,25 @@ ul.election-navigation li{
 }
 
 .election-navigation-a.active {
-    /*color: #000;*/
     text-decoration: underline;
 }
 
-.navbar-collapse img {
+.navbar-center img {
     height: 23px;
     margin: 0 10px;
 }
 
-.navbar-collapse{
-	margin-left: -5%;
+.navbar-center{
+	/*margin-left: -5%;*/
 	text-align: center;
 }
-.navbar-collapse h5{
+.navbar-center h5{
 	display:inline-block;
 	height:30px
 	margin: 5px auto auto 7px;
 	padding: 0 0 0 20px;
 }
-.navbar-collapse h5::before {
+.navbar-center h5::before {
     background: #ccc none repeat scroll 0 0;
     content: " ";
     display: inline-block;
@@ -78,7 +83,7 @@ ul.election-navigation li{
     top: 7px;
     width: 1px;
 }
-.navbar-collapse h5:first-child::before {
+.navbar-center h5:first-child::before {
     display:none;
 }
 
@@ -99,7 +104,7 @@ a:hover {
 #navbar{
 	float:center;
 }
-#navbar a{
+#navbar h5, #navbar a{
 	font-weight: bold;
 	color:#555;
 }
@@ -110,12 +115,6 @@ a:hover {
     color: rgba(0, 0, 0, 0.5);
     font-family: arial,helvetica,sans-serif;
     border:none;
-    /*font-size: 1rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 1.25rem;*/
-    /*margin-top: 5px;
-    padding: 2px 9px 4px 7px;*/
     text-transform: none;	
 }
 .button-text {
@@ -124,19 +123,31 @@ a:hover {
 }
 
 .graphic-containter{
-	/*background-color: black;*/
 	height:500px;
 }
 
-.sidebar{
-	
-	padding: 0 65px 0 15px;
+.sidebar{	
+	padding: 0 50px 10px 0;
 }
 
 .map-container{
 	padding:0;
 }
 
+.sidebar-search label{
+	/*display:table-row;*/
+}
 .input-group-btn{
 	display: block;
+}
+
+@media (max-width: 620px) { 
+	.navbar-center h5:first-child {
+	    display: none;
+	}
+
+	.navbar-center{
+	margin-left: 30px;
+	text-align: left:;
+}
 }

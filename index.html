@@ -26,23 +26,23 @@
   </head>
   <body>
   <nav class="navbar navbar-default navbar-fixed-top">
-      <button class="home-button" data-href="http://www.gis.leg.mn">
+      <button id="home" class="home-button">
           <image src="img/capital.jpg"/>
           <span class="button-text">Home</span>
       </button>
 
       <div class="container">
-        <div class="navbar-header">
+        <!-- <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>          
-        </div>
-        <div id="navbar" class="collapse navbar-collapse">
+        </div> -->
+        <div id="navbar" class="navbar-center">
             <h5><a href="#">Legislative Coordinating Commission</a></h5>
-            <h5><a href="#about"><image src="img/ballot-box.jpg"/>Election 2016</a></h5>
+            <h5><image src="img/ballot-box.jpg"/>Election 2016</h5>
         </div><!--/.nav-collapse -->
 
       </div>
@@ -61,14 +61,14 @@
       </div>
       <div class="headline">
           <h1 class="headline-title">How every Minnesota precinct voted in the 2016 election.</h1>
-          <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
-        </div>
+          <p class="lead">Use this document as a way to quickly start any new project.<br> It provides this text, sidebar navigation, and a Mapbox GL map.</p>
       </div>
+     
       <div class="row">
-      <div class="col-sm-1"></div>
+      <!-- <div class="col-sm-1"></div> -->
       <div class="graphic-containter">
 
-        <div class="col-sm-3 sidebar">
+        <div class="col-sm-2 sidebar">
           <div class="sidebar-results">
             <h4> Minnesota Results</h4>
           </div>
@@ -78,7 +78,7 @@
               <label for="address">Find your precinct</label>
               <input type="text" id="address" class="form-control" placeholder="Search for...">
               <span class="input-group-btn">
-                <button class="btn btn-default" type="button">Go!</button>
+                <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
               </span>
             </div><!-- /input-group -->
           </div>
@@ -87,15 +87,18 @@
           <div class="sidebar-multiple-maps">
           </div>
         </div>
-        <div id="map" class="col-sm-7 map-container">
+        <div id="map" class="col-sm-10 map-container">
         </div>
       </div>
-      <div class="col-sm-1"></div>
+      <!-- <div class="col-sm-1"></div> -->
       </div>
 
-
+    <footer>
+    Here be a footer
+    </footer>
 
     </div><!-- /.container -->
+
 
     
 

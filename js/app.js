@@ -7,17 +7,19 @@ function initialize(){
     //bounds = new mapboxgl.LngLatBounds(southWest, northEast);
     bounds = new mapboxgl.LngLatBounds(southWest,northEast);
 
-    mapboxgl.accessToken = 'pk.eyJ1IjoiY2NhbnRleSIsImEiOiJjaW01MGpwdDcwMWppdWZtNnoxc3pidjZhIn0.0D2UtVeOtsJFaHr8761_JQ';
+    // mapboxgl.accessToken = 'Your Mapbox access token';
+    mapboxgl.accessToken = 'pk.eyJ1IjoiY2NhbnRleSIsImEiOiJjaWVsdDNubmEwMGU3czNtNDRyNjRpdTVqIn0.yFaW4Ty6VE3GHkrDvdbW6g';
+
 	map = new mapboxgl.Map({
 		container: 'map', // container id
-		style: 'mapbox://styles/ccantey/cimi2xon00022ypnhqkjob9k9',
+		style: 'mapbox://styles/mapbox/light-v9',
 		center: [-93.6678,46.50],
 		maxBounds:bounds,		
 		zoom: 6
 	});
 
     map.addControl(new mapboxgl.Navigation({
-    	position:'top-left'
+    	position:'top-right'
     }));
     // geocoder = new google.maps.Geocoder;
 }
