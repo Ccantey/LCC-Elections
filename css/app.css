@@ -59,6 +59,7 @@ ul.election-navigation li{
 
 .election-navigation-a.active {
     text-decoration: underline;
+    color: #ed1c24;
 }
 
 .navbar-center img {
