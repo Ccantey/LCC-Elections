@@ -6,4 +6,6 @@ $( document ).ready(function() {
     	window.open("http://www.gis.leg.mn")
     })
 
+
+
  });
