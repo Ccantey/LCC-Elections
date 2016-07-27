@@ -78,22 +78,24 @@ function initialize(){
 	        }
         });
 
-        // map.addLayer({
-	       //  "id": "2012results-hover",
-	       //  "type": "fill",
-	       //  "source": "AllResults",
-	       //  "source-layer": "AllResults", //layer name in studio
-	       //  "layout": {
-	       //      // "line-join": "round",
-	       //      // "line-cap": "round"
-	       //  },
-	       //  "paint": {
-	       //      "fill-color": "steelblue",
-	       //      "fill-opacity": 0.5,
-	       //      "fill-outline-color": "yellow"
-	       //  },
-	       //  "filter": ["==", "VTD", ""]
-        // });
+        map.addLayer({
+	        "id": "2012results-vtd-hover",
+	        "type": "fill",
+	        "source": "AllResults",
+	        "source-layer": "AllResults", //layer name in studio
+	        "layout": {
+	            // "line-join": "round",
+	            // "line-cap": "round"
+	        },
+	        "paint": {
+	            "fill-color": "steelblue",
+	            "fill-opacity": 0.5,
+	            "fill-outline-color": "yellow"
+	        },
+	        "filter": ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD", ""]]
+	        // 'filter': ['==', 'UNIT', 'vtd'],
+	        // "filter": ["==", "VTD", ""]
+        });
 
 	    // map.addLayer({
      //    "id": "house-labels",
@@ -123,13 +125,18 @@ function initialize(){
     //mousemove is too slow, need to create a new layer at street level for mouseover
 	map.on('click', function (e) {
        var features = map.queryRenderedFeatures(e.point, {
-       	layers:['2012results']
+       	layers:['2012results-vtd']
        }); //queryRenderedFeatures returns an array
        
         if (features.length) {
-            map.setFilter("2012results-hover", ["==", "VTD", features[0].properties.VTD]);
+        	console.log('highlight: ', features[0].properties.VTD)
+        	// "filter": ['and', ['==', 'UNIT', 'vtd'], ["==", "VTD", ""]
+         //    map.setFilter("2012results-vtd-hover", ["==", "VTD", features[0].properties.VTD]);
+            map.setFilter("2012results-vtd-hover", ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD",features[0].properties.VTD]]);
         } else {
-            map.setFilter("2012results-hover", ["==", "VTD", ""]);
+            // map.setFilter("2012results-vtd-hover", ["==", "VTD", ""]);
+            map.setFilter("2012results-vtd-hover", ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD", ""]]);
+
         }
 
        var feature = features[0];
