@@ -1,4 +1,5 @@
 var popup;
+var zoomThreshold = 9;
 
 function initialize(){
 	$("#map").height('800px');
@@ -26,9 +27,9 @@ function initialize(){
     map.on('load', function () {
 
     	// add vector source:
-	    map.addSource('2012generalelection', {
+	    map.addSource('AllResults', {
 	        type: 'vector',
-	        url: 'mapbox://ccantey.3o07lep8'
+	        url: 'mapbox://ccantey.91kks197'
 	    });
 	    //vs add geojson source, a bit slower than vector. A php geojson source will be even slower due to browser cache:
 	    // map.addSource('hse2012_vtd2015', {
@@ -42,10 +43,12 @@ function initialize(){
 	    // });
 
 	    map.addLayer({
-	        "id": "2012results",
+	        "id": "2012results-county",
 	        "type": "fill",
-	        "source": "2012generalelection",
-	        "source-layer": "2012generalresults", //layer name in studio
+	        "source": "AllResults",
+	        "source-layer": "AllResults", //layer name in studio
+	        'maxzoom': zoomThreshold,
+	        'filter': ['==', 'UNIT', 'cty'],
 	        "layout": {
 	            // "line-join": "round",
 	            // "line-cap": "round"
@@ -58,10 +61,12 @@ function initialize(){
         });
 
         map.addLayer({
-	        "id": "2012results-hover",
+	        "id": "2012results-vtd",
 	        "type": "fill",
-	        "source": "2012generalelection",
-	        "source-layer": "2012generalresults", //layer name in studio
+	        "source": "AllResults",
+	        "source-layer": "AllResults", //layer name in studio
+	        'minzoom': zoomThreshold,
+	        'filter': ['==', 'UNIT', 'vtd'],
 	        "layout": {
 	            // "line-join": "round",
 	            // "line-cap": "round"
@@ -69,10 +74,26 @@ function initialize(){
 	        "paint": {
 	            "fill-color": "steelblue",
 	            "fill-opacity": 0.5,
-	            "fill-outline-color": "yellow"
-	        },
-	        "filter": ["==", "VTD", ""]
+	            "fill-outline-color": "white"
+	        }
         });
+
+        // map.addLayer({
+	       //  "id": "2012results-hover",
+	       //  "type": "fill",
+	       //  "source": "AllResults",
+	       //  "source-layer": "AllResults", //layer name in studio
+	       //  "layout": {
+	       //      // "line-join": "round",
+	       //      // "line-cap": "round"
+	       //  },
+	       //  "paint": {
+	       //      "fill-color": "steelblue",
+	       //      "fill-opacity": 0.5,
+	       //      "fill-outline-color": "yellow"
+	       //  },
+	       //  "filter": ["==", "VTD", ""]
+        // });
 
 	    // map.addLayer({
      //    "id": "house-labels",
@@ -116,10 +137,10 @@ function initialize(){
        var content = '';
 
        content += "<tr><th>Congressional District: </th><td> " + feature.properties.CONGDIST+ "</td></tr>";
-       content += "<tr><th>DFL: </th><td> " + feature.properties.USREPDFL+ "</td></tr>";
-       content += "<tr><th>Republican: </th><td> " + feature.properties.USREPR+ "</td></tr>";
-       content += "<tr><th>Independent: </th><td> " + feature.properties.USREPIP+ "</td></tr>";
-       content += "<tr><th>WI??: </th><td> " + feature.properties.USREPWI+ "</td></tr>";
+       content += "<tr><th>Democratic (DFL): </th><td> " + feature.properties.USREPDFL+ "</td></tr>";
+       content += "<tr><th>Republican (R): </th><td> " + feature.properties.USREPR+ "</td></tr>";
+       content += "<tr><th>Independent (I): </th><td> " + feature.properties.USREPIP+ "</td></tr>";
+       content += "<tr><th>Write-In: </th><td> " + feature.properties.USREPWI+ "</td></tr>";
        content += "<tr><th>TOTAL: </th><td> " + feature.properties.USREPTOTAL+ "</td></tr>";
        // popup = new mapboxgl.Popup()
        //  .setLngLat(e.lngLat)
