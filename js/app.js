@@ -83,6 +83,7 @@ function initialize(){
 	        "type": "fill",
 	        "source": "AllResults",
 	        "source-layer": "AllResults", //layer name in studio
+	        'minzoom': zoomThreshold,
 	        "layout": {
 	            // "line-join": "round",
 	            // "line-cap": "round"
