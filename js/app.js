@@ -50,6 +50,9 @@ function initialize(){
         // count values. Each range gets a different paint properties.
         // from https://www.mapbox.com/mapbox-gl-js/example/cluster/
 
+        //pass activeTab in somehow or another - like activeTab +'TOTAL'
+       console.log(activeTab);
+
         var layers = [
             //name, minzoom, maxzoom, filter, paint fill-color, stops, paint fill-opacity, stops
 	        ['county', 3, zoomThreshold, ['==', 'UNIT', 'cty'], 'USPRSTOTAL', [[7000000, 'steelblue']], 'USPRSTOTAL', [[0, 0.2],[16700, 0.3],[53000, 0.4],[142000, 0.5],[275000, 0.65],[700000, .75]], 'white'],
@@ -101,8 +104,7 @@ function initialize(){
 
         }
 
-       //pass activeTab in somehow or another
-       console.log(activeTab);
+
 
        var feature = features[0];
        console.log(feature.properties);
