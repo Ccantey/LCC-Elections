@@ -1,4 +1,4 @@
-var popup;
+var activeTab = "USPRS";
 var zoomThreshold = 9;
 var fillColors = ['#ffffcc', '#c7e9b4', '#7fcdbb', '#41b6c4', '#2c7fb8', '#253494'];
 var breaks = [0, 385, 940, 1572, 2340, 6000];
@@ -43,19 +43,18 @@ function initialize(){
 	    // map.addSource('house-labels', {
 	    //     type: 'vector',
 	    //     url: 'mapbox://ccantey.6o2kxpgh'
-	    // });
-        // console.log(activeTab);
+	    // });       
 
 
-        // Display the earthquake data in three layers, each filtered to a range of
-        // count values. Each range gets a different fill color.
+        // Display the election data in multiple layers, each filtered to a range of
+        // count values. Each range gets a different paint properties.
         // from https://www.mapbox.com/mapbox-gl-js/example/cluster/
 
         var layers = [
             //name, minzoom, maxzoom, filter, paint fill-color, stops, paint fill-opacity, stops
 	        ['county', 3, zoomThreshold, ['==', 'UNIT', 'cty'], 'USPRSTOTAL', [[7000000, 'steelblue']], 'USPRSTOTAL', [[0, 0.2],[16700, 0.3],[53000, 0.4],[142000, 0.5],[275000, 0.65],[700000, .75]], 'white'],
    	        ['vtd', zoomThreshold, 20, ['==', 'UNIT', 'vtd'], 'USPRSTOTAL', [[6000, 'steelblue']], 'USPRSTOTAL', [[0, 0.2],[385, 0.3],[940, 0.4],[1575, 0.5],[2350, 0.65],[6000, .75]], 'white'],
-   	        ['vtd-hover', zoomThreshold, 20, ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD", ""]], 'USPRSTOTAL', [[6000, 'brown']], 'USPRSTOTAL', [[6000, 1]], 'white'],
+   	        ['vtd-hover', zoomThreshold, 20, ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD", ""]], 'USPRSTOTAL', [[6000, 'brown']], 'USPRSTOTAL', [[6000, .75]], 'white'],
 
 	    ];      
 
@@ -81,35 +80,7 @@ function initialize(){
 		            "fill-outline-color": layer[8]
 		        }
 	        });
-	    });
-	    // map.addLayer({
-	    //     "id": "2012results-county",
-	    //     "type": "fill",
-	    //     "source": "AllResults",
-	    //     "source-layer": "AllResults", //layer name in studio
-	    //     "minzoom":3,
-	    //     'maxzoom': zoomThreshold,
-	    //     'filter': ['==', 'UNIT', 'cty'],
-	    //     "layout": {},
-	    //     "paint": {
-	    //         "fill-color": {
-	    //         	property: 'USPRSTOTAL', 
-	    //         	stops:[[7000000,"steelblue"]]
-	    //         },
-	    //         "fill-opacity": {
-	    //         	property: "USPRSTOTAL",
-	    //         	stops: [
-	    //                 [0, 0.2],
-	    //                 [16700, 0.3],
-	    //                 [53000, 0.4],
-	    //                 [142000, 0.5],
-	    //                 [275000, 0.65],
-	    //                 [700000, .75]
-     //                ]
-	    //         },
-	    //         "fill-outline-color": "white"
-	    //     }
-     //    });    
+	    });  
 	});
 
 
@@ -130,11 +101,16 @@ function initialize(){
 
         }
 
+       //pass activeTab in somehow or another
+       console.log(activeTab);
+
        var feature = features[0];
        console.log(feature.properties);
        var content = '';
-
+       content += "<tr><th>Precint: </th><td> " + feature.properties.PCTNAME+ "</td></tr>";
        content += "<tr><th>Congressional District: </th><td> " + feature.properties.CONGDIST+ "</td></tr>";
+       content += "<tr><th>Legislative District: </th><td> " + feature.properties.MNLEGDIST+ "</td></tr>";
+       content += "<tr><th>Senate District: </th><td> " + feature.properties.MNSENDIST+ "</td></tr>";
        content += "<tr><th>Democratic (DFL): </th><td> " + feature.properties.USREPDFL+ "</td></tr>";
        content += "<tr><th>Republican (R): </th><td> " + feature.properties.USREPR+ "</td></tr>";
        content += "<tr><th>Independent (I): </th><td> " + feature.properties.USREPIP+ "</td></tr>";
@@ -152,5 +128,6 @@ function initialize(){
     // });
 }
 
-//will color similar to https://www.mapbox.com/mapbox-gl-js/example/updating-choropleth/
-//and query the underlying map using: https://www.mapbox.com/mapbox-gl-js/example/queryrenderedfeatures/
+function changeData(){
+	console.log('switched tabs - change data');
+}

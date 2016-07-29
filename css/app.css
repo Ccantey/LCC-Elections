@@ -62,6 +62,10 @@ ul.election-navigation li{
     color: #ed1c24;
 }
 
+.election-navigation-a:hover{
+	cursor: pointer;
+}
+
 .navbar-center img {
     height: 23px;
     margin: 0 10px;
