@@ -1,5 +1,8 @@
 var popup;
 var zoomThreshold = 9;
+var fillColors = ['#ffffcc', '#c7e9b4', '#7fcdbb', '#41b6c4', '#2c7fb8', '#253494'];
+var breaks = [0, 385, 940, 1572, 2340, 6000];
+
 
 function initialize(){
 	$("#map").height('800px');
@@ -41,85 +44,72 @@ function initialize(){
 	    //     type: 'vector',
 	    //     url: 'mapbox://ccantey.6o2kxpgh'
 	    // });
+        // console.log(activeTab);
 
-	    map.addLayer({
-	        "id": "2012results-county",
-	        "type": "fill",
-	        "source": "AllResults",
-	        "source-layer": "AllResults", //layer name in studio
-	        'maxzoom': zoomThreshold,
-	        'filter': ['==', 'UNIT', 'cty'],
-	        "layout": {
-	            // "line-join": "round",
-	            // "line-cap": "round"
-	        },
-	        "paint": {
-	            "fill-color": "steelblue",
-	            "fill-opacity": 0.5,
-	            "fill-outline-color": "white"
-	        }
-        });
 
-        map.addLayer({
-	        "id": "2012results-vtd",
-	        "type": "fill",
-	        "source": "AllResults",
-	        "source-layer": "AllResults", //layer name in studio
-	        'minzoom': zoomThreshold,
-	        'filter': ['==', 'UNIT', 'vtd'],
-	        "layout": {
-	            // "line-join": "round",
-	            // "line-cap": "round"
-	        },
-	        "paint": {
-	            "fill-color": "steelblue",
-	            "fill-opacity": 0.5,
-	            "fill-outline-color": "white"
-	        }
-        });
+        // Display the earthquake data in three layers, each filtered to a range of
+        // count values. Each range gets a different fill color.
+        // from https://www.mapbox.com/mapbox-gl-js/example/cluster/
 
-        map.addLayer({
-	        "id": "2012results-vtd-hover",
-	        "type": "fill",
-	        "source": "AllResults",
-	        "source-layer": "AllResults", //layer name in studio
-	        'minzoom': zoomThreshold,
-	        "layout": {
-	            // "line-join": "round",
-	            // "line-cap": "round"
-	        },
-	        "paint": {
-	            "fill-color": "steelblue",
-	            "fill-opacity": 0.5,
-	            "fill-outline-color": "yellow"
-	        },
-	        "filter": ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD", ""]]
-	        // 'filter': ['==', 'UNIT', 'vtd'],
-	        // "filter": ["==", "VTD", ""]
-        });
+        var layers = [
+            //name, minzoom, maxzoom, filter, paint fill-color, stops, paint fill-opacity, stops
+	        ['county', 3, zoomThreshold, ['==', 'UNIT', 'cty'], 'USPRSTOTAL', [[7000000, 'steelblue']], 'USPRSTOTAL', [[0, 0.2],[16700, 0.3],[53000, 0.4],[142000, 0.5],[275000, 0.65],[700000, .75]], 'white'],
+   	        ['vtd', zoomThreshold, 20, ['==', 'UNIT', 'vtd'], 'USPRSTOTAL', [[6000, 'steelblue']], 'USPRSTOTAL', [[0, 0.2],[385, 0.3],[940, 0.4],[1575, 0.5],[2350, 0.65],[6000, .75]], 'white'],
+   	        ['vtd-hover', zoomThreshold, 20, ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD", ""]], 'USPRSTOTAL', [[6000, 'brown']], 'USPRSTOTAL', [[6000, 1]], 'white'],
 
+	    ];      
+
+        layers.forEach(function (layer) {
+	         map.addLayer({
+		        "id": "2012results-"+ layer[0],
+		        "type": "fill",
+		        "source": "AllResults",
+		        "source-layer": "AllResults", //layer name in studio
+		        "minzoom":layer[1],
+		        'maxzoom': layer[2],
+		        'filter': layer[3],
+		        "layout": {},
+		        "paint": {
+		            "fill-color": {
+		            	property: layer[4], 
+		            	stops: layer[5]
+		            },
+		            "fill-opacity": {
+		            	property: layer[6],
+		            	stops: layer[7]
+		            },
+		            "fill-outline-color": layer[8]
+		        }
+	        });
+	    });
 	    // map.addLayer({
-     //    "id": "house-labels",
-     //    "type": "symbol",
-     //    "source": "house-labels",
-     //    "source-layer": "Hse2012_vtd2015_symbols", //name of the vector layer in studio - notice capital 'H'
-     //    "layout": {
-     //                // "icon-image": symbol + "-15",
-     //                "icon-allow-overlap": true,
-     //                "text-field": '{district}',
-     //                "text-font": ["Open Sans Bold", "Arial Unicode MS Bold"],
-     //                "text-size": 11,
-     //                "text-transform": "uppercase",
-     //                "text-letter-spacing": 0.05,
-     //                "text-offset": [0, 1.5]
-     //            },
-     //            "paint": {
-     //                "text-color": "#202",
-     //                "text-halo-color": "#fff",
-     //                "text-halo-width": 2
-     //            }
-     //        });
-    
+	    //     "id": "2012results-county",
+	    //     "type": "fill",
+	    //     "source": "AllResults",
+	    //     "source-layer": "AllResults", //layer name in studio
+	    //     "minzoom":3,
+	    //     'maxzoom': zoomThreshold,
+	    //     'filter': ['==', 'UNIT', 'cty'],
+	    //     "layout": {},
+	    //     "paint": {
+	    //         "fill-color": {
+	    //         	property: 'USPRSTOTAL', 
+	    //         	stops:[[7000000,"steelblue"]]
+	    //         },
+	    //         "fill-opacity": {
+	    //         	property: "USPRSTOTAL",
+	    //         	stops: [
+	    //                 [0, 0.2],
+	    //                 [16700, 0.3],
+	    //                 [53000, 0.4],
+	    //                 [142000, 0.5],
+	    //                 [275000, 0.65],
+	    //                 [700000, .75]
+     //                ]
+	    //         },
+	    //         "fill-outline-color": "white"
+	    //     }
+     //    });    
 	});
 
 
