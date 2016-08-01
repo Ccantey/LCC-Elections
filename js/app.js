@@ -106,6 +106,7 @@ function initialize(){
 
        var feature = features[0];
        showResults(activeTab, feature.properties);
+
        
        
        // popup = new mapboxgl.Popup()
@@ -127,43 +128,65 @@ function changeData(){
 function showResults(activeTab, feature){
 	// console.log(feature);
     
-    // objectFindByKey(activeTab, feature);
+    // sortResults(activeTab, feature);
 	switch (activeTab) {
     case "USPRS": 
-        objectFindByKey(activeTab, feature)      
+        sortResults(activeTab, feature)      
         break;
     case "USSEN":
-        objectFindByKey(activeTab, feature)
+        sortResults(activeTab, feature)
         break;
     case "USREP":
-        objectFindByKey(activeTab, feature)
+        sortResults(activeTab, feature)
         break;
     case "MNSEN":
-        objectFindByKey(activeTab, feature)
+        sortResults(activeTab, feature)
         break;
     case "MNLEG":
-        objectFindByKey(activeTab, feature)
+        sortResults(activeTab, feature)
         break;
     }
     
 }
 
-function objectFindByKey(activeTab, feature){
+function sortResults(activeTab, feature){
+	// sortProperties(feature);
 	var content = '';
     content += "<tr><th>Precint: </th><td> " + feature.PCTNAME+ "</td></tr>";
     content += "<tr><th>Congressional District: </th><td> " + feature.CONGDIST+ "</td></tr>";
     content += "<tr><th>Legislative District: </th><td> " + feature.MNLEGDIST+ "</td></tr>";
     content += "<tr><th>Senate District: </th><td> " + feature.MNSENDIST+ "</td></tr>";
+    
+    //add all "activetab" results into a tempory object
+    var tempObject = {};
 	for (var prop in feature){
-		// console.log("key: " + prop + " = " + feature[prop])
 		var substring = prop.search(activeTab);
-		if(prop.search(activeTab) !== -1){
-			console.log(prop +": " + feature[prop]);
-			content += "<tr><th>"+prop+": </th><td> " + feature[prop]+ "</td></tr>";
-			document.getElementById('features').innerHTML = content;
+		if(substring !== -1){
+            tempObject[prop] = feature[prop];
 		}
-
-		// console.log(n)
 	}
-	return null;
+	// sort the results, which returns an array
+	var tempArray = sortProperties(tempObject);
+
+    //display the results in the results div
+	for (var i=0; i < tempArray.length; i++){
+		content += "<tr><th>"+tempArray[i][0]+": </th><td> " + tempArray[i][1]+ "</td></tr>";
+		document.getElementById('features').innerHTML = content;
+		
+	}
+
+}
+
+function sortProperties(obj){
+  // convert object into array
+    var sortable=[];
+    for(var key in obj)
+        if(obj.hasOwnProperty(key))
+            sortable.push([key, obj[key]]); // each item is an array in format [key, value]
+    // sort items by value
+    sortable.sort(function(a, b)
+    {
+      return a[1]-b[1]; // compare numbers
+    });
+    return sortable; // array in format [ [ key1, val1 ], [ key2, val2 ], ... ]
 }
