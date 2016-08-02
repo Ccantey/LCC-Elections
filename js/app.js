@@ -51,7 +51,7 @@ function initialize(){
         // from https://www.mapbox.com/mapbox-gl-js/example/cluster/
 
         //pass activeTab in somehow or another - like activeTab +'TOTAL'
-       console.log(activeTab);
+        var breaks = setBreaks();
 
         var layers = [
             //name, minzoom, maxzoom, filter, paint fill-color, stops, paint fill-opacity, stops
@@ -92,7 +92,7 @@ function initialize(){
     //mousemove is too slow, need to create a new layer at street level for mouseover
 	map.on('click', function (e) {
        var features = map.queryRenderedFeatures(e.point, {
-       	layers:['2012results-vtd','2012results-cty']
+       	layers:['2012results-vtd','2012results-cty', '2012results-cty-hover', '2012results-vtd-hover']
        }); //queryRenderedFeatures returns an array
        console.log(features[0])
 
@@ -140,25 +140,16 @@ function initialize(){
         //     map.setFilter("2012results-vtd-hover", ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD", ""]]);
         //     // map.setFilter('2012-results-cty-hover',  ['all', ['==', 'UNIT', 'cty'], ["==", "COUNTYNAME", ""]]);
         // }
-
-       
-
-       
-       
-       // popup = new mapboxgl.Popup()
-       //  .setLngLat(e.lngLat)
-       //  .setHTML(content)
-       //  .addTo(map);
        
     });
-
-    // map.on("mouseout", function() {
-    //     map.setFilter("2012results-hover", ["==", "VTD", ""]);
-    // });
 }
 
 function changeData(){
 	console.log('switched tabs - change data');
+}
+
+function setBreaks(){
+
 }
 
 function showResults(activeTab, feature){
