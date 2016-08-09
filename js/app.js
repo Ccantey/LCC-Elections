@@ -2,7 +2,7 @@ var activeTab = "USPRS";
 var zoomThreshold = 9;
 var fillColors = ['#ffffcc', '#c7e9b4', '#7fcdbb', '#41b6c4', '#2c7fb8', '#253494'];
 var breaks = [0, 385, 940, 1572, 2340, 6000];
-
+var selection = {};
 
 function initialize(){
 	$("#map").height('800px');
@@ -30,7 +30,7 @@ function initialize(){
     map.on('load', function () {
 
     	// add vector source:
-	    map.addSource('AllResults', {
+	    map.addSource('electionResults', {
 	        type: 'vector',
 	        url: 'mapbox://ccantey.91kks197'
 	    });
@@ -45,11 +45,6 @@ function initialize(){
 	    //     url: 'mapbox://ccantey.6o2kxpgh'
 	    // });       
 
-
-        // Display the election data in multiple layers, each filtered to a range of
-        // count values. Each range gets a different paint properties.
-        // from https://www.mapbox.com/mapbox-gl-js/example/cluster/
-
         //pass activeTab in somehow or another - like activeTab +'TOTAL'
         var breaks = setBreaks();
 
@@ -57,17 +52,15 @@ function initialize(){
             //name, minzoom, maxzoom, filter, paint fill-color, stops, paint fill-opacity, stops
 	        ['cty', 3, zoomThreshold, ['==', 'UNIT', 'cty'], activeTab+'TOTAL', [[100, 'steelblue'],[5000, 'brown']], activeTab+'TOTAL', [[0, 0.2],[16700, 0.3],[53000, 0.4],[142000, 0.5],[275000, 0.65],[700000, .75]], 'white'],
    	        ['vtd', zoomThreshold, 20, ['==', 'UNIT', 'vtd'], activeTab+'TOTAL', [[6000, 'steelblue']], activeTab+'TOTAL', [[0, 0.2],[385, 0.3],[940, 0.4],[1575, 0.5],[2350, 0.65],[6000, .75]], 'white'],
-   	        ['vtd-hover', zoomThreshold, 20, ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD", ""]], 'USPRSTOTAL', [[6000, 'green']], activeTab+'TOTAL', [[6000, .75]], 'white'],
-            ['cty-hover', 3, zoomThreshold, ['all', ['==', 'UNIT', 'cty'], ["==", "COUNTYNAME", ""]], 'USPRSTOTAL', [[6000, 'green']], activeTab+'TOTAL', [[6000, .75]], 'white']
-
-
+   	        ['vtd-hover', zoomThreshold, 20, ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD", ""]], 'USPRSTOTAL', [[6000, 'orange']], activeTab+'TOTAL', [[6000, .75]], 'white'],
+            ['cty-hover', 3, zoomThreshold, ['all', ['==', 'UNIT', 'cty'], ["==", "COUNTYNAME", ""]], 'USPRSTOTAL', [[6000, 'orange']], activeTab+'TOTAL', [[6000, .75]], 'white']
 	    ];      
 
         layers.forEach(function (layer) {
 	         map.addLayer({
 		        "id": "2012results-"+ layer[0],
 		        "type": "fill",
-		        "source": "AllResults",
+		        "source": "electionResults",
 		        "source-layer": "AllResults", //layer name in studio
 		        "minzoom":layer[1],
 		        'maxzoom': layer[2],
@@ -84,67 +77,15 @@ function initialize(){
 		            },
 		            "fill-outline-color": layer[8]
 		        }
-	        });
+	         });
 	    });  
-	});
 
+	});//end map on load
+} //end initialize
 
-    //mousemove is too slow, need to create a new layer at street level for mouseover
-	map.on('click', function (e) {
-       var features = map.queryRenderedFeatures(e.point, {
-       	layers:['2012results-vtd','2012results-cty', '2012results-cty-hover', '2012results-vtd-hover']
-       }); //queryRenderedFeatures returns an array
-       console.log(features[0])
-
-       var feature = features[0];
-       showResults(activeTab, feature.properties);
-
-		switch (features[0].layer.id) {
-		    case "2012results-cty": 
-		        // sortResults(activeTab, feature) 
-                map.setFilter("2012results-cty", ['all', ['==', 'UNIT', 'cty'], ["!=", "COUNTYNAME",features[0].properties.COUNTYNAME]]);
-                map.setFilter("2012results-cty-hover", ['all', ['==', 'UNIT', 'cty'], ["==", "COUNTYNAME",features[0].properties.COUNTYNAME]]);     
-		        break;
-		    case "2012results-cty-hover":
-		        // sortResults(activeTab, feature)
-		        break;
-		    case "2012results-vtd":
-		        // sortResults(activeTab, feature)
-		        map.setFilter("2012results-vtd", ['all', ['==', 'UNIT', 'vtd'], ["!=", "VTD",features[0].properties.VTD]]);
-                map.setFilter("2012results-vtd-hover", ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD",features[0].properties.VTD]]);
-		        break;
-		    case "2012results-vtd-hover":
-		        // sortResults(activeTab, feature)
-		        break;
-
-		    }
-
-        // if (features[0].layer.id === '2012results-cty') {
-        // 	// console.log('highlight: ', features[0].properties)
-        // 	// map.setFilter("2012results-vtd-hover", ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD", ""]]);
-        //     map.setFilter("2012results-cty", ['all', ['==', 'UNIT', 'cty'], ["!=", "COUNTYNAME",features[0].properties.COUNTYNAME]]);
-        //     map.setFilter("2012results-cty-hover", ['all', ['==', 'UNIT', 'cty'], ["==", "COUNTYNAME",features[0].properties.COUNTYNAME]]);
-        // } 
-        // else {
-        //     // map.setFilter("2012results-vtd-hover", ["==", "VTD", ""]);
-        //     // map.setFilter("2012results-vtd-hover", ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD", ""]]);
-        //     map.setFilter('2012-results-cty-hover',  ['all', ['==', 'UNIT', 'cty'], ["==", "COUNTYNAME", ""]]);
-        // }
-
-        // if(features[0].layer.id === '2012results-vtd'){
-        // 	// map.setFilter('2012-results-cty-hover',  ['all', ['==', 'UNIT', 'cty'], ["==", "COUNTYNAME", ""]]);
-        //     map.setFilter("2012results-vtd", ['all', ['==', 'UNIT', 'vtd'], ["!=", "VTD",features[0].properties.VTD]]);
-        //     map.setFilter("2012results-vtd-hover", ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD",features[0].properties.VTD]]);
-        // } else {
-        //     // map.setFilter("2012results-vtd-hover", ["==", "VTD", ""]);
-        //     map.setFilter("2012results-vtd-hover", ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD", ""]]);
-        //     // map.setFilter('2012-results-cty-hover',  ['all', ['==', 'UNIT', 'cty'], ["==", "COUNTYNAME", ""]]);
-        // }
-       
-    });
-}
-
-function changeData(){
+function changeData(activetab){
+    selection = map.querySourceFeatures('2012results-cty-hover', {sourceLayer:'AllResults', filter: ['has','COUNTYNAME']})
+	// showResults(activeTab, feature.properties);
 	console.log('switched tabs - change data');
 }
 
@@ -152,37 +93,39 @@ function setBreaks(){
 
 }
 
+
 function showResults(activeTab, feature){
-	// console.log(feature);
     
-    // sortResults(activeTab, feature);
+	var content = '';
+	var geography = '';
+
+	if (feature.PCTNAME.length < 1){
+		geography = "<th>County: </th><td>"+feature.COUNTYNAME+"</td>";
+	} else {
+		geography = "<th>Voting Precint: </th><td>"+feature.PCTNAME+"</td>";
+	}
+
 	switch (activeTab) {
     case "USPRS": 
-        sortResults(activeTab, feature)      
+        content += "<tr>"+geography+"</tr>";
+        content += "<tr><th>U.S. President: </th><td> At-large</td></tr>";      
         break;
     case "USSEN":
-        sortResults(activeTab, feature)
+        content += "<tr><th>U.S. Senate: </th><td> At-large</td></tr>";
         break;
     case "USREP":
-        sortResults(activeTab, feature)
+        content += "<tr><th>Congressional District: </th><td> " + feature.CONGDIST+ "</td></tr>";
         break;
     case "MNSEN":
-        sortResults(activeTab, feature)
+	    content += "<tr><th>Legislative District: </th><td> " + feature.MNLEGDIST+ "</td></tr>";
+	    content += "<tr><th>Senate District: </th><td> " + feature.MNSENDIST+ "</td></tr>";
         break;
     case "MNLEG":
-        sortResults(activeTab, feature)
+	    content += "<tr><th>Legislative District: </th><td> " + feature.MNLEGDIST+ "</td></tr>";
+	    content += "<tr><th>Senate District: </th><td> " + feature.MNSENDIST+ "</td></tr>";
         break;
     }
-    
-}
 
-function sortResults(activeTab, feature){
-	var content = '';
-    // content += "<tr><th>Precint: </th><td> " + feature.PCTNAME+ "</td></tr>";
-    content += "<tr><th>Congressional District: </th><td> " + feature.CONGDIST+ "</td></tr>";
-    content += "<tr><th>Legislative District: </th><td> " + feature.MNLEGDIST+ "</td></tr>";
-    content += "<tr><th>Senate District: </th><td> " + feature.MNSENDIST+ "</td></tr>";
-    
     //add all "activetab" results into a tempory object (pres, senate, etc..)
     var tempObject = {};
 	for (var prop in feature){
@@ -192,16 +135,18 @@ function sortResults(activeTab, feature){
 		}
 	}
 	// sort the results, which returns an array
-	var tempArray = sortProperties(tempObject);
+	var resultsArray = sortObjectProperties(tempObject);
 
     //display the results in the results div
-	for (var i=0; i < tempArray.length; i++){
-		content += "<tr><th>"+tempArray[i][0]+": </th><td> " + tempArray[i][1]+ "</td></tr>";
-		document.getElementById('features').innerHTML = content;		
+	for (var i=0; i < resultsArray.length; i++){
+		if (resultsArray[i][1] > 0){ 
+		  content += "<tr><th>"+resultsArray[i][0]+": </th><td> " + resultsArray[i][1]+ "</td></tr>";
+		  document.getElementById('features').innerHTML = content;
+		}
 	}
 }
 
-function sortProperties(obj){
+function sortObjectProperties(obj){
     // convert object into array
     var sortable=[];
     for(var key in obj)
