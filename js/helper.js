@@ -12,23 +12,9 @@ $( document ).ready(function() {
 
        var feature = features[0];
        showResults(activeTab, feature.properties);
+       mapResults(feature);
 
-		switch (feature.layer.id) {
-		    case "2012results-cty": 
-                map.setFilter("2012results-cty", ['all', ['==', 'UNIT', 'cty'], ["!=", "COUNTYNAME",feature.properties.COUNTYNAME]]);
-                map.setFilter("2012results-cty-hover", ['all', ['==', 'UNIT', 'cty'], ["==", "COUNTYNAME",feature.properties.COUNTYNAME]]);                
-                // var query = map.querySourceFeatures('2012results-cty', {sourceLayer:'AllResults', filter: ['has','COUNTYNAME']})
-                // console.log(query)     
-		        break;
-		    case "2012results-cty-hover":
-		        break;
-		    case "2012results-vtd":
-		        map.setFilter("2012results-vtd", ['all', ['==', 'UNIT', 'vtd'], ["!=", "VTD",feature.properties.VTD]]);
-                map.setFilter("2012results-vtd-hover", ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD",feature.properties.VTD]]);
-		        break;
-		    case "2012results-vtd-hover":
-		        break;
-		    }
+		
        
     });
 
