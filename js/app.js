@@ -1,7 +1,7 @@
 var activeTab = {
   selection:"USPRS",
   geography:"cty",
-  nameField:"COUNTYNAME"
+  name:"COUNTYNAME"
 };
 var zoomThreshold = 9;
 var fillColors = ['#ffffcc', '#c7e9b4', '#7fcdbb', '#41b6c4', '#2c7fb8', '#253494'];
@@ -54,13 +54,36 @@ function initialize(){
 
         var layers = [
             //name, minzoom, maxzoom, filter, paint fill-color, stops, paint fill-opacity, stops
-	        [activeTab.geography, 3, zoomThreshold, ['==', 'UNIT', activeTab.geography], activeTab.selection+'TOTAL', [[100, 'steelblue'],[5000, 'brown']], activeTab.selection+'TOTAL', [[0, 0.2],[16700, 0.3],[53000, 0.4],[142000, 0.5],[275000, 0.65],[700000, .75]], 'white'],
+	        ['cty', 3, zoomThreshold, ['==', 'UNIT', 'cty'], activeTab.selection+'TOTAL', [[100, 'steelblue'],[5000, 'brown']], activeTab.selection+'TOTAL', [[0, 0.2],[16700, 0.3],[53000, 0.4],[142000, 0.5],[275000, 0.65],[700000, .75]], 'white'],
    	        ['vtd', zoomThreshold, 20, ['==', 'UNIT', 'vtd'], activeTab.selection+'TOTAL', [[6000, 'steelblue']], activeTab.selection+'TOTAL', [[0, 0.2],[385, 0.3],[940, 0.4],[1575, 0.5],[2350, 0.65],[6000, .75]], 'white'],
    	        ['vtd-hover', zoomThreshold, 20, ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD", ""]], 'USPRSTOTAL', [[6000, 'orange']], activeTab.selection+'TOTAL', [[6000, .75]], 'white'],
-            [activeTab.geography+'-hover', 3, zoomThreshold, ['all', ['==', 'UNIT', activeTab.geography], ["==", activeTab.nameField, ""]], 'USPRSTOTAL', [[6000, 'orange']], activeTab.selection+'TOTAL', [[6000, .75]], 'white']
+            ['cty-hover', 3, zoomThreshold, ['all', ['==', 'UNIT', 'cty'], ["==", "COUNTYNAME", ""]], 'USPRSTOTAL', [[6000, 'orange']], activeTab.selection+'TOTAL', [[6000, .75]], 'white']
 	    ];      
 
-        layers.forEach(function (layer) {
+        layers.forEach(addLayer)
+
+
+	});//end map on load
+} //end initialize
+
+function changeData(activetab){
+    // selection = map.querySourceFeatures('2012results-cty-hover', {sourceLayer:'AllResults', filter: ['has','COUNTYNAME']})
+	// showResults(activeTab, feature.properties);
+	var layer = [
+	    [activeTab.geography,          3, zoomThreshold, ['==', 'UNIT', activeTab.geography], activeTab.selection+'TOTAL', [[100, 'steelblue'],[5000, 'brown']], activeTab.selection+'TOTAL', [[0, 0.2],[16700, 0.3],[53000, 0.4],[142000, 0.5],[275000, 0.65],[700000, .75]], 'white'],
+        [activeTab.geography+'-hover', 3, zoomThreshold, ['all', ['==', 'UNIT', activeTab.geography], ["==", activeTab.name, ""]], 'USPRSTOTAL', [[6000, 'orange']], activeTab.selection+'TOTAL', [[6000, .75]], 'white']
+    ];
+
+	layer.forEach(addLayer)
+	//['vtd', zoomThreshold, 20, ['==', 'UNIT', 'vtd'], activeTab.selection+'TOTAL', [[6000, 'steelblue']], activeTab.selection+'TOTAL', [[0, 0.2],[385, 0.3],[940, 0.4],[1575, 0.5],[2350, 0.65],[6000, .75]], 'white']
+	console.log('switched tabs - change data');
+}
+
+function setBreaks(){
+
+}
+
+function addLayer(layer) {
 	         map.addLayer({
 		        "id": "2012results-"+ layer[0],
 		        "type": "fill",
@@ -82,20 +105,7 @@ function initialize(){
 		            "fill-outline-color": layer[8]
 		        }
 	         });
-	    });  
-
-	});//end map on load
-} //end initialize
-
-function changeData(activetab){
-    selection = map.querySourceFeatures('2012results-cty-hover', {sourceLayer:'AllResults', filter: ['has','COUNTYNAME']})
-	// showResults(activeTab, feature.properties);
-	console.log('switched tabs - change data');
-}
-
-function setBreaks(){
-
-}
+	    }; 
 
 
 function showResults(activeTab, feature){
@@ -170,30 +180,35 @@ function sortObjectProperties(obj){
 
 function mapResults(feature){
 	console.log(feature.layer.id)
-	switch (feature.layer.id) {
-	    case "2012results-cty": 
-            map.setFilter("2012results-cty", ['all', ['==', 'UNIT', 'cty'], ["!=", "COUNTYNAME",feature.properties.COUNTYNAME]]);
-            map.setFilter("2012results-cty-hover", ['all', ['==', 'UNIT', 'cty'], ["==", "COUNTYNAME",feature.properties.COUNTYNAME]]);                
-            // var query = map.querySourceFeatures('2012results-cty', {sourceLayer:'AllResults', filter: ['has','COUNTYNAME']})
-            // console.log(query)     
-	        break;
-	    case "2012results-cty-hover":
-	        break;
 
-        case "2012results-cng": 
-            map.setFilter("2012results-cng", ['all', ['==', 'UNIT', 'cng'], ["!=", "CONGDIST",feature.properties.CONGDIST]]);
-            map.setFilter("2012results-cng-hover", ['all', ['==', 'UNIT', 'cng'], ["==", "CONGDIST",feature.properties.CONGDIST]]);                
-            // var query = map.querySourceFeatures('2012results-cty', {sourceLayer:'AllResults', filter: ['has','COUNTYNAME']})
-            // console.log(query)     
-	        break;
-	    case "2012results-cng-hover":
-	        break;	
+	map.setFilter("2012results-"+activeTab.geography, ['all', ['==', 'UNIT', activeTab.geography], ["!=", activeTab.name, feature.properties[activeTab.name]]]);
+    map.setFilter("2012results-"+activeTab.geography+"-hover", ['all', ['==', 'UNIT', activeTab.geography], ["==", activeTab.name, feature.properties[activeTab.name]]]);
 
-	    case "2012results-vtd":
-	        map.setFilter("2012results-vtd", ['all', ['==', 'UNIT', 'vtd'], ["!=", "VTD",feature.properties.VTD]]);
-            map.setFilter("2012results-vtd-hover", ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD",feature.properties.VTD]]);
-	        break;
-	    case "2012results-vtd-hover":
-	        break;
-    }
+
+	// switch (feature.layer.id) {
+	//     case "2012results-cty": 
+ //            map.setFilter("2012results-cty", ['all', ['==', 'UNIT', 'cty'], ["!=", "COUNTYNAME",feature.properties.COUNTYNAME]]);
+ //            map.setFilter("2012results-cty-hover", ['all', ['==', 'UNIT', 'cty'], ["==", "COUNTYNAME",feature.properties.COUNTYNAME]]);                
+ //            // var query = map.querySourceFeatures('2012results-cty', {sourceLayer:'AllResults', filter: ['has','COUNTYNAME']})
+ //            // console.log(query)     
+	//         break;
+	//     case "2012results-cty-hover":
+	//         break;
+
+ //        case "2012results-cng": 
+ //            map.setFilter("2012results-cng", ['all', ['==', 'UNIT', 'cng'], ["!=", "CONGDIST",feature.properties.CONGDIST]]);
+ //            map.setFilter("2012results-cng-hover", ['all', ['==', 'UNIT', 'cng'], ["==", "CONGDIST",feature.properties.CONGDIST]]);                
+ //            // var query = map.querySourceFeatures('2012results-cty', {sourceLayer:'AllResults', filter: ['has','COUNTYNAME']})
+ //            // console.log(query)     
+	//         break;
+	//     case "2012results-cng-hover":
+	//         break;	
+
+	//     case "2012results-vtd":
+	//         map.setFilter("2012results-vtd", ['all', ['==', 'UNIT', 'vtd'], ["!=", "VTD",feature.properties.VTD]]);
+ //            map.setFilter("2012results-vtd-hover", ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD",feature.properties.VTD]]);
+	//         break;
+	//     case "2012results-vtd-hover":
+	//         break;
+ //    }
 }
