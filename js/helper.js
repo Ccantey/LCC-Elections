@@ -4,19 +4,18 @@ $( document ).ready(function() {
     initialize();
 
     //mousemove is too slow, need to create a new layer at street level for mouseover
-	map.on('mousemove', function (e) {
+	map.on('click', function (e) {
        var features = map.queryRenderedFeatures(e.point, {
-       	layers:['2012results-vtd','2012results-cty', '2012results-cty-hover', '2012results-vtd-hover']
+       	layers:['2012results-vtd','2012results-cty', '2012results-cng','2012results-cty-hover', '2012results-cng-hover','2012results-vtd-hover']
        }); //queryRenderedFeatures returns an array
        // console.log(features[0])
 
        var feature = features[0];
-       showResults(activeTab, feature.properties);
-       mapResults(feature);
 
-		
+       showResults(activeTab, feature.properties);
+       mapResults(feature);	
        
-    });
+  });
 
     $('#home').on('click', function(){
     	window.open("http://www.gis.leg.mn")
@@ -26,7 +25,9 @@ $( document ).ready(function() {
     	e.preventDefault();
     	$('.election-navigation-a').removeClass('active');
     	$(this).addClass('active');
-    	activeTab = $(this).data('district');
+    	activeTab.selection = $(this).data('district');
+      activeTab.geography = $(this).data('geography');
+      activeTab.geography = $(this).data('nameField');
     	changeData(activeTab);
     })
 
