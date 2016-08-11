@@ -7,9 +7,7 @@ $( document ).ready(function() {
 	map.on('click', function (e) {
        var features = map.queryRenderedFeatures(e.point); //queryRenderedFeatures returns an array
        // console.log(features[0])
-
        var feature = features[0];
-
        showResults(activeTab, feature.properties);
        mapResults(feature);	
        
@@ -21,10 +19,13 @@ $( document ).ready(function() {
 
     $('.election-navigation-a').on('click', function(e){
     	e.preventDefault();
+      //remove previous slections
+      document.getElementById('features').innerHTML = "";
       map.removeLayer("2012results-"+ activeTab.geography);
       map.removeLayer("2012results-"+ activeTab.geography+"-hover");
     	$('.election-navigation-a').removeClass('active');
       
+      //add new selections
     	$(this).addClass('active');
     	activeTab.selection = $(this).data('district');
       activeTab.geography = $(this).data('geography');

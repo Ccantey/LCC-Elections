@@ -129,16 +129,16 @@ function showResults(activeTab, feature){
         content += "<tr><th>U.S. Senate: </th><td> At-large</td></tr>";
         break;
     case "USREP":
-        content += "<tr>"+geography+"</tr>";
+        // content += "<tr>"+geography+"</tr>";
         content += "<tr><th>Congressional District: </th><td> " + feature.CONGDIST+ "</td></tr>";
         break;
     case "MNSEN":
-        content += "<tr>"+geography+"</tr>";
+        // content += "<tr>"+geography+"</tr>";
 	    // content += "<tr><th>Legislative District: </th><td> " + feature.MNLEGDIST+ "</td></tr>";
 	    content += "<tr><th>Senate District: </th><td> " + feature.MNSENDIST+ "</td></tr>";
         break;
     case "MNLEG":
-        content += "<tr>"+geography+"</tr>";
+        // content += "<tr>"+geography+"</tr>";
 	    content += "<tr><th>Legislative District: </th><td> " + feature.MNLEGDIST+ "</td></tr>";
 	    // content += "<tr><th>Senate District: </th><td> " + feature.MNSENDIST+ "</td></tr>";
         break;
@@ -181,34 +181,21 @@ function sortObjectProperties(obj){
 function mapResults(feature){
 	console.log(feature.layer.id)
 
-	map.setFilter("2012results-"+activeTab.geography, ['all', ['==', 'UNIT', activeTab.geography], ["!=", activeTab.name, feature.properties[activeTab.name]]]);
-    map.setFilter("2012results-"+activeTab.geography+"-hover", ['all', ['==', 'UNIT', activeTab.geography], ["==", activeTab.name, feature.properties[activeTab.name]]]);
+	// map.setFilter("2012results-"+activeTab.geography, ['all', ['==', 'UNIT', activeTab.geography], ["!=", activeTab.name, feature.properties[activeTab.name]]]);
+ //    map.setFilter("2012results-"+activeTab.geography+"-hover", ['all', ['==', 'UNIT', activeTab.geography], ["==", activeTab.name, feature.properties[activeTab.name]]]);
 
 
-	// switch (feature.layer.id) {
-	//     case "2012results-cty": 
- //            map.setFilter("2012results-cty", ['all', ['==', 'UNIT', 'cty'], ["!=", "COUNTYNAME",feature.properties.COUNTYNAME]]);
- //            map.setFilter("2012results-cty-hover", ['all', ['==', 'UNIT', 'cty'], ["==", "COUNTYNAME",feature.properties.COUNTYNAME]]);                
- //            // var query = map.querySourceFeatures('2012results-cty', {sourceLayer:'AllResults', filter: ['has','COUNTYNAME']})
- //            // console.log(query)     
-	//         break;
-	//     case "2012results-cty-hover":
-	//         break;
+	switch (feature.layer.id) {
+	    case "2012results-vtd":
+	        map.setFilter("2012results-vtd", ['all', ['==', 'UNIT', 'vtd'], ["!=", "VTD",feature.properties.VTD]]);
+            map.setFilter("2012results-vtd-hover", ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD",feature.properties.VTD]]);
+	        break;
+	    case "2012results-vtd-hover":
+	        break;
+	    default:
+	        map.setFilter("2012results-"+activeTab.geography, ['all', ['==', 'UNIT', activeTab.geography], ["!=", activeTab.name, feature.properties[activeTab.name]]]);
+            map.setFilter("2012results-"+activeTab.geography+"-hover", ['all', ['==', 'UNIT', activeTab.geography], ["==", activeTab.name, feature.properties[activeTab.name]]]);
 
- //        case "2012results-cng": 
- //            map.setFilter("2012results-cng", ['all', ['==', 'UNIT', 'cng'], ["!=", "CONGDIST",feature.properties.CONGDIST]]);
- //            map.setFilter("2012results-cng-hover", ['all', ['==', 'UNIT', 'cng'], ["==", "CONGDIST",feature.properties.CONGDIST]]);                
- //            // var query = map.querySourceFeatures('2012results-cty', {sourceLayer:'AllResults', filter: ['has','COUNTYNAME']})
- //            // console.log(query)     
-	//         break;
-	//     case "2012results-cng-hover":
-	//         break;	
 
-	//     case "2012results-vtd":
-	//         map.setFilter("2012results-vtd", ['all', ['==', 'UNIT', 'vtd'], ["!=", "VTD",feature.properties.VTD]]);
- //            map.setFilter("2012results-vtd-hover", ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD",feature.properties.VTD]]);
-	//         break;
-	//     case "2012results-vtd-hover":
-	//         break;
- //    }
+    }
 }
