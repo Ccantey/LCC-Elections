@@ -1,7 +1,15 @@
 $( document ).ready(function() {
 	//kickoff map logic
 	// var activeTab = $('.election-navigation-a').hasClass('active');
-    initialize();
+  $.ajax("php/classify.php", {
+    success: function(result){      
+      initialize(result);
+    }, 
+    error: function(){
+      console.log('error');
+    }
+  });
+    //initialize();
 
     //mousemove is too slow, need to create a new layer at street level for mouseover
 	map.on('click', function (e) {
@@ -13,6 +21,18 @@ $( document ).ready(function() {
        mapResults(feature);	
        
   });
+
+  // var wasLoaded = false;
+  // map.once('render', function(e) {
+  //   //console.log('rendered',e.target);
+  //   if (!map.loaded() || wasLoaded) return;
+  //     console.log(map.loaded());
+  //     console.log(data);
+  //     data = getLayerProperties();
+  //     console.log(data);
+  //     wasLoaded = true;
+  // });
+
 
     $('#home').on('click', function(){
     	window.open("http://www.gis.leg.mn")

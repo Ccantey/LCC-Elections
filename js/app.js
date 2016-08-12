@@ -4,6 +4,7 @@ var activeTab = {
   name:"COUNTYNAME"
 };
 var zoomThreshold = 9;
+var data;
 
 function initialize(){
 	$("#map").height('800px');
@@ -78,8 +79,7 @@ function initialize(){
 	    ];      
 
         layers.forEach(addLayer)
-        var breaks = classifyData();
-        console.log(breaks)
+
 
 	});//end map on load
 } //end initialize
@@ -95,27 +95,40 @@ function changeData(activetab){
 	layer.forEach(addLayer)
 }
 
-function classifyData(){
-	var relatedFeatures = map.querySourceFeatures('electionResults', {
-            sourceLayer: 'AllResults',
-            filter: ['all',['==', 'VTD', ''],['!=', 'COUNTYNAME', '']]
-        });   
-		//console.log(relatedFeatures.length)
+// function getLayerProperties(){
+// 	var relatedFeatures = map.querySourceFeatures('electionResults', {
+//             sourceLayer: 'AllResults',
+//             filter: ['==', 'UNIT', activeTab.geography]
+//         });   
+// 		//console.log(relatedFeatures.length)
 
-	var unique = {};
-	var distinct = [];
-		for (var i in relatedFeatures){
-		  //console.log(states[i].properties.name);
-      if( typeof(relatedFeatures[i].properties.COUNTYNAME) == "undefined"){
-          distinct.push(relatedFeatures[i].properties.COUNTYNAME);
-      }
-      unique[relatedFeatures[i].properties.COUNTYNAME] = relatedFeatures[i].properties
-		}
+// 	var unique = {};
+// 	var distinct = [];
+// 		for (var i in relatedFeatures){
+// 		  //console.log(states[i].properties.name);
+//          if( typeof(relatedFeatures[i].properties[activeTab.name]) == "undefined"){
+//           distinct.push(relatedFeatures[i].properties[activeTab.name]);
+//           }
+//           unique[relatedFeatures[i].properties[activeTab.name]] = relatedFeatures[i].properties;
+// 		}
 
-	console.log(unique)
+// 	classifyData(unique);
 
-	Object.keys(unique).length;
-}
+// 	Object.keys(unique).length;
+// }
+
+// function classifyData(layersArray){
+// 	var sum = 0;
+// 	for (var objects in layersArray){
+// 		//if(!layers.hasOwnProperty(key)) continue;
+// 		var obj = layersArray[objects];
+// 		//console.log(obj.TOTVOTING)
+// 		sum += obj.TOTVOTING
+// 	}
+// 	console.log(sum);
+
+// 	return sum;
+// }
 
 function addLayer(layer) {
 	         map.addLayer({
@@ -128,10 +141,7 @@ function addLayer(layer) {
 		        'filter': layer[3],
 		        "layout": {},
 		        "paint": {
-		            "fill-color": {
-		            	property: layer[4], 
-		            	stops: layer[5]
-		            },
+		            "fill-color": 'steelblue',
 		            "fill-opacity": {
 		            	property: layer[6],
 		            	stops: layer[7]
@@ -139,7 +149,9 @@ function addLayer(layer) {
 		            "fill-outline-color": layer[8]
 		        }
 	         });
-	    }; 
+
+
+}; 
 
 
 function showResults(activeTab, feature){
@@ -237,3 +249,4 @@ function mapResults(feature){
 
     }
 }
+
