@@ -8,6 +8,7 @@ $( document ).ready(function() {
        var features = map.queryRenderedFeatures(e.point); //queryRenderedFeatures returns an array
        // console.log(features[0])
        var feature = features[0];
+       console.log(feature)
        showResults(activeTab, feature.properties);
        mapResults(feature);	
        

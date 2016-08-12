@@ -4,9 +4,6 @@ var activeTab = {
   name:"COUNTYNAME"
 };
 var zoomThreshold = 9;
-var fillColors = ['#ffffcc', '#c7e9b4', '#7fcdbb', '#41b6c4', '#2c7fb8', '#253494'];
-var breaks = [0, 385, 940, 1572, 2340, 6000];
-var selection = {};
 
 function initialize(){
 	$("#map").height('800px');
@@ -50,18 +47,39 @@ function initialize(){
 	    // });       
 
         //pass activeTab in somehow or another - like activeTab +'TOTAL'
-        var breaks = setBreaks();
+        
+        
+        
 
         var layers = [
             //name, minzoom, maxzoom, filter, paint fill-color, stops, paint fill-opacity, stops
-	        ['cty', 3, zoomThreshold, ['==', 'UNIT', 'cty'], activeTab.selection+'TOTAL', [[100, 'steelblue'],[5000, 'brown']], activeTab.selection+'TOTAL', [[0, 0.2],[16700, 0.3],[53000, 0.4],[142000, 0.5],[275000, 0.65],[700000, .75]], 'white'],
+	        [
+		        'cty',                                 //layers[0] = id
+		        3,                                     //layers[1] = minzoom
+		        zoomThreshold,                         //layers[2] = maxzoom
+		        ['==', 'UNIT', 'cty'],                 //layers[3] = filter
+		        activeTab.selection+'TOTAL',           //layers[4] = fill-color property
+		        [[100, 'steelblue'],[5000, 'brown']],  //layers[5] = fill-color stops
+		        activeTab.selection+'TOTAL',           //layers[6] = fill-opacity property
+		        [                                      //layers[7] = fill-opacity stops (based on MN population)
+		            [0, 0.2],
+		            [16700, 0.3],
+		            [53000, 0.4],
+		            [142000, 0.5],
+		            [275000, 0.65],
+		            [700000, .75]
+		        ],                                     
+		        'white'                                //layers[8] = outline color
+	        ], 
+
    	        ['vtd', zoomThreshold, 20, ['==', 'UNIT', 'vtd'], activeTab.selection+'TOTAL', [[6000, 'steelblue']], activeTab.selection+'TOTAL', [[0, 0.2],[385, 0.3],[940, 0.4],[1575, 0.5],[2350, 0.65],[6000, .75]], 'white'],
    	        ['vtd-hover', zoomThreshold, 20, ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD", ""]], 'USPRSTOTAL', [[6000, 'orange']], activeTab.selection+'TOTAL', [[6000, .75]], 'white'],
             ['cty-hover', 3, zoomThreshold, ['all', ['==', 'UNIT', 'cty'], ["==", "COUNTYNAME", ""]], 'USPRSTOTAL', [[6000, 'orange']], activeTab.selection+'TOTAL', [[6000, .75]], 'white']
 	    ];      
 
         layers.forEach(addLayer)
-
+        var breaks = classifyData();
+        console.log(breaks)
 
 	});//end map on load
 } //end initialize
@@ -75,12 +93,28 @@ function changeData(activetab){
     ];
 
 	layer.forEach(addLayer)
-	//['vtd', zoomThreshold, 20, ['==', 'UNIT', 'vtd'], activeTab.selection+'TOTAL', [[6000, 'steelblue']], activeTab.selection+'TOTAL', [[0, 0.2],[385, 0.3],[940, 0.4],[1575, 0.5],[2350, 0.65],[6000, .75]], 'white']
-	console.log('switched tabs - change data');
 }
 
-function setBreaks(){
+function classifyData(){
+	var relatedFeatures = map.querySourceFeatures('electionResults', {
+            sourceLayer: 'AllResults',
+            filter: ['all',['==', 'VTD', ''],['!=', 'COUNTYNAME', '']]
+        });   
+		//console.log(relatedFeatures.length)
 
+	var unique = {};
+	var distinct = [];
+		for (var i in relatedFeatures){
+		  //console.log(states[i].properties.name);
+      if( typeof(relatedFeatures[i].properties.COUNTYNAME) == "undefined"){
+          distinct.push(relatedFeatures[i].properties.COUNTYNAME);
+      }
+      unique[relatedFeatures[i].properties.COUNTYNAME] = relatedFeatures[i].properties
+		}
+
+	console.log(unique)
+
+	Object.keys(unique).length;
 }
 
 function addLayer(layer) {
@@ -183,7 +217,11 @@ function mapResults(feature){
 
 	// map.setFilter("2012results-"+activeTab.geography, ['all', ['==', 'UNIT', activeTab.geography], ["!=", activeTab.name, feature.properties[activeTab.name]]]);
  //    map.setFilter("2012results-"+activeTab.geography+"-hover", ['all', ['==', 'UNIT', activeTab.geography], ["==", activeTab.name, feature.properties[activeTab.name]]]);
-
+        var relatedFeatures = map.querySourceFeatures('2012results-vtd-hover', {
+            sourceLayer: 'electionResults',
+            filter: ['all', ['==', 'UNIT', activeTab.geography], ["==", activeTab.name, feature.properties[activeTab.name]]]
+        });
+       console.log(relatedFeatures)
 
 	switch (feature.layer.id) {
 	    case "2012results-vtd":
