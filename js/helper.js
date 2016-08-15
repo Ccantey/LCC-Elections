@@ -1,15 +1,21 @@
 $( document ).ready(function() {
 	//kickoff map logic
 	// var activeTab = $('.election-navigation-a').hasClass('active');
-  $.ajax("php/classify.php", {
-    success: function(result){      
-      initialize(result);
+  $.ajax("php/classify.php?active="+activeTab.geography, {
+      success: function(results){      
+      classifyData(results);
     }, 
     error: function(){
       console.log('error');
     }
   });
-    //initialize();
+    initialize();
+
+   $('#search').click(function(e){
+      e.preventDefault();
+      geoCodeAddress(geocoder);
+    });
+
 
     //mousemove is too slow, need to create a new layer at street level for mouseover
 	map.on('click', function (e) {

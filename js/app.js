@@ -5,8 +5,13 @@ var activeTab = {
 };
 var zoomThreshold = 9;
 var data;
+var geocoder = null;
+
+var button = document.createElement('button');
+button.textContent = 'click me';
 
 function initialize(){
+
 	$("#map").height('800px');
 	southWest = new mapboxgl.LngLat( -104.7140625, 41.86956);
     northEast = new mapboxgl.LngLat( -84.202832, 50.1487464);
@@ -24,11 +29,12 @@ function initialize(){
 		zoom: 6
 	});
 
-    map.addControl(new mapboxgl.Navigation({
-    	position:'top-right'
-    }));
+    // map.addControl(new mapboxgl.Navigation({
+    // 	position:'top-right'
+    // }));
+    map.getContainer().querySelector('.mapboxgl-ctrl-bottom-left').appendChild(button);
     // geocoder = new google.maps.Geocoder; //ccantey.dgxr9hbq
-
+    geocoder = new mapboxgl.Geocoder();
     map.on('load', function () {
 
     	// add vector source:
@@ -79,7 +85,12 @@ function initialize(){
 	    ];      
 
         layers.forEach(addLayer)
+        
+        
 
+        button.addEventListener('click', function() {
+	    geocoder.query('1414 skyline rd, eagan, mn');
+	  });
 
 	});//end map on load
 } //end initialize
@@ -93,6 +104,39 @@ function changeData(activetab){
     ];
 
 	layer.forEach(addLayer)
+}
+
+function classifyData(results){
+	// console.log(results.data);
+	var sum = 0;
+	var numberOfBreaks = 5;
+	var classBreaks = 0;
+	var stops = [];
+
+    // var winner = results.data.map(function(geography){
+    // 	    // console.log(geography)
+    // 	    keys = Object.keys(geography), largest = Math.max.apply(null, keys.map(x => geography[x])) result = keys.reduce((result, key) => { if (geography[key] === largest){ result.push(key); } return result; }, []);
+    // 	     // if (geography.geographicProfile.usprsr > geography.geographicProfile.usprsdfl){
+    // 	     // 	console.log ("R");
+    // 	     // } else {
+    // 	     // 	console.log("DFL")
+    // 	     // }
+    //     });
+    // console.log(winner)
+		// 
+	for (var objects in results.data){
+
+		//if(!layers.hasOwnProperty(key)) continue;
+		// console.log(results.data[objects].geographicProfile.totvoting)
+		var obj = results.data[objects].geographicProfile;
+		// console.log(obj.totvoting)
+		sum += obj.totvoting
+	}
+    
+
+    // console.log(stops);
+	return stops;
+
 }
 
 // function getLayerProperties(){
@@ -250,3 +294,21 @@ function mapResults(feature){
     }
 }
 
+function geoCodeAddress(geocoder) {
+    var address = document.getElementById('address').value;
+    // anatomy of Mapbox GL Geocoder
+    // https://api.mapbox.com/geocoding/v5/mapbox.places/1414%20skyline%20rd%2C%20eagan.json?country=us&proximity=38.8977%2C%2077.0365&bbox=-104.7140625%2C%2041.86956%2C-84.202832%2C%2050.1487464&types=address%2Clocality%2Cplace&autocomplete=true&access_token=pk.eyJ1IjoiY2NhbnRleSIsImEiOiJjaWVsdDNubmEwMGU3czNtNDRyNjRpdTVqIn0.yFaW4Ty6VE3GHkrDvdbW6g 
+
+    var geocoderURL  = 'https://api.tiles.mapbox.com/v4/geocode/mapbox.places/';
+        geocoderURL += address + '.json?access_token=' + mapboxgl.accessToken;
+
+    mapboxgl.util.getJSON(geocoderURL, function(err, result) {
+        var topResult = result.features[0];
+	      map.flyTo({
+	      	center:topResult.geometry.coordinates,
+	      	zoom:15,
+	      	speed:1.75
+	      })
+    });
+    return false;
+}
