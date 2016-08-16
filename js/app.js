@@ -7,9 +7,6 @@ var zoomThreshold = 9;
 var data;
 var geocoder = null;
 
-var button = document.createElement('button');
-button.textContent = 'click me';
-
 function initialize(){
 
 	$("#map").height('800px');
@@ -23,7 +20,7 @@ function initialize(){
 
 	map = new mapboxgl.Map({
 		container: 'map', // container id
-		style: 'mapbox://styles/mapbox/light-v9',
+		style: 'mapbox://styles/ccantey/ciqxtkg700003bqnleojbxy8t',
 		center: [-93.6678,46.50],
 		maxBounds:bounds,		
 		zoom: 6
@@ -32,7 +29,7 @@ function initialize(){
     // map.addControl(new mapboxgl.Navigation({
     // 	position:'top-right'
     // }));
-    map.getContainer().querySelector('.mapboxgl-ctrl-bottom-left').appendChild(button);
+
     // geocoder = new google.maps.Geocoder; //ccantey.dgxr9hbq
     geocoder = new mapboxgl.Geocoder();
     map.on('load', function () {
@@ -85,12 +82,6 @@ function initialize(){
 	    ];      
 
         layers.forEach(addLayer)
-        
-        
-
-        button.addEventListener('click', function() {
-	    geocoder.query('1414 skyline rd, eagan, mn');
-	  });
 
 	});//end map on load
 } //end initialize
@@ -294,6 +285,15 @@ function mapResults(feature){
     }
 }
 
+//submit search text box - removed button for formatting space
+function keypressInBox(e) {
+    var code = (e.keyCode ? e.keyCode : e.which);
+    if (code == 13) { //Enter keycode                        
+        e.preventDefault();
+        geoCodeAddress(geocoder);
+    };
+}
+
 function geoCodeAddress(geocoder) {
     var address = document.getElementById('address').value;
     // anatomy of Mapbox GL Geocoder
@@ -304,11 +304,51 @@ function geoCodeAddress(geocoder) {
 
     mapboxgl.util.getJSON(geocoderURL, function(err, result) {
         var topResult = result.features[0];
+        addMarker(topResult.geometry.coordinates);
 	      map.flyTo({
 	      	center:topResult.geometry.coordinates,
-	      	zoom:15,
+	      	zoom:12,
 	      	speed:1.75
 	      })
     });
     return false;
 }
+
+function addMarker(e){
+	// console.log([e.lngLat.lng, e.lngLat.lat])
+    console.log(map.getLayer('pointclick'));
+
+    if (typeof map.getSource('pointclick') !== "undefined" ){ 
+			console.log('remove previous marker');
+			map.removeLayer('pointclick');		
+			map.removeSource('pointclick');
+		}
+	//add marker
+	 map.addSource("pointclick", {
+  		"type": "geojson",
+  		"data": {
+    		"type": "Feature",
+    		"geometry": {
+      			"type": "Point",
+      			"coordinates": e
+    		},
+    		"properties": {
+      			"title": "mouseclick",
+      			"marker-symbol": "myMarker-Blue-Shadow"
+    		}
+  		}
+	});
+
+    map.addLayer({
+        "id": "pointclick",
+        type: 'symbol',
+        source: 'pointclick',
+        "layout": {
+        	"icon-image": "{marker-symbol}",
+        	"icon-size":1,
+        	"icon-offset": [0, -13]
+        },
+        "paint": {}
+    });
+}
+

@@ -16,6 +16,8 @@ $( document ).ready(function() {
       geoCodeAddress(geocoder);
     });
 
+    // enter key event
+    $("#address").bind("keypress", {},  keypressInBox);
 
     //mousemove is too slow, need to create a new layer at street level for mouseover
 	map.on('click', function (e) {
