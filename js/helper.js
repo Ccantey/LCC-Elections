@@ -9,7 +9,7 @@ $( document ).ready(function() {
       console.log('error');
     }
   });
-    initialize();
+    
 
    $('#search').click(function(e){
       e.preventDefault();
@@ -19,16 +19,7 @@ $( document ).ready(function() {
     // enter key event
     $("#address").bind("keypress", {},  keypressInBox);
 
-    //mousemove is too slow, need to create a new layer at street level for mouseover
-	map.on('click', function (e) {
-       var features = map.queryRenderedFeatures(e.point); //queryRenderedFeatures returns an array
-       // console.log(features[0])
-       var feature = features[0];
-       console.log(feature)
-       showResults(activeTab, feature.properties);
-       mapResults(feature);	
-       
-  });
+
 
   // var wasLoaded = false;
   // map.once('render', function(e) {
@@ -40,7 +31,11 @@ $( document ).ready(function() {
   //     console.log(data);
   //     wasLoaded = true;
   // });
-
+// map.on("render", function() {
+//   if(map.loaded()) {
+//     classifyStops()
+//   }
+// })
 
     $('#home').on('click', function(){
     	window.open("http://www.gis.leg.mn")

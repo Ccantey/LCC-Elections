@@ -7,7 +7,8 @@ var zoomThreshold = 9;
 var data;
 var geocoder = null;
 
-function initialize(){
+function initialize(stops){
+    console.log(stops);
 
 	$("#map").height('800px');
 	southWest = new mapboxgl.LngLat( -104.7140625, 41.86956);
@@ -38,22 +39,7 @@ function initialize(){
 	    map.addSource('electionResults', {
 	        type: 'vector',
 	        url: 'mapbox://ccantey.91kks197'
-	    });
-	    //vs add geojson source, a bit slower than vector. A php geojson source will be even slower due to browser cache:
-	    // map.addSource('hse2012_vtd2015', {
-		   //      "type": "geojson",
-		   //      "data": "./data/hse2012_vtd2015.json"
-		   //  });
-
-	    // map.addSource('house-labels', {
-	    //     type: 'vector',
-	    //     url: 'mapbox://ccantey.6o2kxpgh'
-	    // });       
-
-        //pass activeTab in somehow or another - like activeTab +'TOTAL'
-        
-        
-        
+	    });     
 
         var layers = [
             //name, minzoom, maxzoom, filter, paint fill-color, stops, paint fill-opacity, stops
@@ -63,7 +49,7 @@ function initialize(){
 		        zoomThreshold,                         //layers[2] = maxzoom
 		        ['==', 'UNIT', 'cty'],                 //layers[3] = filter
 		        activeTab.selection+'TOTAL',           //layers[4] = fill-color property
-		        [[100, 'steelblue'],[5000, 'brown']],  //layers[5] = fill-color stops
+		        stops,                                 //layers[5] = fill-color stops
 		        activeTab.selection+'TOTAL',           //layers[6] = fill-opacity property
 		        [                                      //layers[7] = fill-opacity stops (based on MN population)
 		            [0, 0.2],
@@ -84,9 +70,22 @@ function initialize(){
         layers.forEach(addLayer)
 
 	});//end map on load
+
+	    //mousemove is too slow, need to create a new layer at street level for mouseover
+	map.on('click', function (e) {
+       var features = map.queryRenderedFeatures(e.point); //queryRenderedFeatures returns an array
+       // console.log(features[0])
+       var feature = features[0];
+       console.log(feature)
+       showResults(activeTab, feature.properties);
+       mapResults(feature);	
+       
+  });
+
 } //end initialize
 
 function changeData(activetab){
+
     // selection = map.querySourceFeatures('2012results-cty-hover', {sourceLayer:'AllResults', filter: ['has','COUNTYNAME']})
 	// showResults(activeTab, feature.properties);
 	var layer = [
@@ -97,75 +96,12 @@ function changeData(activetab){
 	layer.forEach(addLayer)
 }
 
-function classifyData(results){
-	// console.log(results.data);
-	var sum = 0;
-	var numberOfBreaks = 5;
-	var classBreaks = 0;
-	var stops = [];
 
-    // var winner = results.data.map(function(geography){
-    // 	    // console.log(geography)
-    // 	    keys = Object.keys(geography), largest = Math.max.apply(null, keys.map(x => geography[x])) result = keys.reduce((result, key) => { if (geography[key] === largest){ result.push(key); } return result; }, []);
-    // 	     // if (geography.geographicProfile.usprsr > geography.geographicProfile.usprsdfl){
-    // 	     // 	console.log ("R");
-    // 	     // } else {
-    // 	     // 	console.log("DFL")
-    // 	     // }
-    //     });
-    // console.log(winner)
-		// 
-	for (var objects in results.data){
-
-		//if(!layers.hasOwnProperty(key)) continue;
-		// console.log(results.data[objects].geographicProfile.totvoting)
-		var obj = results.data[objects].geographicProfile;
-		// console.log(obj.totvoting)
-		sum += obj.totvoting
-	}
-    
-
-    // console.log(stops);
-	return stops;
-
-}
-
-// function getLayerProperties(){
-// 	var relatedFeatures = map.querySourceFeatures('electionResults', {
-//             sourceLayer: 'AllResults',
-//             filter: ['==', 'UNIT', activeTab.geography]
-//         });   
-// 		//console.log(relatedFeatures.length)
-
-// 	var unique = {};
-// 	var distinct = [];
-// 		for (var i in relatedFeatures){
-// 		  //console.log(states[i].properties.name);
-//          if( typeof(relatedFeatures[i].properties[activeTab.name]) == "undefined"){
-//           distinct.push(relatedFeatures[i].properties[activeTab.name]);
-//           }
-//           unique[relatedFeatures[i].properties[activeTab.name]] = relatedFeatures[i].properties;
-// 		}
-
-// 	classifyData(unique);
-
-// 	Object.keys(unique).length;
-// }
-
-// function classifyData(layersArray){
-// 	var sum = 0;
-// 	for (var objects in layersArray){
-// 		//if(!layers.hasOwnProperty(key)) continue;
-// 		var obj = layersArray[objects];
-// 		//console.log(obj.TOTVOTING)
-// 		sum += obj.TOTVOTING
-// 	}
-// 	console.log(sum);
-
-// 	return sum;
-// }
 
 function addLayer(layer) {
+	// var data = classifyStops();
+	// console.log(layer[6])
+	// console.log(data);
 	         map.addLayer({
 		        "id": "2012results-"+ layer[0],
 		        "type": "fill",
@@ -175,8 +111,11 @@ function addLayer(layer) {
 		        'maxzoom': layer[2],
 		        'filter': layer[3],
 		        "layout": {},
-		        "paint": {
-		            "fill-color": 'steelblue',
+		        "paint": {		        	
+		            "fill-color": {
+		            	"property": layer[4],
+		            	"stops": layer[5],
+		            },
 		            "fill-opacity": {
 		            	property: layer[6],
 		            	stops: layer[7]
@@ -184,10 +123,17 @@ function addLayer(layer) {
 		            "fill-outline-color": layer[8]
 		        }
 	         });
-
-
 }; 
 
+// function classifyStops(){
+//     // console.log(map.loaded())
+// 	var stops = new Array();
+// 	// stops = [[75000, 'steelblue'],[700000, 'brown']];
+// 	stops.push([75000, 'steelblue']);
+// 	stops.push([700000, 'brown'])
+// 	// console.log(stops)
+// 	return stops;
+// }
 
 function showResults(activeTab, feature){
     // console.log(feature)
@@ -261,14 +207,16 @@ function sortObjectProperties(obj){
 
 function mapResults(feature){
 	console.log(feature.layer.id)
-
+    removeLayers('pushpin');
 	// map.setFilter("2012results-"+activeTab.geography, ['all', ['==', 'UNIT', activeTab.geography], ["!=", activeTab.name, feature.properties[activeTab.name]]]);
  //    map.setFilter("2012results-"+activeTab.geography+"-hover", ['all', ['==', 'UNIT', activeTab.geography], ["==", activeTab.name, feature.properties[activeTab.name]]]);
-        var relatedFeatures = map.querySourceFeatures('2012results-vtd-hover', {
-            sourceLayer: 'electionResults',
-            filter: ['all', ['==', 'UNIT', activeTab.geography], ["==", activeTab.name, feature.properties[activeTab.name]]]
-        });
-       console.log(relatedFeatures)
+        
+       //not sure what this is doing here - doesn't do shit right now
+       //  var relatedFeatures = map.querySourceFeatures(feature.layer.id, {
+       //      sourceLayer: 'electionResults',
+       //      filter: ['all', ['==', 'UNIT', activeTab.geography], ["==", activeTab.name, feature.properties[activeTab.name]]]
+       //  });
+       // console.log(relatedFeatures)
 
 	switch (feature.layer.id) {
 	    case "2012results-vtd":
@@ -280,14 +228,12 @@ function mapResults(feature){
 	    default:
 	        map.setFilter("2012results-"+activeTab.geography, ['all', ['==', 'UNIT', activeTab.geography], ["!=", activeTab.name, feature.properties[activeTab.name]]]);
             map.setFilter("2012results-"+activeTab.geography+"-hover", ['all', ['==', 'UNIT', activeTab.geography], ["==", activeTab.name, feature.properties[activeTab.name]]]);
-
-
     }
 }
 
 //submit search text box - removed button for formatting space
 function keypressInBox(e) {
-    var code = (e.keyCode ? e.keyCode : e.which);
+    var code = (e.keyCode ? e.keyCode : e.which); //ternary operator-> condition ? expr1 : expr2 -> If condition is true, then expression should be evaluated else evaluate expression 2
     if (code == 13) { //Enter keycode                        
         e.preventDefault();
         geoCodeAddress(geocoder);
@@ -296,33 +242,42 @@ function keypressInBox(e) {
 
 function geoCodeAddress(geocoder) {
     var address = document.getElementById('address').value;
+
     // anatomy of Mapbox GL Geocoder
     // https://api.mapbox.com/geocoding/v5/mapbox.places/1414%20skyline%20rd%2C%20eagan.json?country=us&proximity=38.8977%2C%2077.0365&bbox=-104.7140625%2C%2041.86956%2C-84.202832%2C%2050.1487464&types=address%2Clocality%2Cplace&autocomplete=true&access_token=pk.eyJ1IjoiY2NhbnRleSIsImEiOiJjaWVsdDNubmEwMGU3czNtNDRyNjRpdTVqIn0.yFaW4Ty6VE3GHkrDvdbW6g 
 
     var geocoderURL  = 'https://api.tiles.mapbox.com/v4/geocode/mapbox.places/';
         geocoderURL += address + '.json?access_token=' + mapboxgl.accessToken;
 
-    mapboxgl.util.getJSON(geocoderURL, function(err, result) {
-        var topResult = result.features[0];
-        addMarker(topResult.geometry.coordinates);
-	      map.flyTo({
-	      	center:topResult.geometry.coordinates,
-	      	zoom:12,
-	      	speed:1.75
-	      })
-    });
-    return false;
-}
+    //$.ajax vs mapbox.util.getJSON
+    //mapboxgl.util.getJSON(geocoderURL, function(err, result) {/*do stuff with result*/ });
+
+	$.ajax({
+	  type: 'GET',
+	  url: geocoderURL,
+	  success: function(result) {
+	        var topResult = result.features[0];
+	        addMarker(topResult.geometry.coordinates);
+		      map.flyTo({
+		      	center:topResult.geometry.coordinates,
+		      	zoom:12,
+		      	speed:1.75
+		      });
+	  },
+	  error: function() {
+	       alert('geocode fail'); //maybe pass to google
+	  }
+	});
+
+
+	    return false;
+	}
 
 function addMarker(e){
 	// console.log([e.lngLat.lng, e.lngLat.lat])
     console.log(map.getLayer('pointclick'));
 
-    if (typeof map.getSource('pointclick') !== "undefined" ){ 
-			console.log('remove previous marker');
-			map.removeLayer('pointclick');		
-			map.removeSource('pointclick');
-		}
+    removeLayers('pushpin');
 	//add marker
 	 map.addSource("pointclick", {
   		"type": "geojson",
@@ -352,3 +307,107 @@ function addMarker(e){
     });
 }
 
+function removeLayers(c){
+
+	switch (c){
+		case'all':
+		//remove old pushpin and previous selected district layers 
+		if (typeof map.getSource('pointclick') !== "undefined" ){ 
+			console.log('remove previous marker');
+			map.removeLayer('pointclick');		
+			map.removeSource('pointclick');
+		}
+		// if (typeof map.getLayer('mapDistrictsLayer') !== "undefined" ){ 		
+		// 	map.removeLayer('mapDistrictsLayer')
+		// 	map.removeSource('district');	
+		// }
+		// if (typeof map.getLayer('minnesotaGeojson') !== "undefined" ){ 		
+		// 	map.removeLayer('minnesotaGeojson')
+		// 	map.removeSource('minnesotaGeojson');	
+		// }
+		
+		break;
+
+		
+		case 'pushpin':
+		//remove old pushpin and previous selected district layers 
+		if (typeof map.getSource('pointclick') !== "undefined" ){ 
+			console.log('remove previous marker');
+			map.removeLayer('pointclick');		
+			map.removeSource('pointclick');
+		}
+		break;
+
+	}    
+}
+
+function classifyData(results){
+	// console.log(results.data);
+	var sum = 0;
+	var numberOfBreaks = 5;
+	var classBreaks = 0;
+
+
+	var stops = new Array();
+	// stops = [[75000, 'steelblue'],[700000, 'brown']];
+	stops.push([75000, 'steelblue']);
+	stops.push([700000, 'brown'])
+    // var winner = results.data.map(function(geography){
+    // 	    // console.log(geography)
+    // 	    keys = Object.keys(geography), largest = Math.max.apply(null, keys.map(x => geography[x])) result = keys.reduce((result, key) => { if (geography[key] === largest){ result.push(key); } return result; }, []);
+    // 	     // if (geography.geographicProfile.usprsr > geography.geographicProfile.usprsdfl){
+    // 	     // 	console.log ("R");
+    // 	     // } else {
+    // 	     // 	console.log("DFL")
+    // 	     // }
+    //     });
+    // console.log(winner)
+		// 
+	for (var objects in results.data){
+
+		//if(!layers.hasOwnProperty(key)) continue;
+		// console.log(results.data[objects].geographicProfile.totvoting)
+		var obj = results.data[objects].geographicProfile;
+		// console.log(obj.totvoting)
+		sum += obj.totvoting
+	}
+    
+    initialize(stops);
+    // console.log(stops);
+	// return stops;
+
+}
+// function getLayerProperties(){
+// 	var relatedFeatures = map.querySourceFeatures('electionResults', {
+//             sourceLayer: 'AllResults',
+//             filter: ['==', 'UNIT', activeTab.geography]
+//         });   
+// 		//console.log(relatedFeatures.length)
+
+// 	var unique = {};
+// 	var distinct = [];
+// 		for (var i in relatedFeatures){
+// 		  //console.log(states[i].properties.name);
+//          if( typeof(relatedFeatures[i].properties[activeTab.name]) == "undefined"){
+//           distinct.push(relatedFeatures[i].properties[activeTab.name]);
+//           }
+//           unique[relatedFeatures[i].properties[activeTab.name]] = relatedFeatures[i].properties;
+// 		}
+
+// 	classifyData(unique);
+
+// 	Object.keys(unique).length;
+// }
+
+// function classifyData(layersArray){
+// 	var sum = 0;
+// 	for (var objects in layersArray){
+// 		//if(!layers.hasOwnProperty(key)) continue;
+// 		var obj = layersArray[objects];
+// 		//console.log(obj.TOTVOTING)
+// 		sum += obj.TOTVOTING
+// 	}
+// 	console.log(sum);
+
+// 	return sum;
+// }
