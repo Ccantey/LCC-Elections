@@ -22,7 +22,7 @@ function initialize(){
 	map = new mapboxgl.Map({
 		container: 'map', // container id
 		// style: 'mapbox://styles/ccantey/ciqxtkg700003bqnleojbxy8t',
-		style: 'mapbox://styles/mapbox/light-v9',
+		style: 'mapbox://styles/ccantey/ciqxtkg700003bqnleojbxy8t',
 		center: [-93.6678,46.50],
 		maxBounds:bounds,		
 		zoom: 6
@@ -63,7 +63,7 @@ function initialize(){
 		        'white'                                //layers[8] = outline color
 	        ], 
 
-   	        ['vtd', zoomThreshold, 20, ['==', 'UNIT', 'vtd'], activeTab.selection+'WIN', [['DFL', 'steelblue'],['R', 'brown'],['TIE', 'black']], activeTab.selection+'TOTAL', [[0, 0.2],[385, 0.3],[940, 0.4],[1575, 0.5],[2350, 0.65],[6000, .75]], 'white'],
+   	        ['vtd', zoomThreshold, 20, ['==', 'UNIT', 'vtd'], activeTab.selection+'WIN', [['DFL', 'steelblue'],['R', 'brown'],['TIE', 'purple']], activeTab.selection+'TOTAL', [[0, 0.2],[385, 0.3],[940, 0.4],[1575, 0.5],[2350, 0.65],[6000, .75]], 'white'],
    	        ['vtd-hover', zoomThreshold, 20, ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD", ""]], 'USPRSTOTAL', [[6000, 'orange']], activeTab.selection+'TOTAL', [[6000, .75]], 'white'],
             ['cty-hover', 3, zoomThreshold, ['all', ['==', 'UNIT', 'cty'], ["==", "COUNTYNAME", ""]], 'USPRSTOTAL', [[6000, 'orange']], activeTab.selection+'TOTAL', [[6000, .75]], 'white']
 	    ];      
@@ -90,7 +90,7 @@ function changeData(activetab){
     map.setPaintProperty("2012results-vtd", 'fill-color', {"type":'categorical', 'property': activeTab.selection+'WIN', 'stops':[['DFL', 'steelblue'],['R', 'brown'],['TIE', 'purple']]})    // selection = map.querySourceFeatures('2012results-cty-hover', {sourceLayer:'AllResults', filter: ['has','COUNTYNAME']})
 	// showResults(activeTab, feature.properties);
 	var layer = [
-	    [activeTab.geography,          3, zoomThreshold, ['==', 'UNIT', activeTab.geography], activeTab.selection+'WIN', [['DFL', 'steelblue'],['R', 'brown'],['TIE', 'black']], activeTab.selection+'TOTAL', [[0, 0.2],[16700, 0.3],[53000, 0.4],[142000, 0.5],[275000, 0.65],[700000, .75]], 'white'],
+	    [activeTab.geography,          3, zoomThreshold, ['==', 'UNIT', activeTab.geography], activeTab.selection+'WIN', [['DFL', 'steelblue'],['R', 'brown'],['TIE', 'purple']], activeTab.selection+'TOTAL', [[0, 0.2],[16700, 0.3],[53000, 0.4],[142000, 0.5],[275000, 0.65],[700000, .75]], 'white'],
         [activeTab.geography+'-hover', 3, zoomThreshold, ['all', ['==', 'UNIT', activeTab.geography], ["==", activeTab.name, ""]], 'USPRSTOTAL', [[6000, 'orange']], activeTab.selection+'TOTAL', [[6000, .75]], 'white']
     ];
 
@@ -127,7 +127,13 @@ function showResults(activeTab, feature){
     // console.log(feature)
 	var content = '';
 	var geography = '';
-	var winner =feature[activeTab.selection+'WIN']
+	
+	var winner =feature[activeTab.selection+'WIN'];
+
+
+	var percentage = feature[activeTab.selection+winner]*100/feature[activeTab.selection+'TOTAL'];
+	console.log('winner '+feature[activeTab.selection+winner])
+	console.log('percentage '+percentage)
 
 	if (feature.PCTNAME.length < 1){
 		geography = "<th>County: </th><td>"+feature.COUNTYNAME+"</td>";
@@ -139,28 +145,33 @@ function showResults(activeTab, feature){
     case "USPRS": 
         content += "<tr>"+geography+"</tr>";
         content += "<tr><th>U.S. President: </th><td> At-large</td></tr>";
-        content += "<tr><th>Winner: </th><td>"+winner+"</td></tr>";      
+        content += "<tr><th>Winner: </th><td class='winner-"+winner+"'>"+winner+" </td></tr>";  
+        content += "<tr><th>Percentage: </th><td class='winner-"+winner+"'>"+percentage.toFixed(1)+"% </td></tr>";    
         break;
     case "USSEN":
         content += "<tr>"+geography+"</tr>";
         content += "<tr><th>U.S. Senate: </th><td> At-large</td></tr>";
-        content += "<tr><th>Winner: </th><td>"+winner+"</td></tr>";
+        content += "<tr><th>Winner: </th><td class='winner-"+winner+"'>"+winner+" </td></tr>";
+        content += "<tr><th>Percentage: </th><td class='winner-"+winner+"'>"+percentage.toFixed(1)+"% </td></tr>";
         break;
     case "USREP":
         // content += "<tr>"+geography+"</tr>";
         content += "<tr><th>Congressional District: </th><td> " + feature.CONGDIST+ "</td></tr>";
-        content += "<tr><th>Winner: </th><td>"+winner+"</td></tr>";
+        content += "<tr><th>Winner: </th><td class='winner-"+winner+"'>"+winner+" </td></tr>";
+        content += "<tr><th>Percentage: </th><td class='winner-"+winner+"'>"+percentage.toFixed(1)+"% </td></tr>";
         break;
     case "MNSEN":
         // content += "<tr>"+geography+"</tr>";
 	    // content += "<tr><th>Legislative District: </th><td> " + feature.MNLEGDIST+ "</td></tr>";
 	    content += "<tr><th>Senate District: </th><td> " + feature.MNSENDIST+ "</td></tr>";
-	    content += "<tr><th>Winner: </th><td>"+winner+"</td></tr>";
+	    content += "<tr><th>Winner: </th><td class='winner-"+winner+"'>"+winner+" </td></tr>";
+	    content += "<tr><th>Percentage: </th><td class='winner-"+winner+"'>"+percentage.toFixed(1)+"% </td></tr>";
         break;
     case "MNLEG":
         // content += "<tr>"+geography+"</tr>";
 	    content += "<tr><th>Legislative District: </th><td> " + feature.MNLEGDIST+ "</td></tr>";
-	    content += "<tr><th>Winner: </th><td>"+winner+"</td></tr>";
+	    content += "<tr><th>Winner: </th><td class='winner-"+winner+"'>"+winner+" </td></tr>";
+	    content += "<tr><th>Percentage: </th><td class='winner-"+winner+"'>"+percentage.toFixed(1)+"% </td></tr>";
 	    // content += "<tr><th>Senate District: </th><td> " + feature.MNSENDIST+ "</td></tr>";
         break;
     }
