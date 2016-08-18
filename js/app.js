@@ -7,8 +7,8 @@ var zoomThreshold = 9;
 var data;
 var geocoder = null;
 
-function initialize(winner){
-    console.log(winner);
+function initialize(){
+    // console.log(winner);
 
 	$("#map").height('800px');
 	southWest = new mapboxgl.LngLat( -104.7140625, 41.86956);
@@ -21,7 +21,8 @@ function initialize(winner){
 
 	map = new mapboxgl.Map({
 		container: 'map', // container id
-		style: 'mapbox://styles/ccantey/ciqxtkg700003bqnleojbxy8t',
+		// style: 'mapbox://styles/ccantey/ciqxtkg700003bqnleojbxy8t',
+		style: 'mapbox://styles/mapbox/light-v9',
 		center: [-93.6678,46.50],
 		maxBounds:bounds,		
 		zoom: 6
@@ -38,7 +39,7 @@ function initialize(winner){
     	// add vector source:
 	    map.addSource('electionResults', {
 	        type: 'vector',
-	        url: 'mapbox://ccantey.91kks197'
+	        url: 'mapbox://ccantey.dwpzctkr'
 	    });     
 
         var layers = [
@@ -48,8 +49,8 @@ function initialize(winner){
 		        3,                                     //layers[1] = minzoom
 		        zoomThreshold,                         //layers[2] = maxzoom
 		        ['==', 'UNIT', 'cty'],                 //layers[3] = filter
-		        activeTab.selection+'TOTAL',           //layers[4] = fill-color property -- geojson.winner (add this property to geojson)
-		        [[100, 'steelblue'],[5000, 'brown']],                             //layers[5] = fill-color stops -- ['dfl':blue, 'r':red,'i':yellow]
+		        activeTab.selection+'WIN',           //layers[4] = fill-color property -- geojson.winner (add this property to geojson)
+		        [['DFL', 'steelblue'],['R', 'brown'],['TIE', 'purple']],  //layers[5] = fill-color stops -- ['dfl':blue, 'r':red,'i':yellow]
 		        activeTab.selection+'TOTAL',           //layers[6] = fill-opacity property
 		        [                                      //layers[7] = fill-opacity stops (based on MN population)
 		            [0, 0.2],
@@ -62,7 +63,7 @@ function initialize(winner){
 		        'white'                                //layers[8] = outline color
 	        ], 
 
-   	        ['vtd', zoomThreshold, 20, ['==', 'UNIT', 'vtd'], activeTab.selection+'TOTAL', [[6000, 'steelblue']], activeTab.selection+'TOTAL', [[0, 0.2],[385, 0.3],[940, 0.4],[1575, 0.5],[2350, 0.65],[6000, .75]], 'white'],
+   	        ['vtd', zoomThreshold, 20, ['==', 'UNIT', 'vtd'], activeTab.selection+'WIN', [['DFL', 'steelblue'],['R', 'brown'],['TIE', 'black']], activeTab.selection+'TOTAL', [[0, 0.2],[385, 0.3],[940, 0.4],[1575, 0.5],[2350, 0.65],[6000, .75]], 'white'],
    	        ['vtd-hover', zoomThreshold, 20, ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD", ""]], 'USPRSTOTAL', [[6000, 'orange']], activeTab.selection+'TOTAL', [[6000, .75]], 'white'],
             ['cty-hover', 3, zoomThreshold, ['all', ['==', 'UNIT', 'cty'], ["==", "COUNTYNAME", ""]], 'USPRSTOTAL', [[6000, 'orange']], activeTab.selection+'TOTAL', [[6000, .75]], 'white']
 	    ];      
@@ -76,7 +77,7 @@ function initialize(winner){
        var features = map.queryRenderedFeatures(e.point); //queryRenderedFeatures returns an array
        // console.log(features[0])
        var feature = features[0];
-       console.log(feature)
+       console.log(feature.properties.USPRSWIN, feature.properties.USPRSWIN.length)
        showResults(activeTab, feature.properties);
        mapResults(feature);	
        
@@ -88,7 +89,7 @@ function changeData(activetab){
     // selection = map.querySourceFeatures('2012results-cty-hover', {sourceLayer:'AllResults', filter: ['has','COUNTYNAME']})
 	// showResults(activeTab, feature.properties);
 	var layer = [
-	    [activeTab.geography,          3, zoomThreshold, ['==', 'UNIT', activeTab.geography], activeTab.selection+'TOTAL', [[100, 'steelblue'],[5000, 'brown']], activeTab.selection+'TOTAL', [[0, 0.2],[16700, 0.3],[53000, 0.4],[142000, 0.5],[275000, 0.65],[700000, .75]], 'white'],
+	    [activeTab.geography,          3, zoomThreshold, ['==', 'UNIT', activeTab.geography], activeTab.selection+'WIN', [['DFL', 'steelblue'],['R', 'brown'],['TIE', 'black']], activeTab.selection+'TOTAL', [[0, 0.2],[16700, 0.3],[53000, 0.4],[142000, 0.5],[275000, 0.65],[700000, .75]], 'white'],
         [activeTab.geography+'-hover', 3, zoomThreshold, ['all', ['==', 'UNIT', activeTab.geography], ["==", activeTab.name, ""]], 'USPRSTOTAL', [[6000, 'orange']], activeTab.selection+'TOTAL', [[6000, .75]], 'white']
     ];
 
@@ -101,13 +102,14 @@ function addLayer(layer) {
 		        "id": "2012results-"+ layer[0],
 		        "type": "fill",
 		        "source": "electionResults",
-		        "source-layer": "AllResults", //layer name in studio
+		        "source-layer": "WinningResults-34zht3", //layer name in studio
 		        "minzoom":layer[1],
 		        'maxzoom': layer[2],
 		        'filter': layer[3],
 		        "layout": {},
 		        "paint": {		        	
 		            "fill-color": {
+		            	"type":'categorical',
 		            	"property": layer[4], //layers[4] = fill-color property -- geojson.winner (add this property to geojson)
 		            	"stops": layer[5],    //layers[5] = fill-color stops -- ['dfl':blue, 'r':red,'i':yellow]
 		            },

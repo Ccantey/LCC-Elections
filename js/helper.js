@@ -1,16 +1,17 @@
 $( document ).ready(function() {
 	//kickoff map logic
 	// var activeTab = $('.election-navigation-a').hasClass('active');
-  $.ajax("php/classify.php?active="+activeTab.geography, {
-      success: function(results){      
-      classifyData(results);
-    }, 
-    error: function(){
-      console.log('error');
-    }
-  });
+  // $.ajax("php/classify.php?active="+activeTab.geography, {
+  //     success: function(results){      
+  //     classifyData(results);
+  //   }, 
+  //   error: function(){
+  //     console.log('error');
+  //   }
+  // });
     
-
+   initialize();
+   
    $('#search').click(function(e){
       e.preventDefault();
       geoCodeAddress(geocoder);
