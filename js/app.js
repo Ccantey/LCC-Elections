@@ -7,8 +7,8 @@ var zoomThreshold = 9;
 var data;
 var geocoder = null;
 
-function initialize(stops){
-    console.log(stops);
+function initialize(winner){
+    console.log(winner);
 
 	$("#map").height('800px');
 	southWest = new mapboxgl.LngLat( -104.7140625, 41.86956);
@@ -48,8 +48,8 @@ function initialize(stops){
 		        3,                                     //layers[1] = minzoom
 		        zoomThreshold,                         //layers[2] = maxzoom
 		        ['==', 'UNIT', 'cty'],                 //layers[3] = filter
-		        activeTab.selection+'TOTAL',           //layers[4] = fill-color property
-		        stops,                                 //layers[5] = fill-color stops
+		        activeTab.selection+'TOTAL',           //layers[4] = fill-color property -- geojson.winner (add this property to geojson)
+		        [[100, 'steelblue'],[5000, 'brown']],                             //layers[5] = fill-color stops -- ['dfl':blue, 'r':red,'i':yellow]
 		        activeTab.selection+'TOTAL',           //layers[6] = fill-opacity property
 		        [                                      //layers[7] = fill-opacity stops (based on MN population)
 		            [0, 0.2],
@@ -85,7 +85,6 @@ function initialize(stops){
 } //end initialize
 
 function changeData(activetab){
-
     // selection = map.querySourceFeatures('2012results-cty-hover', {sourceLayer:'AllResults', filter: ['has','COUNTYNAME']})
 	// showResults(activeTab, feature.properties);
 	var layer = [
@@ -96,12 +95,8 @@ function changeData(activetab){
 	layer.forEach(addLayer)
 }
 
-
-
 function addLayer(layer) {
-	// var data = classifyStops();
-	// console.log(layer[6])
-	// console.log(data);
+
 	         map.addLayer({
 		        "id": "2012results-"+ layer[0],
 		        "type": "fill",
@@ -113,8 +108,8 @@ function addLayer(layer) {
 		        "layout": {},
 		        "paint": {		        	
 		            "fill-color": {
-		            	"property": layer[4],
-		            	"stops": layer[5],
+		            	"property": layer[4], //layers[4] = fill-color property -- geojson.winner (add this property to geojson)
+		            	"stops": layer[5],    //layers[5] = fill-color stops -- ['dfl':blue, 'r':red,'i':yellow]
 		            },
 		            "fill-opacity": {
 		            	property: layer[6],
@@ -124,16 +119,6 @@ function addLayer(layer) {
 		        }
 	         });
 }; 
-
-// function classifyStops(){
-//     // console.log(map.loaded())
-// 	var stops = new Array();
-// 	// stops = [[75000, 'steelblue'],[700000, 'brown']];
-// 	stops.push([75000, 'steelblue']);
-// 	stops.push([700000, 'brown'])
-// 	// console.log(stops)
-// 	return stops;
-// }
 
 function showResults(activeTab, feature){
     // console.log(feature)
@@ -342,7 +327,7 @@ function removeLayers(c){
 }
 
 function classifyData(results){
-	// console.log(results.data);
+	console.log(results.data);
 	var sum = 0;
 	var numberOfBreaks = 5;
 	var classBreaks = 0;
@@ -352,27 +337,30 @@ function classifyData(results){
 	// stops = [[75000, 'steelblue'],[700000, 'brown']];
 	stops.push([75000, 'steelblue']);
 	stops.push([700000, 'brown'])
-    // var winner = results.data.map(function(geography){
-    // 	    // console.log(geography)
-    // 	    keys = Object.keys(geography), largest = Math.max.apply(null, keys.map(x => geography[x])) result = keys.reduce((result, key) => { if (geography[key] === largest){ result.push(key); } return result; }, []);
-    // 	     // if (geography.geographicProfile.usprsr > geography.geographicProfile.usprsdfl){
-    // 	     // 	console.log ("R");
-    // 	     // } else {
-    // 	     // 	console.log("DFL")
-    // 	     // }
-    //     });
-    // console.log(winner)
-		// 
-	for (var objects in results.data){
 
-		//if(!layers.hasOwnProperty(key)) continue;
-		// console.log(results.data[objects].geographicProfile.totvoting)
-		var obj = results.data[objects].geographicProfile;
-		// console.log(obj.totvoting)
-		sum += obj.totvoting
-	}
+    var winner = results.data.map(function(geography){
+    	    // console.log(geography)
+    	    var winnerresults = {};
+    	    // keys = Object.keys(geography), largest = Math.max.apply(null, keys.map(x => geography[x])) result = keys.reduce((result, key) => { if (geography[key] === largest){ result.push(key); } return result; }, []);
+    	     if (geography.geographicProfile.usprsr > geography.geographicProfile.usprsdfl){
+    	     	winnerresults['winner'] = "R";
+    	     } else {
+    	     	winnerresults['winner'] = "DFL";
+    	     }
+    	     return winnerresults;
+        });
+    console.log(winner)
+		// 
+	// for (var objects in results.data){
+
+	// 	//if(!layers.hasOwnProperty(key)) continue;
+	// 	// console.log(results.data[objects].geographicProfile.totvoting)
+	// 	var obj = results.data[objects].geographicProfile;
+	// 	// console.log(obj.totvoting)
+	// 	sum += obj.totvoting
+	// }
     
-    initialize(stops);
+    initialize(winner);
     // console.log(stops);
 	// return stops;
 
