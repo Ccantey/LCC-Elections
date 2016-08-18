@@ -54,10 +54,10 @@ function initialize(){
 		        activeTab.selection+'TOTAL',           //layers[6] = fill-opacity property
 		        [                                      //layers[7] = fill-opacity stops (based on MN population)
 		            [0, 0.2],
-		            [16700, 0.3],
-		            [53000, 0.4],
-		            [142000, 0.5],
-		            [275000, 0.65],
+		            [5100, 0.3],
+		            [8500, 0.4],
+		            [16000, 0.5],
+		            [28000, 0.65],
 		            [700000, .75]
 		        ],                                     
 		        'white'                                //layers[8] = outline color
@@ -77,7 +77,7 @@ function initialize(){
        var features = map.queryRenderedFeatures(e.point); //queryRenderedFeatures returns an array
        // console.log(features[0])
        var feature = features[0];
-       console.log(feature.properties.USPRSWIN, feature.properties.USPRSWIN.length)
+       console.log(feature.properties)
        showResults(activeTab, feature.properties);
        mapResults(feature);	
        
@@ -86,7 +86,8 @@ function initialize(){
 } //end initialize
 
 function changeData(activetab){
-    // selection = map.querySourceFeatures('2012results-cty-hover', {sourceLayer:'AllResults', filter: ['has','COUNTYNAME']})
+	console.log(activetab.geography)
+    map.setPaintProperty("2012results-vtd", 'fill-color', {"type":'categorical', 'property': activeTab.selection+'WIN', 'stops':[['DFL', 'steelblue'],['R', 'brown'],['TIE', 'purple']]})    // selection = map.querySourceFeatures('2012results-cty-hover', {sourceLayer:'AllResults', filter: ['has','COUNTYNAME']})
 	// showResults(activeTab, feature.properties);
 	var layer = [
 	    [activeTab.geography,          3, zoomThreshold, ['==', 'UNIT', activeTab.geography], activeTab.selection+'WIN', [['DFL', 'steelblue'],['R', 'brown'],['TIE', 'black']], activeTab.selection+'TOTAL', [[0, 0.2],[16700, 0.3],[53000, 0.4],[142000, 0.5],[275000, 0.65],[700000, .75]], 'white'],
@@ -126,6 +127,7 @@ function showResults(activeTab, feature){
     // console.log(feature)
 	var content = '';
 	var geography = '';
+	var winner =feature[activeTab.selection+'WIN']
 
 	if (feature.PCTNAME.length < 1){
 		geography = "<th>County: </th><td>"+feature.COUNTYNAME+"</td>";
@@ -136,24 +138,29 @@ function showResults(activeTab, feature){
 	switch (activeTab.selection) {
     case "USPRS": 
         content += "<tr>"+geography+"</tr>";
-        content += "<tr><th>U.S. President: </th><td> At-large</td></tr>";      
+        content += "<tr><th>U.S. President: </th><td> At-large</td></tr>";
+        content += "<tr><th>Winner: </th><td>"+winner+"</td></tr>";      
         break;
     case "USSEN":
         content += "<tr>"+geography+"</tr>";
         content += "<tr><th>U.S. Senate: </th><td> At-large</td></tr>";
+        content += "<tr><th>Winner: </th><td>"+winner+"</td></tr>";
         break;
     case "USREP":
         // content += "<tr>"+geography+"</tr>";
         content += "<tr><th>Congressional District: </th><td> " + feature.CONGDIST+ "</td></tr>";
+        content += "<tr><th>Winner: </th><td>"+winner+"</td></tr>";
         break;
     case "MNSEN":
         // content += "<tr>"+geography+"</tr>";
 	    // content += "<tr><th>Legislative District: </th><td> " + feature.MNLEGDIST+ "</td></tr>";
 	    content += "<tr><th>Senate District: </th><td> " + feature.MNSENDIST+ "</td></tr>";
+	    content += "<tr><th>Winner: </th><td>"+winner+"</td></tr>";
         break;
     case "MNLEG":
         // content += "<tr>"+geography+"</tr>";
 	    content += "<tr><th>Legislative District: </th><td> " + feature.MNLEGDIST+ "</td></tr>";
+	    content += "<tr><th>Winner: </th><td>"+winner+"</td></tr>";
 	    // content += "<tr><th>Senate District: </th><td> " + feature.MNSENDIST+ "</td></tr>";
         break;
     }
