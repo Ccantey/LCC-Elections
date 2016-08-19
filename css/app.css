@@ -29,12 +29,15 @@ footer{
 
 .election-districts{
 	position:fixed;
-	left:24%;
+	left:16%;
 	background-color: #fff;
 	margin-top:35px;
 	padding:20px;
 	text-align: center;
 	/*margin-bottom: 40px;*/
+}
+footer{
+	font-size:11px;
 }
 ul.election-navigation li{
 	display:inline-block;
