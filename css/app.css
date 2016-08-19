@@ -15,7 +15,7 @@ footer{
 }
 .headline{
 	text-align: center;
-	
+	margin-top:100px;
 	margin-left: auto;
 	margin-right: auto;
 	max-width: 720px;
@@ -28,9 +28,13 @@ footer{
 }
 
 .election-districts{
-	margin-top:55px;
+	position:fixed;
+	left:24%;
+	background-color: #fff;
+	margin-top:35px;
+	padding:20px;
 	text-align: center;
-	margin-bottom: 40px;
+	/*margin-bottom: 40px;*/
 }
 ul.election-navigation li{
 	display:inline-block;
@@ -139,6 +143,7 @@ a:hover {
 }
 
 .map-container{
+	border: 1px solid #e6e6e6;
 	padding:0;
 }
 

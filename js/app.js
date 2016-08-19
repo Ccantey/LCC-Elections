@@ -3,7 +3,7 @@ var activeTab = {
   geography:"cty",
   name:"COUNTYNAME"
 };
-var zoomThreshold = 9;
+var zoomThreshold = 8;
 var data;
 var geocoder = null;
 

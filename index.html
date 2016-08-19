@@ -52,22 +52,26 @@
   </nav>
 
     <div class="container">
+      <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6 election-districts">
+          <ul class="election-navigation">
+            <li><a class="election-navigation-a active" data-district="USPRS" data-geography="cty" data-name="COUNTYNAME">Presidential</a></li>
+            <li><a class="election-navigation-a" data-district="USSEN" data-geography="cty" data-name="COUNTYNAME">U.S. Senate</a></li>
+            <li><a class="election-navigation-a" data-district="USREP" data-geography="cng" data-name="CONGDIST">U.S. Congress</a></li>
+            <li><a class="election-navigation-a" data-district="MNSEN" data-geography="sen" data-name="MNSENDIST">MN Senate</a></li>
+            <li><a class="election-navigation-a" data-district="MNLEG" data-geography="hse" data-name="MNLEGDIST">MN House</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-3"></div>
+      
 
-      <div class="election-districts">
-        <ul class="election-navigation">
-          <li><a class="election-navigation-a active" data-district="USPRS" data-geography="cty" data-name="COUNTYNAME">Presidential</a></li>
-          <li><a class="election-navigation-a" data-district="USSEN" data-geography="cty" data-name="COUNTYNAME">U.S. Senate</a></li>
-          <li><a class="election-navigation-a" data-district="USREP" data-geography="cng" data-name="CONGDIST">U.S. Congress</a></li>
-          <li><a class="election-navigation-a" data-district="MNSEN" data-geography="sen" data-name="MNSENDIST">MN Senate</a></li>
-          <li><a class="election-navigation-a" data-district="MNLEG" data-geography="hse" data-name="MNLEGDIST">MN House</a></li>
-        </ul>
-      </div>
       <div class="headline">
           <h1 class="headline-title">How every Minnesota precinct voted in the 2016 election.</h1>
-          <p class="lead">Use this document as a way to quickly start any new project.<br> It provides this text, sidebar navigation, and a Mapbox GL map.</p>
+          <p class="lead">Zoom in to view summary of each voting precinct. Click anywhere within Minnesota to see results. Toggle elections results above in red.</p>
       </div>
      
-      <div class="row">
+      
       <!-- <div class="col-sm-1"></div> -->
       <div class="graphic-containter">
 
@@ -96,7 +100,7 @@
       </div>
       <!-- <div class="col-sm-1"></div> -->
       </div>
-
+  
     <footer>
     Here be a footer
     </footer>
@@ -111,7 +115,7 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-    
+
     <script src="js/app.js"></script>
     <script src="js/helper.js"></script>
 
