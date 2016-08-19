@@ -86,11 +86,27 @@ function initialize(){
 } //end initialize
 
 function changeData(activetab){
-	console.log(activetab.geography)
+	console.log(activeTab.geography);
+
+	switch (activeTab.geography) {
+	    case "cty": 
+	        var opacity = [ [0, 0.2],[5100, 0.3],[8500, 0.4],[16000, 0.5],[28000, 0.65],[700000, .75] ];
+	        break;
+	    case "cng": 
+	        var opacity = [[700000, .75]];
+	        break;
+	    case "sen": 
+	        var opacity = [ [0, 0.2],[38300, 0.3],[41870, 0.4],[44555, 0.5],[48460, 0.65],[700000, .75] ];
+	        break;
+	    case "hse": 
+	        var opacity = [ [0, 0.2],[18535, 0.3],[20840, 0.4],[22395, 0.5],[24417, 0.65],[700000, .75] ];
+	        break;
+	};
+
     map.setPaintProperty("2012results-vtd", 'fill-color', {"type":'categorical', 'property': activeTab.selection+'WIN', 'stops':[['DFL', 'steelblue'],['R', 'brown'],['TIE', 'purple']]})    // selection = map.querySourceFeatures('2012results-cty-hover', {sourceLayer:'AllResults', filter: ['has','COUNTYNAME']})
 	// showResults(activeTab, feature.properties);
 	var layer = [
-	    [activeTab.geography,          3, zoomThreshold, ['==', 'UNIT', activeTab.geography], activeTab.selection+'WIN', [['DFL', 'steelblue'],['R', 'brown'],['TIE', 'purple']], activeTab.selection+'TOTAL', [[0, 0.2],[16700, 0.3],[53000, 0.4],[142000, 0.5],[275000, 0.65],[700000, .75]], 'white'],
+	    [activeTab.geography,          3, zoomThreshold, ['==', 'UNIT', activeTab.geography], activeTab.selection+'WIN', [['DFL', 'steelblue'],['R', 'brown'],['TIE', 'purple']], activeTab.selection+'TOTAL', opacity, 'white'],
         [activeTab.geography+'-hover', 3, zoomThreshold, ['all', ['==', 'UNIT', activeTab.geography], ["==", activeTab.name, ""]], 'USPRSTOTAL', [[6000, 'orange']], activeTab.selection+'TOTAL', [[6000, .75]], 'white']
     ];
 
