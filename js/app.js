@@ -50,20 +50,20 @@ function initialize(){
 		        zoomThreshold,                         //layers[2] = maxzoom
 		        ['==', 'UNIT', 'cty'],                 //layers[3] = filter
 		        activeTab.selection+'WIN',           //layers[4] = fill-color property -- geojson.winner (add this property to geojson)
-		        [['DFL', 'steelblue'],['R', 'brown'],['TIE', 'purple']],  //layers[5] = fill-color stops -- ['dfl':blue, 'r':red,'i':yellow]
+		        [['DFL', '#6582ac'],['R', '#cc7575'],['TIE', '#333']],  //layers[5] = fill-color stops -- ['dfl':blue, 'r':red,'i':yellow]
 		        activeTab.selection+'TOTAL',           //layers[6] = fill-opacity property
 		        [                                      //layers[7] = fill-opacity stops (based on MN population)
-		            [0, 0.2],
-		            [5100, 0.3],
-		            [8500, 0.4],
-		            [16000, 0.5],
-		            [28000, 0.65],
-		            [700000, .75]
+		            [0, 0.35],
+		            [16837, 0.5],
+		            [53080, 0.6],
+		            [142556, 0.75],
+		            [280000, 0.85],
+		            [700000, .95]
 		        ],                                     
 		        'white'                                //layers[8] = outline color
 	        ], 
 
-   	        ['vtd', zoomThreshold, 20, ['==', 'UNIT', 'vtd'], activeTab.selection+'WIN', [['DFL', 'steelblue'],['R', 'brown'],['TIE', 'purple']], activeTab.selection+'TOTAL', [[0, 0.2],[385, 0.3],[940, 0.4],[1575, 0.5],[2350, 0.65],[6000, .75]], 'white'],
+   	        ['vtd', zoomThreshold, 20, ['==', 'UNIT', 'vtd'], activeTab.selection+'WIN', [['DFL', '#6582ac'],['R', '#cc7575'],['TIE', '#333']], activeTab.selection+'TOTAL', [[0, 0.15],[385, 0.35],[940, 0.4],[1575, 0.55],[2350, 0.65],[6000, .85]], 'white'],
    	        ['vtd-hover', zoomThreshold, 20, ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD", ""]], 'USPRSTOTAL', [[6000, 'orange']], activeTab.selection+'TOTAL', [[6000, .75]], 'white'],
             ['cty-hover', 3, zoomThreshold, ['all', ['==', 'UNIT', 'cty'], ["==", "COUNTYNAME", ""]], 'USPRSTOTAL', [[6000, 'orange']], activeTab.selection+'TOTAL', [[6000, .75]], 'white']
 	    ];      
@@ -90,23 +90,23 @@ function changeData(activetab){
 
 	switch (activeTab.geography) {
 	    case "cty": 
-	        var opacity = [ [0, 0.2],[5100, 0.3],[8500, 0.4],[16000, 0.5],[28000, 0.65],[700000, .75] ];
+	        var opacity = [ [0, 0.35],[5100, 0.5],[8500, 0.6],[16000, 0.75],[28000, 0.85],[700000, .95] ];
 	        break;
 	    case "cng": 
-	        var opacity = [[700000, .75]];
+	        var opacity = [[700000, .7]];
 	        break;
 	    case "sen": 
-	        var opacity = [ [0, 0.2],[38300, 0.3],[41870, 0.4],[44555, 0.5],[48460, 0.65],[700000, .75] ];
+	        var opacity = [ [0, 0.35],[38300, 0.5],[41870, 0.6],[44555, 0.75],[48460, 0.85],[700000, .95] ];
 	        break;
 	    case "hse": 
-	        var opacity = [ [0, 0.2],[18535, 0.3],[20840, 0.4],[22395, 0.5],[24417, 0.65],[700000, .75] ];
+	        var opacity = [ [0, 0.35],[18535, 0.5],[20840, 0.6],[22395, 0.75],[24417, 0.85],[700000, .95] ];
 	        break;
 	};
 
-    map.setPaintProperty("2012results-vtd", 'fill-color', {"type":'categorical', 'property': activeTab.selection+'WIN', 'stops':[['DFL', 'steelblue'],['R', 'brown'],['TIE', 'purple']]})    // selection = map.querySourceFeatures('2012results-cty-hover', {sourceLayer:'AllResults', filter: ['has','COUNTYNAME']})
+    map.setPaintProperty("2012results-vtd", 'fill-color', {"type":'categorical', 'property': activeTab.selection+'WIN', 'stops':[['DFL', '#6582ac'],['R', '#cc7575'],['TIE', '#333']]})    // selection = map.querySourceFeatures('2012results-cty-hover', {sourceLayer:'AllResults', filter: ['has','COUNTYNAME']})
 	// showResults(activeTab, feature.properties);
 	var layer = [
-	    [activeTab.geography,          3, zoomThreshold, ['==', 'UNIT', activeTab.geography], activeTab.selection+'WIN', [['DFL', 'steelblue'],['R', 'brown'],['TIE', 'purple']], activeTab.selection+'TOTAL', opacity, 'white'],
+	    [activeTab.geography,          3, zoomThreshold, ['==', 'UNIT', activeTab.geography], activeTab.selection+'WIN', [['DFL', '#6582ac'],['R', '#cc7575'],['TIE', '#333']], activeTab.selection+'TOTAL', opacity, 'white'],
         [activeTab.geography+'-hover', 3, zoomThreshold, ['all', ['==', 'UNIT', activeTab.geography], ["==", activeTab.name, ""]], 'USPRSTOTAL', [[6000, 'orange']], activeTab.selection+'TOTAL', [[6000, .75]], 'white']
     ];
 
