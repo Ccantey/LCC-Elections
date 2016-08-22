@@ -63,7 +63,7 @@ function initialize(){
 		        'white'                                //layers[8] = outline color
 	        ], 
 
-   	        ['vtd', zoomThreshold, 20, ['==', 'UNIT', 'vtd'], activeTab.selection+'WIN', [['DFL', '#6582ac'],['R', '#cc7575'],['TIE', '#333']], activeTab.selection+'TOTAL', [[0, 0.15],[385, 0.35],[940, 0.4],[1575, 0.55],[2350, 0.65],[6000, .85]], 'white'],
+   	        ['vtd', zoomThreshold, 20, ['==', 'UNIT', 'vtd'], activeTab.selection+'WIN', [['DFL', '#6582ac'],['R', '#cc7575'],['TIE', '#333']], activeTab.selection+'TOTAL', [[0, 0.25],[385, 0.45],[940, 0.6],[1575, 0.7],[2350, 0.8],[6000, .99]], 'white'],
    	        ['vtd-hover', zoomThreshold, 20, ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD", ""]], 'USPRSTOTAL', [[6000, 'orange']], activeTab.selection+'TOTAL', [[6000, .75]], 'white'],
             ['cty-hover', 3, zoomThreshold, ['all', ['==', 'UNIT', 'cty'], ["==", "COUNTYNAME", ""]], 'USPRSTOTAL', [[6000, 'orange']], activeTab.selection+'TOTAL', [[6000, .75]], 'white']
 	    ];      
@@ -90,16 +90,16 @@ function changeData(activetab){
 
 	switch (activeTab.geography) {
 	    case "cty": 
-	        var opacity = [ [0, 0.35],[5100, 0.5],[8500, 0.6],[16000, 0.75],[28000, 0.85],[700000, .95] ];
+	        var opacity = [ [0, 0.25],[5100, 0.45],[8500, 0.6],[16000, 0.7],[28000, 0.8],[700000, .99] ];
 	        break;
 	    case "cng": 
 	        var opacity = [[700000, .7]];
 	        break;
 	    case "sen": 
-	        var opacity = [ [0, 0.35],[38300, 0.5],[41870, 0.6],[44555, 0.75],[48460, 0.85],[700000, .95] ];
+	        var opacity = [ [0, 0.25],[38300, 0.45],[41870, 0.6],[44555, 0.7],[48460, 0.8],[700000, .99] ];
 	        break;
 	    case "hse": 
-	        var opacity = [ [0, 0.35],[18535, 0.5],[20840, 0.6],[22395, 0.75],[24417, 0.85],[700000, .95] ];
+	        var opacity = [ [0, 0.25],[18535, 0.45],[20840, 0.6],[22395, 0.7],[24417, 0.8],[700000, .99] ];
 	        break;
 	};
 
@@ -137,7 +137,7 @@ function addLayer(layer) {
 		            },
 		            "fill-outline-color": layer[8]
 		        }
-	         });
+	         }, 'waterway-label');
 }; 
 
 function showResults(activeTab, feature){
