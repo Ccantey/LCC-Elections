@@ -21,7 +21,7 @@ function initialize(){
 
 	map = new mapboxgl.Map({
 		container: 'map', // container id
-		// style: 'mapbox://styles/ccantey/ciqxtkg700003bqnleojbxy8t',
+		// style: 'mapbox://styles/mapbox/dark-v9',
 		style: 'mapbox://styles/ccantey/ciqxtkg700003bqnleojbxy8t',
 		center: [-93.6678,46.50],
 		maxBounds:bounds,		
@@ -53,12 +53,12 @@ function initialize(){
 		        [['DFL', '#6582ac'],['R', '#cc7575'],['TIE', '#333']],  //layers[5] = fill-color stops -- ['dfl':blue, 'r':red,'i':yellow]
 		        activeTab.selection+'TOTAL',           //layers[6] = fill-opacity property
 		        [                                      //layers[7] = fill-opacity stops (based on MN population)
-		            [0, 0.35],
-		            [16837, 0.5],
+		            [0, 0.25],
+		            [16837, 0.45],
 		            [53080, 0.6],
-		            [142556, 0.75],
-		            [280000, 0.85],
-		            [700000, .95]
+		            [142556, 0.7],
+		            [280000, 0.8],
+		            [700000, .99]
 		        ],                                     
 		        'white'                                //layers[8] = outline color
 	        ], 
@@ -131,6 +131,7 @@ function addLayer(layer) {
 		            	"stops": layer[5],    //layers[5] = fill-color stops -- ['dfl':blue, 'r':red,'i':yellow]
 		            },
 		            "fill-opacity": {
+		            	"type":'interval',
 		            	property: layer[6],
 		            	stops: layer[7]
 		            },
