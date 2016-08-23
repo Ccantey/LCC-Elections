@@ -11,7 +11,16 @@ $( document ).ready(function() {
   // });
     
    initialize();
-   
+   //mousemove is too slow, need to create a new layer at street level for mouseover
+  map.on('click', function (e) {
+       var features = map.queryRenderedFeatures(e.point); //queryRenderedFeatures returns an array
+       // console.log(features[0])
+       var feature = features[0];
+       console.log(feature.properties)
+       showResults(activeTab, feature.properties);
+       mapResults(feature); 
+       
+  });
    $('#search').click(function(e){
       e.preventDefault();
       geoCodeAddress(geocoder);
@@ -48,6 +57,8 @@ $( document ).ready(function() {
       document.getElementById('features').innerHTML = "";
       map.removeLayer("2012results-"+ activeTab.geography);
       map.removeLayer("2012results-"+ activeTab.geography+"-hover");
+      map.setLayoutProperty(activeTab.geography + '-symbols', 'visibility', 'none');
+      map.setLayoutProperty(activeTab.geography + '-lines', 'visibility', 'none');
     	$('.election-navigation-a').removeClass('active');
       
       //add new selections

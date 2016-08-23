@@ -25,7 +25,8 @@ function initialize(){
 		style: 'mapbox://styles/ccantey/ciqxtkg700003bqnleojbxy8t',
 		center: [-93.6678,46.50],
 		maxBounds:bounds,		
-		zoom: 6
+		zoom: 6,
+		minZoom: 6
 	});
 
     // map.addControl(new mapboxgl.Navigation({
@@ -64,42 +65,41 @@ function initialize(){
 	        ], 
 
    	        ['vtd', zoomThreshold, 20, ['==', 'UNIT', 'vtd'], activeTab.selection+'WIN', [['DFL', '#6582ac'],['R', '#cc7575'],['TIE', '#333']], activeTab.selection+'TOTAL', [[0, 0.25],[385, 0.45],[940, 0.6],[1575, 0.7],[2350, 0.8],[6000, .99]], '#b8bbbf'],
-   	        ['vtd-hover', zoomThreshold, 20, ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD", ""]], 'USPRSTOTAL', [[6000, 'orange']], activeTab.selection+'TOTAL', [[6000, .75]], 'white'],
-            ['cty-hover', 3, zoomThreshold, ['all', ['==', 'UNIT', 'cty'], ["==", "COUNTYNAME", ""]], 'USPRSTOTAL', [[6000, 'orange']], activeTab.selection+'TOTAL', [[6000, .75]], 'white']
+   	        ['vtd-hover', zoomThreshold, 20, ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD", ""]], 'USPRSTOTAL', [[6000, 'orange']], activeTab.selection+'TOTAL', [[6000, .5]], 'white'],
+            ['cty-hover', 3, zoomThreshold, ['all', ['==', 'UNIT', 'cty'], ["==", "COUNTYNAME", ""]], 'USPRSTOTAL', [[6000, 'orange']], activeTab.selection+'TOTAL', [[6000, .5]], 'white']
 	    ];      
 
         layers.forEach(addLayer)
 
 	});//end map on load
 
-	    //mousemove is too slow, need to create a new layer at street level for mouseover
-	map.on('click', function (e) {
-       var features = map.queryRenderedFeatures(e.point); //queryRenderedFeatures returns an array
-       // console.log(features[0])
-       var feature = features[0];
-       console.log(feature.properties)
-       showResults(activeTab, feature.properties);
-       mapResults(feature);	
-       
-  });
+	
 
 } //end initialize
 
 function changeData(activetab){
 	console.log(activeTab.geography);
-
+    // var visibility = map.getLayoutProperty(activetab+'-lines', 'visibility');
 	switch (activeTab.geography) {
 	    case "cty": 
-	        var opacity = [ [0, 0.25],[5100, 0.45],[8500, 0.6],[16000, 0.7],[28000, 0.8],[700000, .99] ];
+	        var opacity = [ [0, 0.25],[16837, 0.45],[53080, 0.6],[142556, 0.7],[280000, 0.8],[700000, .99] ];
+	        map.setLayoutProperty('cty-lines', 'visibility', 'visible');
+	        map.setLayoutProperty('cty-symbols', 'visibility', 'visible');
 	        break;
 	    case "cng": 
 	        var opacity = [[700000, .7]];
+	        map.setLayoutProperty('cng-lines', 'visibility', 'visible');
+	        map.setLayoutProperty('cng-symbols', 'visibility', 'visible');
 	        break;
 	    case "sen": 
 	        var opacity = [ [0, 0.25],[38300, 0.45],[41870, 0.6],[44555, 0.7],[48460, 0.8],[700000, .99] ];
+	        map.setLayoutProperty('sen-lines', 'visibility', 'visible');
+	        map.setLayoutProperty('sen-symbols', 'visibility', 'visible');
 	        break;
 	    case "hse": 
 	        var opacity = [ [0, 0.25],[18535, 0.45],[20840, 0.6],[22395, 0.7],[24417, 0.8],[700000, .99] ];
+	        map.setLayoutProperty('hse-lines', 'visibility', 'visible');
+	        map.setLayoutProperty('hse-symbols', 'visibility', 'visible');
 	        break;
 	};
 
