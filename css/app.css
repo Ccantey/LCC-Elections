@@ -132,6 +132,39 @@ a:hover {
     border:none;
     text-transform: none;	
 }
+
+.share-group{
+	position: absolute;
+	right:7px;
+	top:15px;
+}
+
+.dropdown-menu{
+	margin: 25px 0 0;
+}
+.btn-group.open .dropdown-toggle {
+    box-shadow: none;
+}
+.share-button{
+/*	position: relative;
+	right:7px;
+	top:10px;*/
+    background-color: transparent;
+    color: rgba(0, 0, 0, 0.5);
+    font-family: arial,helvetica,sans-serif;
+    border:none;
+    text-transform: none;	
+}
+
+#facebook a{
+	color: #3b5998;
+}
+#twitter a{
+	color:#00aced;
+}
+#linkedin a{
+	color:#006fa6;
+}
 .button-text {
     display: inline-block;
     vertical-align: middle;

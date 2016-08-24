@@ -3,8 +3,20 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, minimal-ui, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="description" content="Interactive mapping of the 2016 Minnesota election.">
+    <meta name="author" content="Leg. Coordinating Commission GIS">
+    <meta name="keywords" content="Election, Map, LCC, Minnesota">
+    <!--Facebook Share customization open graph meta tags. https://developers.facebook.com/tools/debug/og/object/-->
+    <meta property="fb:app_id" content="192382917808790" />
+    <meta property="og:url"                content="http://www.gis.leg.mn/iMaps/elections/2016/" />
+    <meta property="og:type"               content="website" />
+    <meta property="og:title"              content="2016 Minnesota Election" />
+    <meta property="og:description"        content="Interactive mapping of the 2016 Minnesota election." />
+    <meta property="og:image"              content="http://www.gis.leg.mn/iMaps/elections/2016/capital-large.png" />
+
     <title>2016 MN Election Results</title>
 
     <!-- Latest compiled and minified CSS -->
@@ -15,6 +27,7 @@
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.21.0/mapbox-gl.css' rel='stylesheet' />
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.21.0/mapbox-gl.js'></script>
     <script src='js/mapbox-gl-geocoder.js'></script>
+    <script src="https://use.fontawesome.com/d5029dad88.js"></script>
 
     <link rel="stylesheet" href="css/app.css">
     <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v1.3.0/mapbox-gl-geocoder.css' type='text/css' />
@@ -49,6 +62,36 @@
         </div><!--/.nav-collapse -->
 
       </div>
+<!--       <button id="share" class="share-button">
+          <span class="button-text">Share</span>
+          <span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
+      </button> -->
+
+      <!-- Single button -->
+<div class="btn-group share-group pull-right">
+  <button type="button" class="share-button dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Share <span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
+  </button>
+  <ul class="dropdown-menu">
+    <li id="facebook">
+        <a href="https://www.facebook.com/dialog/share?app_id=192382917808790&redirect_uri=http%3A%2F%2Fwww.gis.leg.mn%2FiMaps%2FLegacy%2Findex.php&display=popup&href=http%3A%2F%2Fwww.gis.leg.mn%2FiMaps%2FLegacy%2F%23">
+            <i class="fa fa-facebook-official" aria-hidden="true"></i> Facebook
+        </a>
+    </li>
+
+    <li id="twitter">
+        <a href="http://twitter.com/intent/tweet?url=http%3A%2F%2Fwww.gis.leg.mn%2FiMaps%2Felections%2F2016%2F&text=How%20every%20Minnesota%20precinct%20voted&hashtags=electionmap, minnesotavotes, mnleg">
+            <i class="fa fa-twitter" aria-hidden="true"></i> Twitter
+        </a>
+    </li>
+
+    <li id="linkedin">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://gis.leg.mn/iMaps/elections/2016/&title=How%20every%20Minnesota%20precinct%20voted&source=LinkedIn">
+          <i class="fa fa-linkedin-square" aria-hidden="true"></i> LinkedIn
+        </a>
+    </li>
+  </ul>
+</div>
   </nav>
 
     <div class="container">
