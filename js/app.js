@@ -61,7 +61,7 @@ function initialize(){
 		            [280000, 0.8],
 		            [700000, .99]
 		        ],                                     
-		        '#b8bbbf'                                //layers[8] = outline color
+		        'hsl(55, 11%, 96%)'                                //layers[8] = outline color
 	        ], 
 
    	        ['vtd', zoomThreshold, 20, ['==', 'UNIT', 'vtd'], activeTab.selection+'WIN', [['DFL', '#6582ac'],['R', '#cc7575'],['TIE', '#333']], activeTab.selection+'TOTAL', [[0, 0.25],[385, 0.45],[940, 0.6],[1575, 0.7],[2350, 0.8],[6000, .99]], '#b8bbbf'],
@@ -106,7 +106,7 @@ function changeData(activetab){
     map.setPaintProperty("2012results-vtd", 'fill-color', {"type":'categorical', 'property': activeTab.selection+'WIN', 'stops':[['DFL', '#6582ac'],['R', '#cc7575'],['TIE', '#333']]})    // selection = map.querySourceFeatures('2012results-cty-hover', {sourceLayer:'AllResults', filter: ['has','COUNTYNAME']})
 	// showResults(activeTab, feature.properties);
 	var layer = [
-	    [activeTab.geography,          3, zoomThreshold, ['==', 'UNIT', activeTab.geography], activeTab.selection+'WIN', [['DFL', '#6582ac'],['R', '#cc7575'],['TIE', '#333']], activeTab.selection+'TOTAL', opacity, '#b8bbbf'],
+	    [activeTab.geography,          3, zoomThreshold, ['==', 'UNIT', activeTab.geography], activeTab.selection+'WIN', [['DFL', '#6582ac'],['R', '#cc7575'],['TIE', '#333']], activeTab.selection+'TOTAL', opacity, 'hsl(55, 11%, 96%)'],
         [activeTab.geography+'-hover', 3, zoomThreshold, ['all', ['==', 'UNIT', activeTab.geography], ["==", activeTab.name, ""]], 'USPRSTOTAL', [[6000, 'orange']], activeTab.selection+'TOTAL', [[6000, .75]], 'white']
     ];
 
@@ -136,21 +136,22 @@ function addLayer(layer) {
 		            	stops: layer[7]
 		            },
 		            "fill-outline-color": layer[8]
+		            
 		        }
 	         }, 'waterway-label');
 }; 
 
 function showResults(activeTab, feature){
-    // console.log(feature)
+    console.log(feature)
 	var content = '';
 	var geography = '';
 	
-	var winner =feature[activeTab.selection+'WIN'];
+	var winner = (feature) ? feature[activeTab.selection+'WIN'] : '';
 
 
 	var percentage = feature[activeTab.selection+winner]*100/feature[activeTab.selection+'TOTAL'];
-	console.log('winner '+feature[activeTab.selection+winner])
-	console.log('percentage '+percentage)
+	// console.log('winner '+feature[activeTab.selection+winner])
+	// console.log('percentage '+percentage)
 
 	if (feature.PCTNAME.length < 1){
 		geography = "<th>County: </th><td>"+feature.COUNTYNAME+"</td>";
