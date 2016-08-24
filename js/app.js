@@ -4,7 +4,8 @@ var activeTab = {
   name:"COUNTYNAME"
 };
 var zoomThreshold = 8;
-var data;
+// var data;
+var layersArray = ['2012results-cty','2012results-vtd','2012results-sen','2012results-hse','2012results-cng','2012results-cty-hover','2012results-vtd-hover','2012results-sen-hover','2012results-hse-hover','2012results-cng-hover']
 var geocoder = null;
 
 function initialize(){

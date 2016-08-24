@@ -13,7 +13,7 @@ $( document ).ready(function() {
    initialize();
    //mousemove is too slow, need to create a new layer at street level for mouseover
   map.on('click', function (e) {
-       var features = map.queryRenderedFeatures(e.point,{ layers: ['2012results-cty','2012results-vtd','2012results-sen','2012results-hse','2012results-cng'] }); //queryRenderedFeatures returns an array
+       var features = map.queryRenderedFeatures(e.point,{ layers: layersArray }); //queryRenderedFeatures returns an array
        // console.log(features[0])
        // var feature = features[0];
        var feature = (features.length) ? features[0] : '';
@@ -24,7 +24,7 @@ $( document ).ready(function() {
   });
   //show pointer cursor
    map.on('mousemove', function (e) {
-    var features = map.queryRenderedFeatures(e.point, { layers: ['2012results-cty','2012results-vtd','2012results-sen','2012results-hse'] });
+    var features = map.queryRenderedFeatures(e.point, { layers: layersArray });
     map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
   });
    //show grab cursor
