@@ -30,9 +30,9 @@ function initialize(){
 		minZoom: 6
 	});
 
-    // map.addControl(new mapboxgl.Navigation({
-    // 	position:'top-right'
-    // }));
+    map.addControl(new mapboxgl.Navigation({
+    	position:'top-right'
+    }));
 
     // geocoder = new google.maps.Geocoder; //ccantey.dgxr9hbq
     geocoder = new mapboxgl.Geocoder();
@@ -148,7 +148,6 @@ function showResults(activeTab, feature){
 	var geography = '';
 	
 	var winner = (feature) ? feature[activeTab.selection+'WIN'] : '';
-
 
 	var percentage = feature[activeTab.selection+winner]*100/feature[activeTab.selection+'TOTAL'];
 	// console.log('winner '+feature[activeTab.selection+winner])
@@ -293,7 +292,6 @@ function geoCodeAddress(geocoder) {
 	  }
 	});
 
-
 	    return false;
 	}
 
@@ -365,45 +363,44 @@ function removeLayers(c){
 	}    
 }
 
-function classifyData(results){
-	console.log(results.data);
-	var sum = 0;
-	var numberOfBreaks = 5;
-	var classBreaks = 0;
+// function classifyData(results){
+// 	console.log(results.data);
+// 	var sum = 0;
+// 	var numberOfBreaks = 5;
+// 	var classBreaks = 0;
 
+// 	var stops = new Array();
+// 	// stops = [[75000, 'steelblue'],[700000, 'brown']];
+// 	stops.push([75000, 'steelblue']);
+// 	stops.push([700000, 'brown'])
 
-	var stops = new Array();
-	// stops = [[75000, 'steelblue'],[700000, 'brown']];
-	stops.push([75000, 'steelblue']);
-	stops.push([700000, 'brown'])
+//     var winner = results.data.map(function(geography){
+//     	    // console.log(geography)
+//     	    var winnerresults = {};
+//     	    // keys = Object.keys(geography), largest = Math.max.apply(null, keys.map(x => geography[x])) result = keys.reduce((result, key) => { if (geography[key] === largest){ result.push(key); } return result; }, []);
+//     	     if (geography.geographicProfile.usprsr > geography.geographicProfile.usprsdfl){
+//     	     	winnerresults['winner'] = "R";
+//     	     } else {
+//     	     	winnerresults['winner'] = "DFL";
+//     	     }
+//     	     return winnerresults;
+//         });
+//     console.log(winner)
+// 		// 
+// 	// for (var objects in results.data){
 
-    var winner = results.data.map(function(geography){
-    	    // console.log(geography)
-    	    var winnerresults = {};
-    	    // keys = Object.keys(geography), largest = Math.max.apply(null, keys.map(x => geography[x])) result = keys.reduce((result, key) => { if (geography[key] === largest){ result.push(key); } return result; }, []);
-    	     if (geography.geographicProfile.usprsr > geography.geographicProfile.usprsdfl){
-    	     	winnerresults['winner'] = "R";
-    	     } else {
-    	     	winnerresults['winner'] = "DFL";
-    	     }
-    	     return winnerresults;
-        });
-    console.log(winner)
-		// 
-	// for (var objects in results.data){
-
-	// 	//if(!layers.hasOwnProperty(key)) continue;
-	// 	// console.log(results.data[objects].geographicProfile.totvoting)
-	// 	var obj = results.data[objects].geographicProfile;
-	// 	// console.log(obj.totvoting)
-	// 	sum += obj.totvoting
-	// }
+// 	// 	//if(!layers.hasOwnProperty(key)) continue;
+// 	// 	// console.log(results.data[objects].geographicProfile.totvoting)
+// 	// 	var obj = results.data[objects].geographicProfile;
+// 	// 	// console.log(obj.totvoting)
+// 	// 	sum += obj.totvoting
+// 	// }
     
-    initialize(winner);
-    // console.log(stops);
-	// return stops;
+//     initialize(winner);
+//     // console.log(stops);
+// 	// return stops;
 
-}
+// }
 // function getLayerProperties(){
 // 	var relatedFeatures = map.querySourceFeatures('electionResults', {
 //             sourceLayer: 'AllResults',
