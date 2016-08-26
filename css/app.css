@@ -15,6 +15,10 @@ html, body {
 	font-size: 1.25rem;
 	font-weight: 300;
 }
+
+table{
+	font-size: 0.82rem;
+}
 footer{
 	border-top: 1px solid #999;
 	color:#999;
