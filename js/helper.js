@@ -11,6 +11,11 @@ $( document ).ready(function() {
   // });
     
    initialize();
+       $('.mapboxgl-ctrl-top-right').affix({
+      offset: {
+        top: 210
+      }
+    })
    //mousemove is too slow, need to create a new layer at street level for mouseover
   map.on('click', function (e) {
        var features = map.queryRenderedFeatures(e.point,{ layers: layersArray }); //queryRenderedFeatures returns an array

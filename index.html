@@ -85,7 +85,7 @@
 
     <div class="container">
       <div class="row">
-        <div class="col-sm-2"></div>
+        <!-- <div class="col-sm-2"></div> -->
         <div class="col-sm-8 election-districts">
           <ul class="election-navigation">
             <li><a class="election-navigation-a active" data-district="USPRS" data-geography="cty" data-name="COUNTYNAME">Presidential</a></li>
@@ -95,21 +95,21 @@
             <li><a class="election-navigation-a" data-district="MNLEG" data-geography="hse" data-name="MNLEGDIST">MN House</a></li>
           </ul>
         </div>
-        <div class="col-sm-2"></div>
+        <!-- <div class="col-sm-2"></div> -->
       </div>
       </div>
 
       <div class="headline">
           <h1 class="headline-title">How every Minnesota precinct voted in the 2016 election.</h1>
-          <p class="lead">Zoom in to view summary of each voting precinct. Click anywhere within Minnesota to see results. Toggle elections results above in red.</p>
+          <p class="lead">Use this document as a way to quickly start any new mapping project.<br> It provides this text, sidebar navigation, and a Mapbox GL map.</p>
       </div>
      
-      
-      <!-- <div class="col-sm-1"></div> -->
-      
-      <div class="container">
-      <div class="graphic-containter">
+      <div class="container-fluid">
       <div class="row">
+      <!-- <div class="col-sm-1"></div> -->
+      <div class="prefix">
+      <div class="affix-container" data-spy="affix" data-offset-top="210" > <!--data-spy="affix" data-offset-top="150"-->
+
         <div class="col-sm-3 sidebar">
           <div class="sidebar-results">
             <h4> Minnesota Results</h4>
@@ -130,6 +130,8 @@
              <table id='features' class="table-condensed"></table>
           </div>
         </div>
+        </div>
+        
         <div id="map" class="col-sm-9 map-container"></div>
       </div>
       <!-- <div class="col-sm-1"></div> -->

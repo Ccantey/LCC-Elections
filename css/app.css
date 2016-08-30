@@ -5,6 +5,10 @@ html, body {
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
 
 }
+.container-fluid{
+	margin-left: 5%;
+	margin-right:5%;
+}
 .h4, h4{
 	font-size:1.5rem;
 }
@@ -14,10 +18,6 @@ html, body {
 .lead{
 	font-size: 1.25rem;
 	font-weight: 300;
-}
-
-table{
-	font-size: 0.82rem;
 }
 footer{
 	border-top: 1px solid #999;
@@ -88,11 +88,13 @@ a:hover {
 }
 .election-districts{
 	position:fixed;
-	left:16%;
+	left:0;
+	width: 100%;
 	background-color: #fff;
 	margin-top:35px;
-	padding:20px;
+	padding:15px 0 0;
 	text-align: center;
+	z-index: 1001;
 	/*margin-bottom: 40px;*/
 }
 
@@ -205,25 +207,35 @@ ul.election-navigation li{
 	/*height:500px;*/
 }
 
-.affix {
-  top: 0;
-  width: 100%;
+/*No affix for smaller devices*/
+.prefix{
+  position: relative !important;
 }
 
-.affix-top {
-  width: 100%;
+.affix-container.affix {
+  /*left:5px;*/
+  top: 70px;
+  width: 25%;
+}
+.mapboxgl-ctrl-top-right.affix {
+  position: fixed;
+  top: 80px;
+  right:5%;
+
 }
 
-.affix-bottom {
-  position: absolute;
-  width: 100%;  
-}
+.affix-container.affix > .sidebar{
 
+  width: 80%;
+}
 
 .sidebar{	
 	padding: 0 50px 10px 0;
 }
 
+#map{
+	float:right;
+}
 .map-container{
 	border: 1px solid #e6e6e6;
 	padding:0;
@@ -237,6 +249,10 @@ ul.election-navigation li{
 }
 
 @media (max-width: 620px) { 
+	.container-fluid{
+		margin-left:2%;
+		margin-right:2%;
+	}
 	.navbar-center h5:first-child {
 	    display: none;
 	}
@@ -244,9 +260,42 @@ ul.election-navigation li{
 	.navbar-center{
 	margin-left: 30px;
 	text-align: left:;
+   }
+   .navbar, .navbar h5{
+   	font-size: .85rem;
+   }
 }
-}
+@media (max-width: 800px){
+	.h5, h5{
+		font-size: 1rem;
+	}
+	.affix-container.affix{
+		position:relative;
+		width:100%;
+		top:0;
+		height:100%;
+	}
+	#map{
 
+		float:none;
+	}
+
+	.mapboxgl-ctrl-top-right.affix {
+	  position: relative;
+	  top: 0;
+	  right:0;
+
+	}
+
+/*	.affix + #map{
+		height:300px !important;
+		margin-bottom: 300px;
+		float:none;
+	}*/
+	.prefix{
+		margin: 0 5%;
+	}
+}
 .winner-DFL{
 	color:steelblue;
 }
