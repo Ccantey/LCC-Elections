@@ -302,3 +302,13 @@ ul.election-navigation li{
 .winner-R{
 	color:brown;
 }
+
+
+#candidate-table th{
+	font-size: .75rem;
+	color: #aaa;
+	font-weight: 500;
+	}
+#candidate-table tr{
+	font-size: .9rem;
+}
