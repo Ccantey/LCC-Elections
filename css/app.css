@@ -241,7 +241,7 @@ ul.election-navigation li{
 }
 
 .affix-container.affix-bottom > .sidebar{
-
+  padding: 0 15px 10px 0;
   width: 80%;
 }
 
@@ -257,6 +257,9 @@ ul.election-navigation li{
 	padding:0;
 }
 
+.sidebar-search{
+	padding-bottom:20px;
+}
 .sidebar-search label{
 	/*display:table-row;*/
 }
@@ -312,6 +315,14 @@ ul.election-navigation li{
 		margin: 0 5%;
 	}
 }
+
+#features{
+	font-size: 0.85rem;
+}
+
+#features th, #features td{
+	padding:2px;
+}
 .winner-DFL{
 	color:steelblue;
 }
@@ -324,7 +335,21 @@ ul.election-navigation li{
 	font-size: .75rem;
 	color: #aaa;
 	font-weight: 500;
+	width:33%;
 	}
 #candidate-table tr{
 	font-size: .9rem;
+}
+
+#candidate-table td{
+	font-size: .85rem;
+	padding: 5px 0;
+}
+
+#candidate-table img{
+	max-height: 30px;
+	float:left;
+	margin-top:4px;
+	margin-right: 5px;
+	border-radius: 3px;
 }

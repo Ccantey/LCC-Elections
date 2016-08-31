@@ -208,7 +208,7 @@ function showResults(activeTab, feature){
     //display the results in the results div
 	for (var i=0; i < resultsArray.length; i++){
 		if (resultsArray[i][1] > 0){ 
-		  content += "<tr><th>"+resultsArray[i][0]+": </th><td> " + resultsArray[i][1]+ "</td></tr>";
+		  content += "<tr><th>"+resultsArray[i][0]+": </th><td> " + resultsArray[i][1].toLocaleString()+ "</td></tr>";
 		  document.getElementById('features').innerHTML = content;
 		}
 	}
