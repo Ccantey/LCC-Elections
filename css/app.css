@@ -316,11 +316,11 @@ ul.election-navigation li{
 	}
 }
 
-#features{
+#precinct-results{
 	font-size: 0.85rem;
 }
 
-#features th, #features td{
+#precinct-results th, #precinct-results td{
 	padding:2px;
 }
 .winner-DFL{
@@ -332,6 +332,7 @@ ul.election-navigation li{
 
 
 #candidate-table th{
+	text-transform: uppercase;
 	font-size: .75rem;
 	color: #aaa;
 	font-weight: 500;
