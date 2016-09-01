@@ -143,9 +143,14 @@ function addLayer(layer) {
 }; 
 
 function showResults(activeTab, feature){
-    console.log(feature)
+    console.log(feature.CONGDIST.length)
 	var content = '';
+	var header ='';
 	var geography = '';
+	var data = {
+		activeTab:activeTab.selection,
+		geography:activeTab.geography
+	};
 	
 	var winner = (feature) ? feature[activeTab.selection+'WIN'] : '';
 
@@ -153,11 +158,34 @@ function showResults(activeTab, feature){
 	// console.log('winner '+feature[activeTab.selection+winner])
 	// console.log('percentage '+percentage)
 
-	if (feature.PCTNAME.length < 1){
-		geography = "<th>County: </th><td>"+feature.COUNTYNAME+"</td>";
-	} else {
+	if (feature.PCTNAME.length > 0){
+		header += "<h5>Precinct Results</h5>";
 		geography = "<th>Voting Precint: </th><td>"+feature.PCTNAME+"</td>";
+	} else{
+		if (feature.CONGDIST.length > 0){
+		    
+		    geography = "<th>Congressional District: </th><td>"+feature.CONGDIST+"</td>";
 	}
+	    if (feature.MNSENDIST.length > 0){
+	    	
+		    geography = "<th>MN Senate District: </th><td>"+feature.MNSENDIST+"</td>";
+	}
+	    if (feature.MNLEGDIST.length > 0){
+	    	
+		    geography = "<th>MN House District: </th><td>"+feature.MNLEGDIST+"</td>";
+	}
+	    if (feature.COUNTYNAME.length > 0){
+	    	header += "<h5>County Results</h5>";
+		   geography = "<th>County: </th><td>"+feature.COUNTYNAME+"</td>";
+	}
+	}
+    
+
+	console.log(geography)
+	// else {
+		
+	// 	geography = "<th>County: </th><td>"+feature.COUNTYNAME+"</td>";
+	// }
 
 	switch (activeTab.selection) {
     case "USPRS": 
@@ -173,27 +201,40 @@ function showResults(activeTab, feature){
         content += "<tr><th>Percentage: </th><td class='winner-"+winner+"'>"+percentage.toFixed(1)+"% </td></tr>";
         break;
     case "USREP":
-        // content += "<tr>"+geography+"</tr>";
-        content += "<tr><th>Congressional District: </th><td> " + feature.CONGDIST+ "</td></tr>";
+        data['district'] = feature.CONGDIST;
+        content += "<tr>"+geography+"</tr>";
+        // content += "<tr><th>Congressional District: </th><td> " + feature.CONGDIST+ "</td></tr>";
         content += "<tr><th>Winner: </th><td class='winner-"+winner+"'>"+winner+" </td></tr>";
         content += "<tr><th>Percentage: </th><td class='winner-"+winner+"'>"+percentage.toFixed(1)+"% </td></tr>";
         break;
     case "MNSEN":
-        // content += "<tr>"+geography+"</tr>";
-	    // content += "<tr><th>Legislative District: </th><td> " + feature.MNLEGDIST+ "</td></tr>";
-	    content += "<tr><th>Senate District: </th><td> " + feature.MNSENDIST+ "</td></tr>";
+        data['district'] = feature.MNSENDIST;
+        content += "<tr>"+geography+"</tr>";
+	    // content += "<tr><th>Senate District: </th><td> " + feature.MNSENDIST+ "</td></tr>";
 	    content += "<tr><th>Winner: </th><td class='winner-"+winner+"'>"+winner+" </td></tr>";
 	    content += "<tr><th>Percentage: </th><td class='winner-"+winner+"'>"+percentage.toFixed(1)+"% </td></tr>";
         break;
     case "MNLEG":
-        // content += "<tr>"+geography+"</tr>";
-	    content += "<tr><th>Legislative District: </th><td> " + feature.MNLEGDIST+ "</td></tr>";
+        data['district'] = feature.MNLEGDIST;
+        content += "<tr>"+geography+"</tr>";
+	    // content += "<tr><th>Legislative District: </th><td> " + feature.MNLEGDIST+ "</td></tr>";
 	    content += "<tr><th>Winner: </th><td class='winner-"+winner+"'>"+winner+" </td></tr>";
 	    content += "<tr><th>Percentage: </th><td class='winner-"+winner+"'>"+percentage.toFixed(1)+"% </td></tr>";
 	    // content += "<tr><th>Senate District: </th><td> " + feature.MNSENDIST+ "</td></tr>";
         break;
     }
 
+    // console.log(data);
+    $.ajax("php/winners.php", {
+		data: data,
+		success: function(result){			
+			showWinners(result.totals[0]);
+		}, 
+		error: function(){
+			console.log('error');
+		}
+	});
+	document.getElementById('precinct-header').innerHTML = header;
     //add all "activetab" results into a tempory object (pres, senate, etc..)
     var tempObject = {};
 	for (var prop in feature){
@@ -214,6 +255,16 @@ function showResults(activeTab, feature){
 	}
 }
 
+function showWinners(totals){
+	var sortedWinners = sortObjectProperties(totals);
+	sortedWinners.forEach(logArrayElements)
+	
+}
+
+function logArrayElements(element, index, array) {
+  // console.log('a[' + index + '] = ' + element);
+}
+
 function sortObjectProperties(obj){
     // convert object into array
     var sortable=[];
@@ -229,7 +280,7 @@ function sortObjectProperties(obj){
 }
 
 function mapResults(feature){
-	console.log(feature.layer.id)
+	// console.log(feature.layer.id)
     removeLayers('pushpin');
 	// map.setFilter("2012results-"+activeTab.geography, ['all', ['==', 'UNIT', activeTab.geography], ["!=", activeTab.name, feature.properties[activeTab.name]]]);
  //    map.setFilter("2012results-"+activeTab.geography+"-hover", ['all', ['==', 'UNIT', activeTab.geography], ["==", activeTab.name, feature.properties[activeTab.name]]]);

@@ -22,7 +22,7 @@ $( document ).ready(function() {
        // console.log(features[0])
        // var feature = features[0];
        var feature = (features.length) ? features[0] : '';
-       console.log(feature.properties)
+       // console.log(feature.properties);
        showResults(activeTab, feature.properties);
        mapResults(feature); 
        
@@ -34,6 +34,7 @@ $( document ).ready(function() {
   });
    //show grab cursor
    map.on('dragstart', function (e) {
+    var features = map.queryRenderedFeatures(e.point, { layers: layersArray });
     map.getCanvas().style.cursor = (features.length) ? 'grab' : '';
   });
    $('#search').click(function(e){
@@ -69,7 +70,7 @@ $( document ).ready(function() {
     $('.election-navigation-a').on('click', function(e){
     	e.preventDefault();
       //remove previous slections
-      document.getElementById('features').innerHTML = "";
+      document.getElementById('precinct-results').innerHTML = "";
       map.removeLayer("2012results-"+ activeTab.geography);
       map.removeLayer("2012results-"+ activeTab.geography+"-hover");
       map.setLayoutProperty(activeTab.geography + '-symbols', 'visibility', 'none');
