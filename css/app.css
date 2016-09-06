@@ -337,6 +337,7 @@ ul.election-navigation li{
 	color: #aaa;
 	font-weight: 500;
 	width:33%;
+	padding-left: 0
 	}
 #candidate-table tr{
 	font-size: .9rem;

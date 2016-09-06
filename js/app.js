@@ -180,13 +180,10 @@ function showResults(activeTab, feature){
 	}
 	}
     
-
 	console.log(geography)
-	// else {
-		
-	// 	geography = "<th>County: </th><td>"+feature.COUNTYNAME+"</td>";
-	// }
-
+        document.getElementById('candidate3').innerHTML = '';
+		document.getElementById('candidate3votes').innerHTML = '';
+		document.getElementById('candidate3percent').innerHTML = '';
 	switch (activeTab.selection) {
     case "USPRS": 
         content += "<tr>"+geography+"</tr>";
@@ -199,6 +196,7 @@ function showResults(activeTab, feature){
         content += "<tr><th>U.S. Senate: </th><td> At-large</td></tr>";
         content += "<tr><th>Winner: </th><td class='winner-"+winner+"'>"+winner+" </td></tr>";
         content += "<tr><th>Percentage: </th><td class='winner-"+winner+"'>"+percentage.toFixed(1)+"% </td></tr>";
+
         break;
     case "USREP":
         data['district'] = feature.CONGDIST;
@@ -206,6 +204,7 @@ function showResults(activeTab, feature){
         // content += "<tr><th>Congressional District: </th><td> " + feature.CONGDIST+ "</td></tr>";
         content += "<tr><th>Winner: </th><td class='winner-"+winner+"'>"+winner+" </td></tr>";
         content += "<tr><th>Percentage: </th><td class='winner-"+winner+"'>"+percentage.toFixed(1)+"% </td></tr>";
+        
         break;
     case "MNSEN":
         data['district'] = feature.MNSENDIST;
@@ -235,6 +234,7 @@ function showResults(activeTab, feature){
 		}
 	});
 	document.getElementById('precinct-header').innerHTML = header;
+
     //add all "activetab" results into a tempory object (pres, senate, etc..)
     var tempObject = {};
 	for (var prop in feature){
@@ -257,13 +257,29 @@ function showResults(activeTab, feature){
 
 function showWinners(totals){
 	var sortedWinners = sortObjectProperties(totals);
-	sortedWinners.forEach(logArrayElements)
-	
+	// console.log(sortedWinners);
+	// sortedWinners.forEach(logArrayElements);
+
+	for (var i = 0; i<sortedWinners.length; i++){
+		var percent = sortedWinners[i][1]*100/sortedWinners[0][1]
+		console.log(percent.toFixed(1))
+		if (i>0 && i<4){
+			console.log('candidate'+i)
+		    document.getElementById('candidate'+i).innerHTML = sortedWinners[i][0];
+		    document.getElementById('candidate'+i+'votes').innerHTML = sortedWinners[i][1].toLocaleString();
+		    document.getElementById('candidate'+i+'percent').innerHTML = percent.toFixed(1)+'%';
+
+	    } else{
+	    	document.getElementById('totalvotes').innerHTML = sortedWinners[0][1].toLocaleString();
+	    }
+	}
 }
 
-function logArrayElements(element, index, array) {
-  // console.log('a[' + index + '] = ' + element);
-}
+// function logArrayElements(element, index, array) {
+//   // console.log('a[' + index + '] = ' + element);
+//   console.log(array);
+
+// }
 
 function sortObjectProperties(obj){
     // convert object into array

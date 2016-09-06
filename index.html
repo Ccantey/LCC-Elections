@@ -100,19 +100,22 @@
       </div>
 
       <div class="headline">
-          <h1 class="headline-title">How every Minnesota precinct voted in the 2016 election.</h1>
-          <p class="lead">Use this document as a way to quickly start any new mapping project.<br> It provides this text, sidebar navigation, and a Mapbox GL map.</p>
+          <h1 class="headline-title">Results of the 2016 Minnesota General Election.</h1>
+
+          <p class="lead">Zoom in to view summary of each voting precinct. Click anywhere within Minnesota to see results. Toggle elections results above in red.</p>
+          <!-- <h6 class="text-danger"> * Unofficial Results *</h6> -->
       </div>
      
       <div class="container-fluid">
       <div class="row">
       <!-- <div class="col-sm-1"></div> -->
       <div class="prefix">
-      <div class="affix-container" data-spy="affix" data-offset-top="210" > <!--data-spy="affix" data-offset-top="150"-->
+      <div class="affix-container" data-spy="affix" data-offset-top="210" data-offset-top="100"> <!--data-spy="affix" data-offset-top="150"-->
 
         <div class="col-sm-3 sidebar">
           <div class="sidebar-results">
             <h4> Minnesota Results</h4>
+            <h6 class="text-danger"> Results unofficial as of 11/09/2016</h6>
             <table id="candidate-table" class="table table-responsive">
             <thead>
               <tr>
@@ -122,24 +125,24 @@
               </tr>
             </thead>
               <tr>
-                <td><img src="img/hillary.jpg" class="img-responsive" alt="" title="" /> Hillary Clinton</td>
-                <td>36,789</td>
-                <td>59.8%</td>
+                <td id="candidate1"><img src="img/hillary.jpg" class="img-responsive" alt="" title="" /> Hillary Clinton</td>
+                <td id="candidate1votes">36,789</td>
+                <td id="candidate1percent">59.8%</td>
               </tr>
               <tr>
-                <td><img src="img/trump.jpg" class="img-responsive" alt="" title="" /> Donald Trump</td>
-                <td>14,598</td>
-                <td>31.2%</td>
+                <td id="candidate2"><img src="img/trump.jpg" class="img-responsive" alt="" title="" /> Donald Trump</td>
+                <td id="candidate2votes">14,598</td>
+                <td id="candidate2percent">31.2%</td>
               </tr>
               <tr>
-                <td><img src="img/obama.png" class="img-responsive" alt="" title="" /> Gary Johnson</td>
-                <td>1,268</td>
-                <td>1.2%</td>
+                <td id="candidate3"><img src="img/obama.png" class="img-responsive" alt="" title="" /> Gary Johnson</td>
+                <td id="candidate3votes">1,268</td>
+                <td id="candidate3percent">1.2%</td>
               </tr>
               <thead>
               <tr>
                 <th>Total Votes</th>
-                <th>105978</th>
+                <th id="totalvotes">105978</th>
                 <th>99 of 100</th>
                 
               </tr>
