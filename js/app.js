@@ -184,17 +184,19 @@ function showResults(activeTab, feature){
 	}
     
 	console.log(geography)
-        document.getElementById('candidate3').innerHTML = '';
-		document.getElementById('candidate3votes').innerHTML = '';
-		document.getElementById('candidate3percent').innerHTML = '';
+  //       document.getElementById('candidate3').innerHTML = '';
+		// document.getElementById('candidate3votes').innerHTML = '';
+		// document.getElementById('candidate3percent').innerHTML = '';
 	switch (activeTab.selection) {
-    case "USPRS": 
+    case "USPRS":
+        $('.td-image').show();
         content += "<tr>"+geography+"</tr>";
         content += "<tr><th>U.S. President: </th><td> At-large</td></tr>";
         content += "<tr><th>Winner: </th><td class='winner-"+winner+"'>"+winner+" </td></tr>";  
         content += "<tr><th>Percentage: </th><td class='winner-"+winner+"'>"+percentage.toFixed(1)+"% </td></tr>";    
         break;
     case "USSEN":
+        $('.td-image').hide();
         content += "<tr>"+geography+"</tr>";
         content += "<tr><th>U.S. Senate: </th><td> At-large</td></tr>";
         content += "<tr><th>Winner: </th><td class='winner-"+winner+"'>"+winner+" </td></tr>";
@@ -202,6 +204,7 @@ function showResults(activeTab, feature){
 
         break;
     case "USREP":
+        $('.td-image').hide();
         data['district'] = feature.CONGDIST;
         content += "<tr>"+geography+"</tr>";
         // content += "<tr><th>Congressional District: </th><td> " + feature.CONGDIST+ "</td></tr>";
@@ -210,6 +213,7 @@ function showResults(activeTab, feature){
 
         break;
     case "MNSEN":
+        $('.td-image').hide();
         data['district'] = feature.MNSENDIST;
         content += "<tr>"+geography+"</tr>";
 	    // content += "<tr><th>Senate District: </th><td> " + feature.MNSENDIST+ "</td></tr>";
@@ -217,6 +221,7 @@ function showResults(activeTab, feature){
 	    content += "<tr><th>Percentage: </th><td class='winner-"+winner+"'>"+percentage.toFixed(1)+"% </td></tr>";
         break;
     case "MNLEG":
+        $('.td-image').hide();
         data['district'] = feature.MNLEGDIST;
         content += "<tr>"+geography+"</tr>";
 	    // content += "<tr><th>Legislative District: </th><td> " + feature.MNLEGDIST+ "</td></tr>";
@@ -262,15 +267,22 @@ function showWinners(totals){
 	var sortedWinners = sortObjectProperties(totals);
 	// console.log(sortedWinners);
 	// sortedWinners.forEach(logArrayElements);
-
+    var presidentMap={'dfl':'Hillary Clinton','republican':'Donald Trump', 'libertarian':'Gary Johnson', 'green':'Jill Stein'}
 	for (var i = 0; i<sortedWinners.length; i++){
 		var percent = sortedWinners[i][1]*100/sortedWinners[0][1]
 		console.log(percent.toFixed(1))
 		if (i>0 && i<4){
 			console.log('candidate'+i)
-		    document.getElementById('candidate'+i).innerHTML = sortedWinners[i][0];
-		    document.getElementById('candidate'+i+'votes').innerHTML = sortedWinners[i][1].toLocaleString();
-		    document.getElementById('candidate'+i+'percent').innerHTML = percent.toFixed(1)+'%';
+			if (activeTab.selection == 'USPRS'){
+                $('#candidate'+i).html(presidentMap[sortedWinners[i][0]]);
+		        $('#candidate'+i+'votes').html(sortedWinners[i][1].toLocaleString());
+		        $('#candidate'+i+'percent').html(percent.toFixed(1)+'%');
+			} else {
+				$('#candidate'+i).html(sortedWinners[i][0]);
+		        $('#candidate'+i+'votes').html(sortedWinners[i][1].toLocaleString());
+		        $('#candidate'+i+'percent').html(percent.toFixed(1)+'%');
+			}
+		    
 
 	    } else{
 	    	document.getElementById('totalvotes').innerHTML = sortedWinners[0][1].toLocaleString();
