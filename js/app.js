@@ -8,6 +8,9 @@ var zoomThreshold = 8;
 var layersArray = ['2012results-cty','2012results-vtd','2012results-sen','2012results-hse','2012results-cng','2012results-cty-hover','2012results-vtd-hover','2012results-sen-hover','2012results-hse-hover','2012results-cng-hover']
 var geocoder = null;
 
+var today = new Date();
+
+
 function initialize(){
     // console.log(winner);
 
@@ -204,7 +207,7 @@ function showResults(activeTab, feature){
         // content += "<tr><th>Congressional District: </th><td> " + feature.CONGDIST+ "</td></tr>";
         content += "<tr><th>Winner: </th><td class='winner-"+winner+"'>"+winner+" </td></tr>";
         content += "<tr><th>Percentage: </th><td class='winner-"+winner+"'>"+percentage.toFixed(1)+"% </td></tr>";
-        
+
         break;
     case "MNSEN":
         data['district'] = feature.MNSENDIST;

@@ -9,6 +9,7 @@ $( document ).ready(function() {
   //     console.log('error');
   //   }
   // });
+  document.getElementById("spanDate").innerHTML = today.getMonth()+1 + "/" + today.getDate()+ "/" + today.getFullYear();
     
    initialize();
        $('.mapboxgl-ctrl-top-right').affix({
