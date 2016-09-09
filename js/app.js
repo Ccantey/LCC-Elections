@@ -190,6 +190,7 @@ function showResults(activeTab, feature){
 	switch (activeTab.selection) {
     case "USPRS":
         $('.td-image').show();
+        $('#thirdwheel').show();
         content += "<tr>"+geography+"</tr>";
         content += "<tr><th>U.S. President: </th><td> At-large</td></tr>";
         content += "<tr><th>Winner: </th><td class='winner-"+winner+"'>"+winner+" </td></tr>";  
@@ -197,6 +198,7 @@ function showResults(activeTab, feature){
         break;
     case "USSEN":
         $('.td-image').hide();
+        $('#thirdwheel').hide();
         content += "<tr>"+geography+"</tr>";
         content += "<tr><th>U.S. Senate: </th><td> At-large</td></tr>";
         content += "<tr><th>Winner: </th><td class='winner-"+winner+"'>"+winner+" </td></tr>";
@@ -205,6 +207,7 @@ function showResults(activeTab, feature){
         break;
     case "USREP":
         $('.td-image').hide();
+        $('#thirdwheel').hide();
         data['district'] = feature.CONGDIST;
         content += "<tr>"+geography+"</tr>";
         // content += "<tr><th>Congressional District: </th><td> " + feature.CONGDIST+ "</td></tr>";
@@ -214,6 +217,7 @@ function showResults(activeTab, feature){
         break;
     case "MNSEN":
         $('.td-image').hide();
+        $('#thirdwheel').hide();
         data['district'] = feature.MNSENDIST;
         content += "<tr>"+geography+"</tr>";
 	    // content += "<tr><th>Senate District: </th><td> " + feature.MNSENDIST+ "</td></tr>";
@@ -222,6 +226,7 @@ function showResults(activeTab, feature){
         break;
     case "MNLEG":
         $('.td-image').hide();
+        $('#thirdwheel').hide();
         data['district'] = feature.MNLEGDIST;
         content += "<tr>"+geography+"</tr>";
 	    // content += "<tr><th>Legislative District: </th><td> " + feature.MNLEGDIST+ "</td></tr>";
