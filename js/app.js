@@ -287,11 +287,11 @@ function showWinners(totals, feature){
 			if (activeTab.selection == 'USPRS'){
                 $('#candidate'+i).html(feature[candidate]);
 		        $('#candidate'+i+'votes').html(sortedWinners[i][1].toLocaleString());
-		        $('#candidate'+i+'percent').html(percent.toFixed(1)+'%');
+		        $('#candidate'+i+'percent').html(percent.toFixed(1)+'% ');
 			} else {
 				$('#candidate'+i).html(feature[candidate]);
 		        $('#candidate'+i+'votes').html(sortedWinners[i][1].toLocaleString());
-		        $('#candidate'+i+'percent').html(percent.toFixed(1)+'%');
+		        $('#candidate'+i+'percent').html(percent.toFixed(1)+'% ');
 			}
 		    
 

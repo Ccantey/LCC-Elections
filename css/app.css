@@ -329,7 +329,9 @@ ul.election-navigation li{
 .winner-R{
 	color:brown;
 }
-
+.fa-check{
+	color:green;
+}
 
 #candidate-table th{
 	text-transform: uppercase;
