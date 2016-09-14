@@ -44,7 +44,7 @@ function initialize(){
     	// add vector source:
 	    map.addSource('electionResults', {
 	        type: 'vector',
-	        url: 'mapbox://ccantey.dwpzctkr'
+	        url: 'mapbox://ccantey.2vclm9ik'
 	    });     
 
         var layers = [
@@ -68,8 +68,8 @@ function initialize(){
 		        'hsl(55, 11%, 96%)'                                //layers[8] = outline color
 	        ], 
 
-   	        ['vtd', zoomThreshold, 20, ['==', 'UNIT', 'vtd'], activeTab.selection+'WIN', [['DFL', '#6582ac'],['R', '#cc7575'],['TIE', '#333']], activeTab.selection+'TOTAL', [[0, 0.25],[385, 0.45],[940, 0.6],[1575, 0.7],[2350, 0.8],[6000, .99]], '#b8bbbf'],
-   	        ['vtd-hover', zoomThreshold, 20, ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD", ""]], 'USPRSTOTAL', [[6000, 'orange']], activeTab.selection+'TOTAL', [[6000, .5]], 'white'],
+   	        ['vtd', zoomThreshold, 20, ['==', 'UNIT', 'vtd'], activeTab.selection+'WIN', [['DFL', '#6582ac'],['R', '#cc7575'],['TIE', '#333']], activeTab.selection+'PCT', [[0, 0.25],[50, 0.45],[55, 0.6],[60, 0.7],[6000, .99]], '#b8bbbf'],
+   	        ['vtd-hover', zoomThreshold, 20, ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD", ""]], 'USPRSTOTAL', [[6000, 'orange']], activeTab.selection+'PCT', [[6000, .5]], 'white'],
             ['cty-hover', 3, zoomThreshold, ['all', ['==', 'UNIT', 'cty'], ["==", "COUNTYNAME", ""]], 'USPRSTOTAL', [[6000, 'orange']], activeTab.selection+'TOTAL', [[6000, .5]], 'white']
 	    ];      
 
@@ -87,21 +87,25 @@ function changeData(activetab){
 	switch (activeTab.geography) {
 	    case "cty": 
 	        var opacity = [ [0, 0.25],[16837, 0.45],[53080, 0.6],[142556, 0.7],[280000, 0.8],[700000, .99] ];
+	        var opacityField = activeTab.selection+'TOTAL';
 	        map.setLayoutProperty('cty-lines', 'visibility', 'visible');
 	        map.setLayoutProperty('cty-symbols', 'visibility', 'visible');
 	        break;
 	    case "cng": 
-	        var opacity = [[700000, .7]];
+	        var opacity = [[0, 0.25],[50, 0.45],[55, 0.6],[60, 0.7],[6000, .99]];
+	        var opacityField = activeTab.selection+'PCT';
 	        map.setLayoutProperty('cng-lines', 'visibility', 'visible');
 	        map.setLayoutProperty('cng-symbols', 'visibility', 'visible');
 	        break;
 	    case "sen": 
-	        var opacity = [ [0, 0.25],[38300, 0.45],[41870, 0.6],[44555, 0.7],[48460, 0.8],[700000, .99] ];
+	        var opacity = [[0, 0.25],[50, 0.45],[55, 0.6],[60, 0.7],[6000, .99]];
+	        var opacityField = activeTab.selection+'PCT';
 	        map.setLayoutProperty('sen-lines', 'visibility', 'visible');
 	        map.setLayoutProperty('sen-symbols', 'visibility', 'visible');
 	        break;
 	    case "hse": 
-	        var opacity = [ [0, 0.25],[18535, 0.45],[20840, 0.6],[22395, 0.7],[24417, 0.8],[700000, .99] ];
+	        var opacity = [[0, 0.25],[50, 0.45],[55, 0.6],[60, 0.7],[6000, .99]];
+	        var opacityField = activeTab.selection+'PCT';
 	        map.setLayoutProperty('hse-lines', 'visibility', 'visible');
 	        map.setLayoutProperty('hse-symbols', 'visibility', 'visible');
 	        break;
@@ -110,8 +114,8 @@ function changeData(activetab){
     map.setPaintProperty("2012results-vtd", 'fill-color', {"type":'categorical', 'property': activeTab.selection+'WIN', 'stops':[['DFL', '#6582ac'],['R', '#cc7575'],['TIE', '#333']]})    // selection = map.querySourceFeatures('2012results-cty-hover', {sourceLayer:'AllResults', filter: ['has','COUNTYNAME']})
 	// showResults(activeTab, feature.properties);
 	var layer = [
-	    [activeTab.geography,          3, zoomThreshold, ['==', 'UNIT', activeTab.geography], activeTab.selection+'WIN', [['DFL', '#6582ac'],['R', '#cc7575'],['TIE', '#333']], activeTab.selection+'TOTAL', opacity, 'hsl(55, 11%, 96%)'],
-        [activeTab.geography+'-hover', 3, zoomThreshold, ['all', ['==', 'UNIT', activeTab.geography], ["==", activeTab.name, ""]], 'USPRSTOTAL', [[6000, 'orange']], activeTab.selection+'TOTAL', [[6000, .75]], 'white']
+	    [activeTab.geography,          3, zoomThreshold, ['==', 'UNIT', activeTab.geography], activeTab.selection+'WIN', [['DFL', '#6582ac'],['R', '#cc7575'],['TIE', '#333']], opacityField, opacity, 'hsl(55, 11%, 96%)'],
+        [activeTab.geography+'-hover', 3, zoomThreshold, ['all', ['==', 'UNIT', activeTab.geography], ["==", activeTab.name, ""]], 'USPRSTOTAL', [[6000, 'orange']], opacityField, [[6000, .75]], 'white']
     ];
 
 	layer.forEach(addLayer)
@@ -123,7 +127,7 @@ function addLayer(layer) {
 		        "id": "2012results-"+ layer[0],
 		        "type": "fill",
 		        "source": "electionResults",
-		        "source-layer": "WinningResults-34zht3", //layer name in studio
+		        "source-layer": "FinalTable-4ggmdu", //layer name in studio
 		        "minzoom":layer[1],
 		        'maxzoom': layer[2],
 		        'filter': layer[3],
@@ -146,7 +150,7 @@ function addLayer(layer) {
 }; 
 
 function showResults(activeTab, feature){
-    console.log(feature.CONGDIST.length)
+    // console.log(feature)
 	var content = '';
 	var header ='';
 	var geography = '';
@@ -183,7 +187,7 @@ function showResults(activeTab, feature){
 	}
 	}
     
-	console.log(geography)
+	// console.log(geography)
   //       document.getElementById('candidate3').innerHTML = '';
 		// document.getElementById('candidate3votes').innerHTML = '';
 		// document.getElementById('candidate3percent').innerHTML = '';
@@ -240,7 +244,7 @@ function showResults(activeTab, feature){
     $.ajax("php/winners.php", {
 		data: data,
 		success: function(result){			
-			showWinners(result.totals[0]);
+			showWinners(result.totals[0], feature);
 		}, 
 		error: function(){
 			console.log('error');
@@ -268,22 +272,24 @@ function showResults(activeTab, feature){
 	}
 }
 
-function showWinners(totals){
+function showWinners(totals, feature){
+	// console.log(totals)
 	var sortedWinners = sortObjectProperties(totals);
-	// console.log(sortedWinners);
+	// console.log(feature);
 	// sortedWinners.forEach(logArrayElements);
-    var presidentMap={'dfl':'Hillary Clinton','republican':'Donald Trump', 'libertarian':'Gary Johnson', 'green':'Jill Stein'}
+    // var presidentMap={'dfl':'Hillary Clinton','republican':'Donald Trump', 'libertarian':'Gary Johnson', 'green':'Jill Stein'}
 	for (var i = 0; i<sortedWinners.length; i++){
 		var percent = sortedWinners[i][1]*100/sortedWinners[0][1]
 		console.log(percent.toFixed(1))
 		if (i>0 && i<4){
-			console.log('candidate'+i)
+			var candidate = activeTab.selection + '' + sortedWinners[i][0].toUpperCase() +'CN';
+			console.log(feature[candidate])
 			if (activeTab.selection == 'USPRS'){
-                $('#candidate'+i).html(presidentMap[sortedWinners[i][0]]);
+                $('#candidate'+i).html(feature[candidate]);
 		        $('#candidate'+i+'votes').html(sortedWinners[i][1].toLocaleString());
 		        $('#candidate'+i+'percent').html(percent.toFixed(1)+'%');
 			} else {
-				$('#candidate'+i).html(sortedWinners[i][0]);
+				$('#candidate'+i).html(feature[candidate]);
 		        $('#candidate'+i+'votes').html(sortedWinners[i][1].toLocaleString());
 		        $('#candidate'+i+'percent').html(percent.toFixed(1)+'%');
 			}
