@@ -12,9 +12,9 @@ $( document ).ready(function() {
   document.getElementById("spanDate").innerHTML = today.getMonth()+1 + "/" + today.getDate()+ "/" + today.getFullYear();
     
    initialize();
-       $('.mapboxgl-ctrl-top-right').affix({
+    $('.mapboxgl-ctrl-top-right').affix({
       offset: {
-        top: 210
+      top: 210
       }
     })
    //mousemove is too slow, need to create a new layer at street level for mouseover
@@ -38,6 +38,7 @@ $( document ).ready(function() {
     var features = map.queryRenderedFeatures(e.point, { layers: layersArray });
     map.getCanvas().style.cursor = (features.length) ? 'grab' : '';
   });
+
    $('#search').click(function(e){
       e.preventDefault();
       geoCodeAddress(geocoder);
@@ -45,24 +46,6 @@ $( document ).ready(function() {
 
     // enter key event
     $("#address").bind("keypress", {},  keypressInBox);
-
-
-
-  // var wasLoaded = false;
-  // map.once('render', function(e) {
-  //   //console.log('rendered',e.target);
-  //   if (!map.loaded() || wasLoaded) return;
-  //     console.log(map.loaded());
-  //     console.log(data);
-  //     data = getLayerProperties();
-  //     console.log(data);
-  //     wasLoaded = true;
-  // });
-// map.on("render", function() {
-//   if(map.loaded()) {
-//     classifyStops()
-//   }
-// })
 
     $('#home').on('click', function(){
     	window.open("http://www.gis.leg.mn")

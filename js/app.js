@@ -68,7 +68,7 @@ function initialize(){
 		        'hsl(55, 11%, 96%)'                                //layers[8] = outline color
 	        ], 
 
-   	        ['vtd', zoomThreshold, 20, ['==', 'UNIT', 'vtd'], activeTab.selection+'WIN', [['DFL', '#6582ac'],['R', '#cc7575'],['TIE', '#333']], activeTab.selection+'PCT', [[0, 0.25],[50, 0.45],[55, 0.6],[60, 0.7],[6000, .99]], '#b8bbbf'],
+   	        ['vtd', zoomThreshold, 20, ['==', 'UNIT', 'vtd'], activeTab.selection+'WIN', [['DFL', '#6582ac'],['R', '#cc7575'],['TIE', '#333']], activeTab.selection+'PCT', [[0, 0.25],[50, 0.45],[55, 0.6],[60, 0.7],[100, .99]], '#b8bbbf'],
    	        ['vtd-hover', zoomThreshold, 20, ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD", ""]], 'USPRSTOTAL', [[6000, 'orange']], activeTab.selection+'PCT', [[6000, .5]], 'white'],
             ['cty-hover', 3, zoomThreshold, ['all', ['==', 'UNIT', 'cty'], ["==", "COUNTYNAME", ""]], 'USPRSTOTAL', [[6000, 'orange']], activeTab.selection+'TOTAL', [[6000, .5]], 'white']
 	    ];      
@@ -92,19 +92,19 @@ function changeData(activetab){
 	        map.setLayoutProperty('cty-symbols', 'visibility', 'visible');
 	        break;
 	    case "cng": 
-	        var opacity = [[0, 0.25],[50, 0.45],[55, 0.6],[60, 0.7],[6000, .99]];
+	        var opacity = [[0, 0.25],[50, 0.45],[55, 0.6],[60, 0.7],[100, .99]];
 	        var opacityField = activeTab.selection+'PCT';
 	        map.setLayoutProperty('cng-lines', 'visibility', 'visible');
 	        map.setLayoutProperty('cng-symbols', 'visibility', 'visible');
 	        break;
 	    case "sen": 
-	        var opacity = [[0, 0.25],[50, 0.45],[55, 0.6],[60, 0.7],[6000, .99]];
+	        var opacity = [[0, 0.25],[50, 0.45],[55, 0.6],[60, 0.7],[100, .99]];
 	        var opacityField = activeTab.selection+'PCT';
 	        map.setLayoutProperty('sen-lines', 'visibility', 'visible');
 	        map.setLayoutProperty('sen-symbols', 'visibility', 'visible');
 	        break;
 	    case "hse": 
-	        var opacity = [[0, 0.25],[50, 0.45],[55, 0.6],[60, 0.7],[6000, .99]];
+	        var opacity = [[0, 0.25],[50, 0.45],[55, 0.6],[60, 0.7],[100, .99]];
 	        var opacityField = activeTab.selection+'PCT';
 	        map.setLayoutProperty('hse-lines', 'visibility', 'visible');
 	        map.setLayoutProperty('hse-symbols', 'visibility', 'visible');
@@ -256,13 +256,14 @@ function showResults(activeTab, feature){
     var tempObject = {};
 	for (var prop in feature){
 		var substring = prop.search(activeTab.selection);
-		if(substring !== -1){
+		if(substring !== -1 && typeof feature[prop] != 'string'){
             tempObject[prop] = feature[prop];
 		}
 	}
+	console.log(tempObject)
 	// sort the results, which returns an array
 	var resultsArray = sortObjectProperties(tempObject);
-
+    console.log(resultsArray)
     //display the results in the results div
 	for (var i=0; i < resultsArray.length; i++){
 		if (resultsArray[i][1] > 0){ 
@@ -280,16 +281,21 @@ function showWinners(totals, feature){
     // var presidentMap={'dfl':'Hillary Clinton','republican':'Donald Trump', 'libertarian':'Gary Johnson', 'green':'Jill Stein'}
 	for (var i = 0; i<sortedWinners.length; i++){
 		var percent = sortedWinners[i][1]*100/sortedWinners[0][1]
-		console.log(percent.toFixed(1))
+		// console.log(percent.toFixed(1))
 		if (i>0 && i<4){
-			var candidate = activeTab.selection + '' + sortedWinners[i][0].toUpperCase() +'CN';
-			console.log(feature[candidate])
+			var party = sortedWinners[i][0].toUpperCase();
+			var candidate = activeTab.selection + '' + party +'CN'; //ex: USPRSDFLCN
+			// console.log(feature[candidate])
 			if (activeTab.selection == 'USPRS'){
-                $('#candidate'+i).html(feature[candidate]);
+				$('#candidate'+i).removeClass();
+				$('#candidate'+i).addClass('winner-'+party)
+                $('#candidate'+i).html(feature[candidate]+' ('+party+')');
 		        $('#candidate'+i+'votes').html(sortedWinners[i][1].toLocaleString());
 		        $('#candidate'+i+'percent').html(percent.toFixed(1)+'% ');
 			} else {
-				$('#candidate'+i).html(feature[candidate]);
+				$('#candidate'+i).removeClass();
+				$('#candidate'+i).addClass('winner-'+party)
+				$('#candidate'+i).html(feature[candidate]+' ('+party+')');
 		        $('#candidate'+i+'votes').html(sortedWinners[i][1].toLocaleString());
 		        $('#candidate'+i+'percent').html(percent.toFixed(1)+'% ');
 			}
@@ -455,76 +461,3 @@ function removeLayers(c){
 
 	}    
 }
-
-// function classifyData(results){
-// 	console.log(results.data);
-// 	var sum = 0;
-// 	var numberOfBreaks = 5;
-// 	var classBreaks = 0;
-
-// 	var stops = new Array();
-// 	// stops = [[75000, 'steelblue'],[700000, 'brown']];
-// 	stops.push([75000, 'steelblue']);
-// 	stops.push([700000, 'brown'])
-
-//     var winner = results.data.map(function(geography){
-//     	    // console.log(geography)
-//     	    var winnerresults = {};
-//     	    // keys = Object.keys(geography), largest = Math.max.apply(null, keys.map(x => geography[x])) result = keys.reduce((result, key) => { if (geography[key] === largest){ result.push(key); } return result; }, []);
-//     	     if (geography.geographicProfile.usprsr > geography.geographicProfile.usprsdfl){
-//     	     	winnerresults['winner'] = "R";
-//     	     } else {
-//     	     	winnerresults['winner'] = "DFL";
-//     	     }
-//     	     return winnerresults;
-//         });
-//     console.log(winner)
-// 		// 
-// 	// for (var objects in results.data){
-
-// 	// 	//if(!layers.hasOwnProperty(key)) continue;
-// 	// 	// console.log(results.data[objects].geographicProfile.totvoting)
-// 	// 	var obj = results.data[objects].geographicProfile;
-// 	// 	// console.log(obj.totvoting)
-// 	// 	sum += obj.totvoting
-// 	// }
-    
-//     initialize(winner);
-//     // console.log(stops);
-// 	// return stops;
-
-// }
-// function getLayerProperties(){
-// 	var relatedFeatures = map.querySourceFeatures('electionResults', {
-//             sourceLayer: 'AllResults',
-//             filter: ['==', 'UNIT', activeTab.geography]
-//         });   
-// 		//console.log(relatedFeatures.length)
-
-// 	var unique = {};
-// 	var distinct = [];
-// 		for (var i in relatedFeatures){
-// 		  //console.log(states[i].properties.name);
-//          if( typeof(relatedFeatures[i].properties[activeTab.name]) == "undefined"){
-//           distinct.push(relatedFeatures[i].properties[activeTab.name]);
-//           }
-//           unique[relatedFeatures[i].properties[activeTab.name]] = relatedFeatures[i].properties;
-// 		}
-
-// 	classifyData(unique);
-
-// 	Object.keys(unique).length;
-// }
-
-// function classifyData(layersArray){
-// 	var sum = 0;
-// 	for (var objects in layersArray){
-// 		//if(!layers.hasOwnProperty(key)) continue;
-// 		var obj = layersArray[objects];
-// 		//console.log(obj.TOTVOTING)
-// 		sum += obj.TOTVOTING
-// 	}
-// 	console.log(sum);
-
-// 	return sum;
-// }
