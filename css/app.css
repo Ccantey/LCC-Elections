@@ -89,6 +89,39 @@ a:hover {
 .mapbox-improve-map {
     display: none;
 }
+
+.legend > div {
+    display: inline !important;
+}
+#pop-legend, #pct-legend{
+	position: absolute;
+	right:50px;
+	top:5px;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+}
+.legend {
+    background-color: #fff;
+    /*border-radius: 3px;*/
+    bottom: 30px;
+    /*box-shadow: 0 1px 2px rgba(0,0,0,0.10);*/
+    font: 12px/20px ;
+    /*padding: 10px;*/
+    /*position: absolute;*/
+    right: 10px;
+    z-index: 1;
+}
+
+.legend h6 {
+    margin: 0;
+}
+
+.legend div span {
+    /*border-radius: 50%;*/
+    display: inline-block;
+    height: 10px;
+    margin-right: 5px;
+    width: 15px;
+}
 .election-districts{
 	position:fixed;
 	left:0;
@@ -232,7 +265,12 @@ ul.election-navigation li{
   position: fixed;
   top: 80px;
   right:5%;
+}
 
+#pop-legend.affix{
+  position: fixed;
+  top: 90px;
+  right:calc(5% + 50px);
 }
 
 .affix-container.affix > .sidebar{
@@ -246,7 +284,7 @@ ul.election-navigation li{
 }
 
 .sidebar{	
-	padding: 0 50px 10px 0;
+	padding: 0 10px 10px 0;
 }
 
 #map{
@@ -259,6 +297,7 @@ ul.election-navigation li{
 
 .sidebar-search{
 	padding-bottom:20px;
+	padding-right: 40px;
 }
 .sidebar-search label{
 	/*display:table-row;*/
@@ -312,7 +351,7 @@ ul.election-navigation li{
 		float:none;
 	}*/
 	.prefix{
-		margin: 0 5%;
+		/*margin: 0 5%;*/
 	}
 }
 
@@ -329,6 +368,10 @@ ul.election-navigation li{
 .winner-R{
 	color:brown;
 }
+
+.tdimage{
+	width:40px;
+}
 .fa-check{
 	color:green;
 }
@@ -338,8 +381,8 @@ ul.election-navigation li{
 	font-size: .75rem;
 	color: #aaa;
 	font-weight: 500;
-	width:33%;
-	padding-left: 0
+	/*width:33%;*/
+	padding-left: 2px;
 	}
 #candidate-table tr{
 	font-size: .9rem;

@@ -12,7 +12,7 @@ $( document ).ready(function() {
   document.getElementById("spanDate").innerHTML = today.getMonth()+1 + "/" + today.getDate()+ "/" + today.getFullYear();
     
    initialize();
-    $('.mapboxgl-ctrl-top-right').affix({
+    $('.mapboxgl-ctrl-top-right, #pop-legend').affix({
       offset: {
       top: 210
       }

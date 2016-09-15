@@ -10,6 +10,9 @@ var geocoder = null;
 
 var today = new Date();
 
+var popLegendEl = document.getElementById('pop-legend');
+var pctLegendEl = document.getElementById('pct-legend');
+
 
 function initialize(){
     // console.log(winner);
@@ -76,9 +79,6 @@ function initialize(){
         layers.forEach(addLayer)
 
 	});//end map on load
-
-	
-
 } //end initialize
 
 function changeData(activetab){
@@ -186,11 +186,7 @@ function showResults(activeTab, feature){
 		   geography = "<th>County: </th><td>"+feature.COUNTYNAME+"</td>";
 	}
 	}
-    
-	// console.log(geography)
-  //       document.getElementById('candidate3').innerHTML = '';
-		// document.getElementById('candidate3votes').innerHTML = '';
-		// document.getElementById('candidate3percent').innerHTML = '';
+
 	switch (activeTab.selection) {
     case "USPRS":
         $('.td-image').show();
@@ -287,14 +283,14 @@ function showWinners(totals, feature){
 			var candidate = activeTab.selection + '' + party +'CN'; //ex: USPRSDFLCN
 			// console.log(feature[candidate])
 			if (activeTab.selection == 'USPRS'){
-				$('#candidate'+i).removeClass();
-				$('#candidate'+i).addClass('winner-'+party)
+				// $('#candidate'+i).removeClass();
+				// $('#candidate'+i).addClass('winner-'+party)
                 $('#candidate'+i).html(feature[candidate]+' ('+party+')');
 		        $('#candidate'+i+'votes').html(sortedWinners[i][1].toLocaleString());
 		        $('#candidate'+i+'percent').html(percent.toFixed(1)+'% ');
 			} else {
-				$('#candidate'+i).removeClass();
-				$('#candidate'+i).addClass('winner-'+party)
+				// $('#candidate'+i).removeClass();
+				// $('#candidate'+i).addClass('winner-'+party)
 				$('#candidate'+i).html(feature[candidate]+' ('+party+')');
 		        $('#candidate'+i+'votes').html(sortedWinners[i][1].toLocaleString());
 		        $('#candidate'+i+'percent').html(percent.toFixed(1)+'% ');
