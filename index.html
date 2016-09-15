@@ -50,7 +50,7 @@
       <div class="container">
         <div id="navbar" class="navbar-center">
             <h5><a href="#">Legislative Coordinating Commission</a></h5>
-            <h5><image src="img/ballot-box.jpg"/>Election 2016</h5>
+            <h5><image src="img/ballot-box.jpg"/>Election 2012</h5>
         </div><!--/.nav-collapse -->
 
       </div>
@@ -172,10 +172,10 @@
         </div>
         
         <div id="map" class="col-sm-9 map-container"></div>
-        <div id=pop-legend>
+        <div id=legend>
           <div class='legend'>
-              <h6>Population</h6>
-              <div>DFL</div>
+              <!-- <h6>Population</h6> -->
+              <div class="legend-party">DFL</div>
               <div><span style='background-color: #6582ac;opacity:0.25'></span></div>
               <div><span style='background-color: #6582ac;opacity:0.45'></span></div>
               <div><span style='background-color: #6582ac;opacity:0.60'></span></div>
@@ -183,21 +183,29 @@
               <div><span style='background-color: #6582ac;opacity:0.90'></span></div>
               <!-- <div><span style='background-color: #6582ac;opacity:0.90'></span></div> -->
           </div>
-          <div class='legend''> 
-               <div>Rep</div>             
+          <div class='legend'> 
+               <div class="legend-party">Rep</div>             
               <div><span style='background-color: #cc7575;opacity:0.25'></span></div>
               <div><span style='background-color: #cc7575;opacity:0.45'></span></div>
               <div><span style='background-color: #cc7575;opacity:0.60'></span></div>
               <div><span style='background-color: #cc7575;opacity:0.70'></span></div>
               <div><span style='background-color: #cc7575;opacity:0.90'></span></div>
           </div>
-          <div class='legend''>    
-              <div>Tie</div>          
-              <div><span style='background-color: #333;opacity:0.25'></span></div>
-              <div><span style='background-color: #333;opacity:0.45'></span></div>
-              <div><span style='background-color: #333;opacity:0.60'></span></div>
-              <div><span style='background-color: #333;opacity:0.70'></span></div>
-              <div><span style='background-color: #333;opacity:0.90'></span></div>
+          <div id="pop-legend" class='legend'>    
+              <div class="legend-party">Voters</div>          
+              <div class="legend-text"> 17,000</div>
+              <div class="legend-text"> 53,000</div>
+              <div class="legend-text">140,000</div>
+              <div class="legend-text">280,000</div>
+              <div class="legend-text">700,000</div>
+          </div>
+          <div id="pct-legend" class='legend' style='display: none;''>    
+              <div class="legend-party">PCT</div>          
+              <div class="legend-text"> Less than 50%</div>
+              <div class="legend-text"> 50%</div>
+              <div class="legend-text"> 55%</div>
+              <div class="legend-text"> 60%</div>
+              <div class="legend-text"> Greater than 60%</div>
           </div>
         </div>
       </div>

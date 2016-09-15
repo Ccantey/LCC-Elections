@@ -12,7 +12,7 @@ $( document ).ready(function() {
   document.getElementById("spanDate").innerHTML = today.getMonth()+1 + "/" + today.getDate()+ "/" + today.getFullYear();
     
    initialize();
-    $('.mapboxgl-ctrl-top-right, #pop-legend').affix({
+    $('.mapboxgl-ctrl-top-right, #legend').affix({
       offset: {
       top: 210
       }
@@ -38,6 +38,16 @@ $( document ).ready(function() {
     var features = map.queryRenderedFeatures(e.point, { layers: layersArray });
     map.getCanvas().style.cursor = (features.length) ? 'grab' : '';
   });
+
+   map.on('zoom', function() {
+    if (map.getZoom() > zoomThreshold) {
+        popLegendEl.style.display = 'none';
+        pctLegendEl.style.display = 'block';
+    } else {
+        popLegendEl.style.display = 'block';
+        pctLegendEl.style.display = 'none';
+    }
+});
 
    $('#search').click(function(e){
       e.preventDefault();

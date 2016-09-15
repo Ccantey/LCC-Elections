@@ -62,9 +62,9 @@ function initialize(){
 		        activeTab.selection+'TOTAL',           //layers[6] = fill-opacity property
 		        [                                      //layers[7] = fill-opacity stops (based on MN population)
 		            [0, 0.25],
-		            [16837, 0.45],
-		            [53080, 0.6],
-		            [142556, 0.7],
+		            [17000, 0.45],
+		            [53000, 0.6],
+		            [140000, 0.7],
 		            [280000, 0.8],
 		            [700000, .99]
 		        ],                                     
