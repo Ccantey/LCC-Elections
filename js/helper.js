@@ -9,7 +9,7 @@ $( document ).ready(function() {
   //     console.log('error');
   //   }
   // });
-  document.getElementById("spanDate").innerHTML = today.getMonth()+1 + "/" + today.getDate()+ "/" + today.getFullYear();
+  // document.getElementById("spanDate").innerHTML = today.getMonth()+1 + "/" + today.getDate()+ "/" + today.getFullYear();
     
    initialize();
     $('.mapboxgl-ctrl-top-right, #legend').affix({
@@ -19,11 +19,11 @@ $( document ).ready(function() {
     })
    //mousemove is too slow, need to create a new layer at street level for mouseover
   map.on('click', function (e) {
+       console.log(e.point)
        var features = map.queryRenderedFeatures(e.point,{ layers: layersArray }); //queryRenderedFeatures returns an array
-       // console.log(features[0])
        // var feature = features[0];
        var feature = (features.length) ? features[0] : '';
-       // console.log(feature.properties);
+       console.log(feature.properties);
        showResults(activeTab, feature.properties);
        mapResults(feature); 
        

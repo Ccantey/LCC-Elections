@@ -256,10 +256,10 @@ function showResults(activeTab, feature){
             tempObject[prop] = feature[prop];
 		}
 	}
-	console.log(tempObject)
+	// console.log(tempObject)
 	// sort the results, which returns an array
 	var resultsArray = sortObjectProperties(tempObject);
-    console.log(resultsArray)
+    // console.log(resultsArray)
     //display the results in the results div
 	for (var i=0; i < resultsArray.length; i++){
 		if (resultsArray[i][1] > 0){ 
@@ -374,8 +374,8 @@ function geoCodeAddress(geocoder) {
 	  type: 'GET',
 	  url: geocoderURL,
 	  success: function(result) {
-	        var topResult = result.features[0];
-	        addMarker(topResult.geometry.coordinates);
+	          var topResult = result.features[0];              
+	          addMarker(topResult.geometry);
 		      map.flyTo({
 		      	center:topResult.geometry.coordinates,
 		      	zoom:12,
@@ -392,7 +392,24 @@ function geoCodeAddress(geocoder) {
 
 function addMarker(e){
 	// console.log([e.lngLat.lng, e.lngLat.lat])
-    console.log(map.getLayer('pointclick'));
+    // console.log(map.getLayer('pointclick'));
+   
+       var center = new mapboxgl.Point(e.coordinates[0],e.coordinates[1]);
+       console.log(center)
+       console.log(e.coordinates)
+
+       var features = map.queryRenderedFeatures(e.coordinates,{ layers: layersArray }); //queryRenderedFeatures returns an array
+       for (layers in features){
+       	console.log(features[layers].properties)
+       }
+       // console.log(features)
+       // var feature = features[0];
+       var feature = (features.length) ? features[0] : '';
+       console.log(feature);
+       // showResults(activeTab, feature.properties);
+       // mapResults(feature); 
+
+
 
     removeLayers('pushpin');
 	//add marker
@@ -402,7 +419,7 @@ function addMarker(e){
     		"type": "Feature",
     		"geometry": {
       			"type": "Point",
-      			"coordinates": e
+      			"coordinates": e.coordinates
     		},
     		"properties": {
       			"title": "mouseclick",
