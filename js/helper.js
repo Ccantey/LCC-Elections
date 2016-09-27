@@ -40,12 +40,14 @@ $( document ).ready(function() {
   });
 
    map.on('zoom', function() {
-    if (map.getZoom() > zoomThreshold) {
-        popLegendEl.style.display = 'none';
-        pctLegendEl.style.display = 'block';
-    } else {
-        popLegendEl.style.display = 'block';
-        pctLegendEl.style.display = 'none';
+    if( activeTab.geography == 'cty' ){
+      if (map.getZoom() > zoomThreshold ) {
+          popLegendEl.style.display = 'none';
+          pctLegendEl.style.display = 'block';
+      } else {
+          popLegendEl.style.display = 'block';
+          pctLegendEl.style.display = 'none';
+      }
     }
 });
 

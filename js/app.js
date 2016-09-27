@@ -90,24 +90,32 @@ function changeData(activetab){
 	        var opacityField = activeTab.selection+'TOTAL';
 	        map.setLayoutProperty('cty-lines', 'visibility', 'visible');
 	        map.setLayoutProperty('cty-symbols', 'visibility', 'visible');
+	        popLegendEl.style.display = 'block';
+            pctLegendEl.style.display = 'none';
 	        break;
 	    case "cng": 
 	        var opacity = [[0, 0.25],[50, 0.45],[55, 0.6],[60, 0.7],[100, .99]];
 	        var opacityField = activeTab.selection+'PCT';
 	        map.setLayoutProperty('cng-lines', 'visibility', 'visible');
 	        map.setLayoutProperty('cng-symbols', 'visibility', 'visible');
+	        popLegendEl.style.display = 'none';
+            pctLegendEl.style.display = 'block';
 	        break;
 	    case "sen": 
 	        var opacity = [[0, 0.25],[50, 0.45],[55, 0.6],[60, 0.7],[100, .99]];
 	        var opacityField = activeTab.selection+'PCT';
 	        map.setLayoutProperty('sen-lines', 'visibility', 'visible');
 	        map.setLayoutProperty('sen-symbols', 'visibility', 'visible');
+	        popLegendEl.style.display = 'none';
+            pctLegendEl.style.display = 'block';
 	        break;
 	    case "hse": 
 	        var opacity = [[0, 0.25],[50, 0.45],[55, 0.6],[60, 0.7],[100, .99]];
 	        var opacityField = activeTab.selection+'PCT';
 	        map.setLayoutProperty('hse-lines', 'visibility', 'visible');
 	        map.setLayoutProperty('hse-symbols', 'visibility', 'visible');
+	        popLegendEl.style.display = 'none';
+            pctLegendEl.style.display = 'block';
 	        break;
 	};
 
