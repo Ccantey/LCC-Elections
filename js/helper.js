@@ -28,6 +28,8 @@ $( document ).ready(function() {
        mapResults(feature); 
        
   });
+
+
   //show pointer cursor
    map.on('mousemove', function (e) {
     var features = map.queryRenderedFeatures(e.point, { layers: layersArray });
@@ -40,14 +42,12 @@ $( document ).ready(function() {
   });
 
    map.on('zoom', function() {
-    if( activeTab.geography == 'cty' ){
-      if (map.getZoom() > zoomThreshold ) {
-          popLegendEl.style.display = 'none';
-          pctLegendEl.style.display = 'block';
-      } else {
-          popLegendEl.style.display = 'block';
-          pctLegendEl.style.display = 'none';
-      }
+    if (map.getZoom() > zoomThreshold) {
+        popLegendEl.style.display = 'none';
+        pctLegendEl.style.display = 'block';
+    } else {
+        popLegendEl.style.display = 'block';
+        pctLegendEl.style.display = 'none';
     }
 });
 
@@ -69,6 +69,8 @@ $( document ).ready(function() {
       document.getElementById('precinct-results').innerHTML = "";
       map.removeLayer("2012results-"+ activeTab.geography);
       map.removeLayer("2012results-"+ activeTab.geography+"-hover");
+      spliceArray("2012results-"+ activeTab.geography);
+      spliceArray("2012results-"+ activeTab.geography+"-hover");
       map.setLayoutProperty(activeTab.geography + '-symbols', 'visibility', 'none');
       map.setLayoutProperty(activeTab.geography + '-lines', 'visibility', 'none');
     	$('.election-navigation-a').removeClass('active');

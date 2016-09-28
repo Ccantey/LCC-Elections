@@ -5,7 +5,9 @@ var activeTab = {
 };
 var zoomThreshold = 8;
 // var data;
-var layersArray = ['2012results-cty','2012results-vtd','2012results-sen','2012results-hse','2012results-cng','2012results-cty-hover','2012results-vtd-hover','2012results-sen-hover','2012results-hse-hover','2012results-cng-hover']
+// var layersArray = ['2012results-cty','2012results-vtd','2012results-sen','2012results-hse','2012results-cng','2012results-cty-hover','2012results-vtd-hover','2012results-sen-hover','2012results-hse-hover','2012results-cng-hover']
+// var layersArray = ['2012results-cty','2012results-vtd','2012results-cty-hover','2012results-vtd-hover']
+var layersArray = [];
 var geocoder = null;
 
 var today = new Date();
@@ -129,8 +131,15 @@ function changeData(activetab){
 	layer.forEach(addLayer)
 }
 
-function addLayer(layer) {
+function spliceArray(a){
+	var index = layersArray.indexOf(a);    // <-- Not supported in <IE9
+	if (index !== -1) {
+	    layersArray.splice(index, 1);
+	}
 
+}
+function addLayer(layer) {
+             
 	         map.addLayer({
 		        "id": "2012results-"+ layer[0],
 		        "type": "fill",
@@ -155,6 +164,7 @@ function addLayer(layer) {
 		            
 		        }
 	         }, 'waterway-label');
+	         layersArray.push("2012results-"+ layer[0])
 }; 
 
 function showResults(activeTab, feature){
