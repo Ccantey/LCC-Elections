@@ -94,6 +94,29 @@ function changeData(activetab){
 	        map.setLayoutProperty('cty-symbols', 'visibility', 'visible');
 	        popLegendEl.style.display = 'block';
             pctLegendEl.style.display = 'none';
+            if (activeTab.selection == 'USPRS'){
+            	$('.td-image').show();
+            	$('#candidate1photo').attr('src',"img/barack.jpg");
+            	$('#candidate1').html('Barack Obama (DFL)');
+		        $('#candidate1votes').html('7,730,835');
+		        $('#candidate1percent').html('52.7% ');
+
+		        $('#candidate2photo').attr('src',"img/mitt.jpg");
+            	$('#candidate2').html('Mitt Romney (R)');
+		        $('#candidate2votes').html('6,730,835');
+		        $('#candidate2percent').html('45.0% ');
+            } 
+            else {
+            	$('#candidate1photo').attr('src',"");
+            	$('#candidate1').html('Amy Klobuchar (DFL)');
+		        $('#candidate1votes').html('9,272,975');
+		        $('#candidate1percent').html('62.5% ');
+
+		        $('#candidate2photo').attr('src',"");
+            	$('#candidate2').html('Kurt Bills (R)');
+		        $('#candidate2votes').html('4,339,870');
+		        $('#candidate2percent').html('30.5% ')
+            }
 	        break;
 	    case "cng": 
 	        var opacity = [[0, 0.25],[50, 0.45],[55, 0.6],[60, 0.7],[100, .99]];
