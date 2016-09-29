@@ -78,7 +78,7 @@ function initialize(){
 } //end initialize
 
 function changeData(activetab){
-	console.log(activeTab.geography);
+	// console.log(activeTab.geography);
     // var visibility = map.getLayoutProperty(activetab+'-lines', 'visibility');
 	switch (activeTab.geography) {
 	    case "cty": 
@@ -189,9 +189,11 @@ function addLayer(layer) {
 
 function showResults(activeTab, feature){
     // console.log(feature)
+    // console.log(feature)
 	var content = '';
 	var header ='';
 	var geography = '';
+	var unit =''
 	var data = {
 		activeTab:activeTab.selection,
 		geography:activeTab.geography
@@ -200,29 +202,36 @@ function showResults(activeTab, feature){
 	var winner = (feature) ? feature[activeTab.selection+'WIN'] : '';
 
 	var percentage = feature[activeTab.selection+winner]*100/feature[activeTab.selection+'TOTAL'];
-	// console.log('winner '+feature[activeTab.selection+winner])
-	// console.log('percentage '+percentage)
+
+ // //view feature properties for each selection
+ //    var results = {};
+	// for (var prop in feature){
+	// 	var substring = prop.search(activeTab.selection);
+	// 	if(substring !== -1 && typeof feature[prop] != 'string'){
+ //            results[prop] = feature[prop];
+	// 	}
+	// }
+	// console.log(results)
 
 	if (feature.PCTNAME.length > 0){
 		header += "<h5>Precinct Results</h5>";
 		geography = "<th>Voting Precint: </th><td>"+feature.PCTNAME+"</td>";
+		unit = "Precinct";
 	} else{
-		if (feature.CONGDIST.length > 0){
-		    
-		    geography = "<th>Congressional District: </th><td>"+feature.CONGDIST+"</td>";
-	}
-	    if (feature.MNSENDIST.length > 0){
-	    	
-		    geography = "<th>MN Senate District: </th><td>"+feature.MNSENDIST+"</td>";
-	}
-	    if (feature.MNLEGDIST.length > 0){
-	    	
-		    geography = "<th>MN House District: </th><td>"+feature.MNLEGDIST+"</td>";
-	}
-	    if (feature.COUNTYNAME.length > 0){
-	    	header += "<h5>County Results</h5>";
-		   geography = "<th>County: </th><td>"+feature.COUNTYNAME+"</td>";
-	}
+			if (feature.CONGDIST.length > 0){		    
+			    geography = "<th>Congressional District: </th><td>"+feature.CONGDIST+"</td>";
+		}
+		    if (feature.MNSENDIST.length > 0){	    	
+			    geography = "<th>MN Senate District: </th><td>"+feature.MNSENDIST+"</td>";
+		}
+		    if (feature.MNLEGDIST.length > 0){	    	
+			    geography = "<th>MN House District: </th><td>"+feature.MNLEGDIST+"</td>";
+		}
+		    if (feature.COUNTYNAME.length > 0){
+		    	header += "<h5>County Results</h5>";
+			   geography = "<th>County: </th><td>"+feature.COUNTYNAME+"</td>";
+			   unit = "County";
+		}
 	}
 
 	switch (activeTab.selection) {
@@ -231,16 +240,31 @@ function showResults(activeTab, feature){
         $('#thirdwheel').show();
         content += "<tr>"+geography+"</tr>";
         content += "<tr><th>U.S. President: </th><td> At-large</td></tr>";
-        content += "<tr><th>Winner: </th><td class='winner-"+winner+"'>"+winner+" </td></tr>";  
-        content += "<tr><th>Percentage: </th><td class='winner-"+winner+"'>"+percentage.toFixed(1)+"% </td></tr>";    
+        content += "<tr><th>"+unit+" Winner: </th><td class='winner-"+winner+"'>"+winner+" </td></tr>";
+        content += "<tr><th>Percentage: </th><td class='winner-"+winner+"'>"+percentage.toFixed(1)+"% </td></tr>";
+
+        content += "<tr><th>Democratic-Farm-Labor: </th><td>"+feature[activeTab.selection+'DFL'].toLocaleString()+"</td></tr>";
+        content += "<tr><th>Republican: </th><td>"+feature[activeTab.selection+'R'].toLocaleString()+"</td></tr>";
+        content += "<tr><th>Libertarian: </th><td>"+feature[activeTab.selection+'LIB'].toLocaleString()+"</td></tr>";
+        content += "<tr><th>Green: </th><td>"+feature[activeTab.selection+'GP'].toLocaleString()+"</td></tr>";
+        // content += "<tr><th>Write-In Votes: </th><td>"+results[activeTab.selection+'WI'].toLocaleString()+"</td></tr>";
+        content += "<tr><th>Total Votes: </th><td>"+feature[activeTab.selection+'TOTAL'].toLocaleString()+"</td></tr>";
         break;
     case "USSEN":
         $('.td-image').hide();
         $('#thirdwheel').hide();
         content += "<tr>"+geography+"</tr>";
         content += "<tr><th>U.S. Senate: </th><td> At-large</td></tr>";
-        content += "<tr><th>Winner: </th><td class='winner-"+winner+"'>"+winner+" </td></tr>";
+        content += "<tr><th>"+unit+" Winner: </th><td class='winner-"+winner+"'>"+winner+" </td></tr>";
         content += "<tr><th>Percentage: </th><td class='winner-"+winner+"'>"+percentage.toFixed(1)+"% </td></tr>";
+        content += "<tr><th>Democratic-Farm-Labor: </th><td>"+feature[activeTab.selection+'DFL'].toLocaleString()+"</td></tr>";
+        content += "<tr><th>Republican: </th><td>"+feature[activeTab.selection+'R'].toLocaleString()+"</td></tr>";
+        content += "<tr><th>Independence: </th><td>"+feature[activeTab.selection+'IP'].toLocaleString()+"</td></tr>";
+        content += "<tr><th>MN Open Progressive: </th><td>"+feature[activeTab.selection+'MOP'].toLocaleString()+"</td></tr>";
+        content += "<tr><th>Grassroots: </th><td>"+feature[activeTab.selection+'GR'].toLocaleString()+"</td></tr>";
+        content += "<tr><th>Write-In: </th><td>"+feature[activeTab.selection+'WI'].toLocaleString()+"</td></tr>";
+        content += "<tr><th>Total Votes: </th><td>"+feature[activeTab.selection+'TOTAL'].toLocaleString()+"</td></tr>";
+
 
         break;
     case "USREP":
@@ -248,9 +272,13 @@ function showResults(activeTab, feature){
         $('#thirdwheel').hide();
         data['district'] = feature.CONGDIST;
         content += "<tr>"+geography+"</tr>";
-        // content += "<tr><th>Congressional District: </th><td> " + feature.CONGDIST+ "</td></tr>";
-        content += "<tr><th>Winner: </th><td class='winner-"+winner+"'>"+winner+" </td></tr>";
+        content += "<tr><th>"+unit+" Winner: </th><td class='winner-"+winner+"'>"+winner+" </td></tr>";
         content += "<tr><th>Percentage: </th><td class='winner-"+winner+"'>"+percentage.toFixed(1)+"% </td></tr>";
+        content += "<tr><th>Democratic-Farm-Labor: </th><td>"+feature[activeTab.selection+'DFL'].toLocaleString()+"</td></tr>";
+        content += "<tr><th>Republican: </th><td>"+feature[activeTab.selection+'R'].toLocaleString()+"</td></tr>";
+        content += "<tr><th>Independence: </th><td>"+feature[activeTab.selection+'IP'].toLocaleString()+"</td></tr>";
+        content += "<tr><th>Write-In Votes: </th><td>"+feature[activeTab.selection+'WI'].toLocaleString()+"</td></tr>";
+        content += "<tr><th>Total Votes: </th><td>"+feature[activeTab.selection+'TOTAL'].toLocaleString()+"</td></tr>";
 
         break;
     case "MNSEN":
@@ -258,19 +286,26 @@ function showResults(activeTab, feature){
         $('#thirdwheel').hide();
         data['district'] = feature.MNSENDIST;
         content += "<tr>"+geography+"</tr>";
-	    // content += "<tr><th>Senate District: </th><td> " + feature.MNSENDIST+ "</td></tr>";
-	    content += "<tr><th>Winner: </th><td class='winner-"+winner+"'>"+winner+" </td></tr>";
-	    content += "<tr><th>Percentage: </th><td class='winner-"+winner+"'>"+percentage.toFixed(1)+"% </td></tr>";
+        content += "<tr><th>"+unit+" Winner: </th><td class='winner-"+winner+"'>"+winner+" </td></tr>";
+        content += "<tr><th>Percentage: </th><td class='winner-"+winner+"'>"+percentage.toFixed(1)+"% </td></tr>";
+        content += "<tr><th>Democratic-Farm-Labor: </th><td>"+feature[activeTab.selection+'DFL'].toLocaleString()+"</td></tr>";
+        content += "<tr><th>Republican: </th><td>"+feature[activeTab.selection+'R'].toLocaleString()+"</td></tr>";
+        content += "<tr><th>Independence: </th><td>"+feature[activeTab.selection+'IP'].toLocaleString()+"</td></tr>";
+        content += "<tr><th>Write-In: </th><td>"+feature[activeTab.selection+'WI'].toLocaleString()+"</td></tr>";
+        content += "<tr><th>Total Votes: </th><td>"+feature[activeTab.selection+'TOTAL'].toLocaleString()+"</td></tr>";
         break;
     case "MNLEG":
         $('.td-image').hide();
         $('#thirdwheel').hide();
         data['district'] = feature.MNLEGDIST;
         content += "<tr>"+geography+"</tr>";
-	    // content += "<tr><th>Legislative District: </th><td> " + feature.MNLEGDIST+ "</td></tr>";
-	    content += "<tr><th>Winner: </th><td class='winner-"+winner+"'>"+winner+" </td></tr>";
-	    content += "<tr><th>Percentage: </th><td class='winner-"+winner+"'>"+percentage.toFixed(1)+"% </td></tr>";
-	    // content += "<tr><th>Senate District: </th><td> " + feature.MNSENDIST+ "</td></tr>";
+        content += "<tr><th>"+unit+" Winner: </th><td class='winner-"+winner+"'>"+winner+" </td></tr>";
+        content += "<tr><th>Percentage: </th><td class='winner-"+winner+"'>"+percentage.toFixed(1)+"% </td></tr>";
+        content += "<tr><th>Democratic-Farm-Labor: </th><td>"+feature[activeTab.selection+'DFL'].toLocaleString()+"</td></tr>";
+        content += "<tr><th>Republican: </th><td>"+feature[activeTab.selection+'R'].toLocaleString()+"</td></tr>";
+        content += "<tr><th>Independence: </th><td>"+feature[activeTab.selection+'IP'].toLocaleString()+"</td></tr>";
+        content += "<tr><th>Write-In: </th><td>"+feature[activeTab.selection+'WI'].toLocaleString()+"</td></tr>";
+        content += "<tr><th>Total Votes: </th><td>"+feature[activeTab.selection+'TOTAL'].toLocaleString()+"</td></tr>";
         break;
     }
     $('.sidebar-results').show();
@@ -285,26 +320,18 @@ function showResults(activeTab, feature){
 		}
 	});
 	document.getElementById('precinct-header').innerHTML = header;
+    document.getElementById('precinct-results').innerHTML = content;
 
-    //add all "activetab" results into a tempory object (pres, senate, etc..)
-    var tempObject = {};
-	for (var prop in feature){
-		var substring = prop.search(activeTab.selection);
-		if(substring !== -1 && typeof feature[prop] != 'string'){
-            tempObject[prop] = feature[prop];
-		}
-	}
-	// console.log(tempObject)
 	// sort the results, which returns an array
-	var resultsArray = sortObjectProperties(tempObject);
+	// var resultsArray = sortObjectProperties(results);
     // console.log(resultsArray)
-    //display the results in the results div
-	for (var i=0; i < resultsArray.length; i++){
-		if (resultsArray[i][1] > 0){ 
-		  content += "<tr><th>"+resultsArray[i][0]+": </th><td> " + resultsArray[i][1].toLocaleString()+ "</td></tr>";
-		  document.getElementById('precinct-results').innerHTML = content;
-		}
-	}
+ //    //display the results in the results div
+	// for (var i=0; i < resultsArray.length; i++){
+	// 	if (resultsArray[i][1] > 0){ 
+	// 	  content += "<tr><th>"+resultsArray[i][0]+": </th><td> " + resultsArray[i][1].toLocaleString()+ "</td></tr>";
+	// 	  document.getElementById('precinct-results').innerHTML = content;
+	// 	}
+	// }
 }
 
 function showWinners(totals, feature){
