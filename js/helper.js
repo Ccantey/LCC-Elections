@@ -19,11 +19,12 @@ $( document ).ready(function() {
     })
    //mousemove is too slow, need to create a new layer at street level for mouseover
   map.on('click', function (e) {
-       console.log(e.point)
+       // console.log(e.point)
        var features = map.queryRenderedFeatures(e.point,{ layers: layersArray }); //queryRenderedFeatures returns an array
        // var feature = features[0];
        var feature = (features.length) ? features[0] : '';
-       console.log(feature.properties);
+       // console.log(feature.properties);
+       removeLayers('pushpin');
        showResults(activeTab, feature.properties);
        mapResults(feature); 
        
@@ -67,7 +68,7 @@ $( document ).ready(function() {
 
     $('.election-navigation-a').on('click', function(e){
     	e.preventDefault();
-      //remove previous slections
+      //remove previous layers
       document.getElementById('precinct-results').innerHTML = "";
       map.removeLayer("2012results-"+ activeTab.geography);
       map.removeLayer("2012results-"+ activeTab.geography+"-hover");
@@ -75,6 +76,10 @@ $( document ).ready(function() {
       spliceArray("2012results-"+ activeTab.geography+"-hover");
       map.setLayoutProperty(activeTab.geography + '-symbols', 'visibility', 'none');
       map.setLayoutProperty(activeTab.geography + '-lines', 'visibility', 'none');
+      //remove any vtd selection
+      map.setFilter("2012results-vtd", ['all', ['==', 'UNIT', 'vtd'], ["!=", "VTD",'any']]);
+      map.setFilter("2012results-vtd-hover", ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD",'all']]);
+
     	$('.election-navigation-a').removeClass('active');
       
       //add new selections

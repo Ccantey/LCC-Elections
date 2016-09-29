@@ -4,10 +4,9 @@ var activeTab = {
   name:"COUNTYNAME"
 };
 var zoomThreshold = 8;
-// var data;
+
 // var layersArray = ['2012results-cty','2012results-vtd','2012results-sen','2012results-hse','2012results-cng','2012results-cty-hover','2012results-vtd-hover','2012results-sen-hover','2012results-hse-hover','2012results-cng-hover']
-// var layersArray = ['2012results-cty','2012results-vtd','2012results-cty-hover','2012results-vtd-hover']
-var layersArray = [];
+var layersArray = []; // at 0.22.0 you can no longer have undefined layers in array - must push them dynamically
 var geocoder = null;
 
 var today = new Date();
@@ -15,14 +14,10 @@ var today = new Date();
 var popLegendEl = document.getElementById('pop-legend');
 var pctLegendEl = document.getElementById('pct-legend');
 
-
 function initialize(){
-    // console.log(winner);
-
 	$("#map").height('800px');
 	southWest = new mapboxgl.LngLat( -104.7140625, 41.86956);
     northEast = new mapboxgl.LngLat( -84.202832, 50.1487464);
-    //bounds = new mapboxgl.LngLatBounds(southWest, northEast);
     bounds = new mapboxgl.LngLatBounds(southWest,northEast);
 
     // mapboxgl.accessToken = 'Your Mapbox access token';
@@ -45,7 +40,6 @@ function initialize(){
     // geocoder = new google.maps.Geocoder; //ccantey.dgxr9hbq
     geocoder = new mapboxgl.Geocoder();
     map.on('load', function () {
-
     	// add vector source:
 	    map.addSource('electionResults', {
 	        type: 'vector',
@@ -94,6 +88,7 @@ function changeData(activetab){
 	        map.setLayoutProperty('cty-symbols', 'visibility', 'visible');
 	        popLegendEl.style.display = 'block';
             pctLegendEl.style.display = 'none';
+            $('.sidebar-results').show();
             if (activeTab.selection == 'USPRS'){
             	$('.td-image').show();
             	$('#candidate1photo').attr('src',"img/barack.jpg");
@@ -103,7 +98,7 @@ function changeData(activetab){
 
 		        $('#candidate2photo').attr('src',"img/mitt.jpg");
             	$('#candidate2').html('Mitt Romney (R)');
-		        $('#candidate2votes').html('6,730,835');
+		        $('#candidate2votes').html('6,601,125');
 		        $('#candidate2percent').html('45.0% ');
             } 
             else {
@@ -119,6 +114,7 @@ function changeData(activetab){
             }
 	        break;
 	    case "cng": 
+	        $('.sidebar-results').hide();
 	        var opacity = [[0, 0.25],[50, 0.45],[55, 0.6],[60, 0.7],[100, .99]];
 	        var opacityField = activeTab.selection+'PCT';
 	        map.setLayoutProperty('cng-lines', 'visibility', 'visible');
@@ -127,6 +123,7 @@ function changeData(activetab){
             pctLegendEl.style.display = 'block';
 	        break;
 	    case "sen": 
+	        $('.sidebar-results').hide();
 	        var opacity = [[0, 0.25],[50, 0.45],[55, 0.6],[60, 0.7],[100, .99]];
 	        var opacityField = activeTab.selection+'PCT';
 	        map.setLayoutProperty('sen-lines', 'visibility', 'visible');
@@ -134,7 +131,8 @@ function changeData(activetab){
 	        popLegendEl.style.display = 'none';
             pctLegendEl.style.display = 'block';
 	        break;
-	    case "hse": 
+	    case "hse":
+	        $('.sidebar-results').hide(); 
 	        var opacity = [[0, 0.25],[50, 0.45],[55, 0.6],[60, 0.7],[100, .99]];
 	        var opacityField = activeTab.selection+'PCT';
 	        map.setLayoutProperty('hse-lines', 'visibility', 'visible');
@@ -159,8 +157,8 @@ function spliceArray(a){
 	if (index !== -1) {
 	    layersArray.splice(index, 1);
 	}
-
 }
+
 function addLayer(layer) {
              
 	         map.addLayer({
@@ -184,7 +182,6 @@ function addLayer(layer) {
 		            	stops: layer[7]
 		            },
 		            "fill-outline-color": layer[8]
-		            
 		        }
 	         }, 'waterway-label');
 	         layersArray.push("2012results-"+ layer[0])
@@ -276,7 +273,7 @@ function showResults(activeTab, feature){
 	    // content += "<tr><th>Senate District: </th><td> " + feature.MNSENDIST+ "</td></tr>";
         break;
     }
-
+    $('.sidebar-results').show();
     // console.log(data);
     $.ajax("php/winners.php", {
 		data: data,
@@ -313,8 +310,6 @@ function showResults(activeTab, feature){
 function showWinners(totals, feature){
 	// console.log(totals)
 	var sortedWinners = sortObjectProperties(totals);
-	// console.log(feature);
-	// sortedWinners.forEach(logArrayElements);
     // var presidentMap={'dfl':'Hillary Clinton','republican':'Donald Trump', 'libertarian':'Gary Johnson', 'green':'Jill Stein'}
 	for (var i = 0; i<sortedWinners.length; i++){
 		var percent = sortedWinners[i][1]*100/sortedWinners[0][1]
@@ -336,19 +331,12 @@ function showWinners(totals, feature){
 		        $('#candidate'+i+'votes').html(sortedWinners[i][1].toLocaleString());
 		        $('#candidate'+i+'percent').html(percent.toFixed(1)+'% ');
 			}
-		    
 
 	    } else{
 	    	document.getElementById('totalvotes').innerHTML = sortedWinners[0][1].toLocaleString();
 	    }
 	}
 }
-
-// function logArrayElements(element, index, array) {
-//   // console.log('a[' + index + '] = ' + element);
-//   console.log(array);
-
-// }
 
 function sortObjectProperties(obj){
     // convert object into array
@@ -366,17 +354,6 @@ function sortObjectProperties(obj){
 
 function mapResults(feature){
 	// console.log(feature.layer.id)
-    removeLayers('pushpin');
-	// map.setFilter("2012results-"+activeTab.geography, ['all', ['==', 'UNIT', activeTab.geography], ["!=", activeTab.name, feature.properties[activeTab.name]]]);
- //    map.setFilter("2012results-"+activeTab.geography+"-hover", ['all', ['==', 'UNIT', activeTab.geography], ["==", activeTab.name, feature.properties[activeTab.name]]]);
-        
-       //not sure what this is doing here - doesn't do shit right now
-       //  var relatedFeatures = map.querySourceFeatures(feature.layer.id, {
-       //      sourceLayer: 'electionResults',
-       //      filter: ['all', ['==', 'UNIT', activeTab.geography], ["==", activeTab.name, feature.properties[activeTab.name]]]
-       //  });
-       // console.log(relatedFeatures)
-
 	switch (feature.layer.id) {
 	    case "2012results-vtd":
 	        map.setFilter("2012results-vtd", ['all', ['==', 'UNIT', 'vtd'], ["!=", "VTD",feature.properties.VTD]]);
@@ -404,7 +381,6 @@ function geoCodeAddress(geocoder) {
 
     // anatomy of Mapbox GL Geocoder
     // https://api.mapbox.com/geocoding/v5/mapbox.places/1414%20skyline%20rd%2C%20eagan.json?country=us&proximity=38.8977%2C%2077.0365&bbox=-104.7140625%2C%2041.86956%2C-84.202832%2C%2050.1487464&types=address%2Clocality%2Cplace&autocomplete=true&access_token=pk.eyJ1IjoiY2NhbnRleSIsImEiOiJjaWVsdDNubmEwMGU3czNtNDRyNjRpdTVqIn0.yFaW4Ty6VE3GHkrDvdbW6g 
-
     var geocoderURL  = 'https://api.tiles.mapbox.com/v4/geocode/mapbox.places/';
         geocoderURL += address + '.json?access_token=' + mapboxgl.accessToken;
 
@@ -415,13 +391,14 @@ function geoCodeAddress(geocoder) {
 	  type: 'GET',
 	  url: geocoderURL,
 	  success: function(result) {
+	  	    //mapbox-gl geocoder returns results in order from closest match to least closest, so grab [0]
 	          var topResult = result.features[0];              
-	          addMarker(topResult.geometry);
 		      map.flyTo({
 		      	center:topResult.geometry.coordinates,
 		      	zoom:12,
 		      	speed:1.75
 		      });
+		      addMarker(topResult.geometry);
 	  },
 	  error: function() {
 	       alert('geocode fail'); //maybe pass to google
@@ -432,29 +409,19 @@ function geoCodeAddress(geocoder) {
 	}
 
 function addMarker(e){
-	// console.log([e.lngLat.lng, e.lngLat.lat])
-    // console.log(map.getLayer('pointclick'));
-   
-       var center = new mapboxgl.Point(e.coordinates[0],e.coordinates[1]);
-       console.log(center)
-       console.log(e.coordinates)
+   removeLayers('pushpin');
 
-       var features = map.queryRenderedFeatures(e.coordinates,{ layers: layersArray }); //queryRenderedFeatures returns an array
-       for (layers in features){
-       	console.log(features[layers].properties)
-       }
-       // console.log(features)
-       // var feature = features[0];
+   map.on('zoomend', function(){
+       //project latlong to screen pixels for qRF()
+       var center = map.project([e.coordinates[0],e.coordinates[1]])      
+       var features = map.queryRenderedFeatures(center,{ layers: ["2012results-vtd"] }); //queryRenderedFeatures returns an array
        var feature = (features.length) ? features[0] : '';
-       console.log(feature);
-       // showResults(activeTab, feature.properties);
-       // mapResults(feature); 
+       showResults(activeTab, feature.properties);
+       mapResults(feature);
+   });
 
-
-
-    removeLayers('pushpin');
-	//add marker
-	 map.addSource("pointclick", {
+   	//add marker
+	map.addSource("pointclick", {
   		"type": "geojson",
   		"data": {
     		"type": "Feature",
@@ -488,30 +455,18 @@ function removeLayers(c){
 		case'all':
 		//remove old pushpin and previous selected district layers 
 		if (typeof map.getSource('pointclick') !== "undefined" ){ 
-			console.log('remove previous marker');
+			// console.log('remove previous marker');
 			map.removeLayer('pointclick');		
 			map.removeSource('pointclick');
-		}
-		// if (typeof map.getLayer('mapDistrictsLayer') !== "undefined" ){ 		
-		// 	map.removeLayer('mapDistrictsLayer')
-		// 	map.removeSource('district');	
-		// }
-		// if (typeof map.getLayer('minnesotaGeojson') !== "undefined" ){ 		
-		// 	map.removeLayer('minnesotaGeojson')
-		// 	map.removeSource('minnesotaGeojson');	
-		// }
-		
-		break;
-
-		
+		}		
+		break;		
 		case 'pushpin':
 		//remove old pushpin and previous selected district layers 
 		if (typeof map.getSource('pointclick') !== "undefined" ){ 
-			console.log('remove previous marker');
+			// console.log('remove previous marker');
 			map.removeLayer('pointclick');		
 			map.removeSource('pointclick');
 		}
 		break;
-
 	}    
 }
