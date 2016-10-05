@@ -200,8 +200,13 @@ function showResults(activeTab, feature){
 	};
 	
 	var winner = (feature) ? feature[activeTab.selection+'WIN'] : '';
-
-	var percentage = feature[activeTab.selection+winner]*100/feature[activeTab.selection+'TOTAL'];
+    if (winner === 'TIE'){
+        var percentage = feature[activeTab.selection+'DFL']*100/feature[activeTab.selection+'TOTAL'];
+    } else {
+    	var percentage = feature[activeTab.selection+winner]*100/feature[activeTab.selection+'TOTAL'];
+    }
+	
+	console.log(winner, feature[activeTab.selection+'WIN'])
 
  // //view feature properties for each selection
  //    var results = {};

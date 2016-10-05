@@ -77,6 +77,7 @@ $( document ).ready(function() {
     $('.election-navigation-a').on('click', function(e){
     	e.preventDefault();
       //remove previous layers
+      document.getElementById('precinct-header').innerHTML = "";
       document.getElementById('precinct-results').innerHTML = "";
       map.removeLayer("2012results-"+ activeTab.geography);
       map.removeLayer("2012results-"+ activeTab.geography+"-hover");
