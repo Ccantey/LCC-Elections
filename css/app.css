@@ -203,8 +203,8 @@ ul.election-navigation li{
 }
 
 .navbar-center img {
-    height: 23px;
-    margin: 0 10px;
+    height: 33px;
+    margin: 0 11px 3px;
 }
 
 .navbar-center{
@@ -376,7 +376,9 @@ ul.election-navigation li{
 	  position: relative;
 	  top: 0;
 	  right:0;
-
+	}
+	#legend.affix{
+		display:none;
 	}
 
 /*	.affix + #map{
