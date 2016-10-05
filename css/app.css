@@ -355,6 +355,9 @@ ul.election-navigation li{
 	.navbar-center h5:first-child {
 	    display: none;
 	}
+	.navbar-center h5 img {
+	    margin:0;
+	}
 
 	.navbar-center{
 	margin-left: 30px;
@@ -362,7 +365,11 @@ ul.election-navigation li{
    }
    .navbar, .navbar h5{
    	font-size: .85rem;
+   	padding:0;
    }
+   .affix-container.affix > .sidebar {
+     width: 100%; 
+}
 }
 @media (max-width: 800px){
 	.h5, h5{
@@ -384,7 +391,7 @@ ul.election-navigation li{
 	  top: 0;
 	  right:0;
 	}
-	#legend.affix{
+	#legend{
 		display:none;
 	}
 
