@@ -100,6 +100,7 @@ function changeData(activetab){
             	$('#candidate2').html('Mitt Romney (R)');
 		        $('#candidate2votes').html('6,601,125');
 		        $('#candidate2percent').html('45.0% ');
+		        $('#totalvotes').html('14,682,805');
             } 
             else {
             	$('#candidate1photo').attr('src',"");
@@ -110,7 +111,8 @@ function changeData(activetab){
 		        $('#candidate2photo').attr('src',"");
             	$('#candidate2').html('Kurt Bills (R)');
 		        $('#candidate2votes').html('4,339,870');
-		        $('#candidate2percent').html('30.5% ')
+		        $('#candidate2percent').html('30.5% ');
+		        $('#totalvotes').html('14,216,035');
             }
 	        break;
 	    case "cng": 
