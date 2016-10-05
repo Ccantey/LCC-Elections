@@ -88,7 +88,7 @@ function changeData(activetab){
 	        map.setLayoutProperty('cty-symbols', 'visibility', 'visible');
 	        popLegendEl.style.display = 'block';
             pctLegendEl.style.display = 'none';
-            $('.sidebar-results').show();
+            $('#candidate-table').show();
             if (activeTab.selection == 'USPRS'){
             	$('.td-image').show();
             	$('#candidate1photo').attr('src',"img/barack.jpg");
@@ -114,7 +114,7 @@ function changeData(activetab){
             }
 	        break;
 	    case "cng": 
-	        $('.sidebar-results').hide();
+	        $('#candidate-table').hide();
 	        var opacity = [[0, 0.25],[50, 0.45],[55, 0.6],[60, 0.7],[100, .99]];
 	        var opacityField = activeTab.selection+'PCT';
 	        map.setLayoutProperty('cng-lines', 'visibility', 'visible');
@@ -123,7 +123,7 @@ function changeData(activetab){
             pctLegendEl.style.display = 'block';
 	        break;
 	    case "sen": 
-	        $('.sidebar-results').hide();
+	        $('#candidate-table').hide();
 	        var opacity = [[0, 0.25],[50, 0.45],[55, 0.6],[60, 0.7],[100, .99]];
 	        var opacityField = activeTab.selection+'PCT';
 	        map.setLayoutProperty('sen-lines', 'visibility', 'visible');
@@ -132,7 +132,7 @@ function changeData(activetab){
             pctLegendEl.style.display = 'block';
 	        break;
 	    case "hse":
-	        $('.sidebar-results').hide(); 
+	        $('#candidate-table').hide(); 
 	        var opacity = [[0, 0.25],[50, 0.45],[55, 0.6],[60, 0.7],[100, .99]];
 	        var opacityField = activeTab.selection+'PCT';
 	        map.setLayoutProperty('hse-lines', 'visibility', 'visible');
@@ -308,7 +308,7 @@ function showResults(activeTab, feature){
         content += "<tr><th>Total Votes: </th><td>"+feature[activeTab.selection+'TOTAL'].toLocaleString()+"</td></tr>";
         break;
     }
-    $('.sidebar-results').show();
+    $('#candidate-table').show();
     // console.log(data);
     $.ajax("php/winners.php", {
 		data: data,

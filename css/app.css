@@ -76,6 +76,7 @@ a:hover {
 #navbar h5, #navbar a{
 	font-weight: bold;
 	color:#555;
+	margin-bottom: 5px;
 }
 
 .dropdown-menu{
@@ -259,8 +260,14 @@ ul.election-navigation li{
     text-transform: none;	
 }
 
-#facebook a{
+#shareBtn {
 	color: #3b5998;
+	padding: 3px 20px;
+	cursor:pointer;	
+}
+
+#shareBtn:hover {
+	
 }
 #twitter a{
 	color:#00aced;

@@ -10,7 +10,15 @@ $( document ).ready(function() {
   //   }
   // });
   // document.getElementById("spanDate").innerHTML = today.getMonth()+1 + "/" + today.getDate()+ "/" + today.getFullYear();
+ document.getElementById('shareBtn').onclick = function() {
+  FB.ui({
+    method: 'share',
+    display: 'popup',
+    href: 'http://gis.leg.mn/iMaps/elections/2012/',
+  }, function(response){});
+}
     
+
    initialize();
     $('.mapboxgl-ctrl-top-right, #legend').affix({
       offset: {
