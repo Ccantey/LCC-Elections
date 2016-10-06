@@ -39,6 +39,7 @@ function initialize(){
 
     // geocoder = new google.maps.Geocoder; //ccantey.dgxr9hbq
     geocoder = new mapboxgl.Geocoder();
+
     map.on('load', function () {
     	// add vector source:
 	    map.addSource('electionResults', {
@@ -49,14 +50,14 @@ function initialize(){
         var layers = [
             //name, minzoom, maxzoom, filter, paint fill-color, stops, paint fill-opacity, stops
 	        [
-		        'cty',                                 //layers[0] = id
-		        3,                                     //layers[1] = minzoom
-		        zoomThreshold,                         //layers[2] = maxzoom
-		        ['==', 'UNIT', 'cty'],                 //layers[3] = filter
+		        'cty',                               //layers[0] = id
+		        3,                                   //layers[1] = minzoom
+		        zoomThreshold,                       //layers[2] = maxzoom
+		        ['==', 'UNIT', 'cty'],               //layers[3] = filter
 		        activeTab.selection+'WIN',           //layers[4] = fill-color property -- geojson.winner (add this property to geojson)
 		        [['DFL', '#6582ac'],['R', '#cc7575'],['TIE', '#333']],  //layers[5] = fill-color stops -- ['dfl':blue, 'r':red,'i':yellow]
-		        activeTab.selection+'TOTAL',           //layers[6] = fill-opacity property
-		        [                                      //layers[7] = fill-opacity stops (based on MN population)
+		        activeTab.selection+'TOTAL',         //layers[6] = fill-opacity property
+		        [                                    //layers[7] = fill-opacity stops (based on MN population)
 		            [0, 0.25],
 		            [17000, 0.45],
 		            [53000, 0.6],
@@ -64,7 +65,7 @@ function initialize(){
 		            [280000, 0.8],
 		            [700000, .99]
 		        ],                                     
-		        'hsl(55, 11%, 96%)'                                //layers[8] = outline color
+		        'hsl(55, 11%, 96%)'                  //layers[8] = outline color
 	        ], 
 
    	        ['vtd', zoomThreshold, 20, ['==', 'UNIT', 'vtd'], activeTab.selection+'WIN', [['DFL', '#6582ac'],['R', '#cc7575'],['TIE', '#333']], activeTab.selection+'PCT', [[0, 0.25],[50, 0.45],[55, 0.6],[60, 0.7],[100, .99]], '#b8bbbf'],
@@ -154,6 +155,7 @@ function changeData(activetab){
 	layer.forEach(addLayer)
 }
 
+//remove layersArray element per 0.22.0
 function spliceArray(a){
 	var index = layersArray.indexOf(a);    // <-- Not supported in <IE9
 	if (index !== -1) {
@@ -190,7 +192,6 @@ function addLayer(layer) {
 }; 
 
 function showResults(activeTab, feature){
-    // console.log(feature)
     // console.log(feature)
 	var content = '';
 	var header ='';
@@ -244,7 +245,7 @@ function showResults(activeTab, feature){
 	switch (activeTab.selection) {
     case "USPRS":
         $('.td-image').show();
-        $('#thirdwheel').show();
+        // $('#thirdwheel').show();
         content += "<tr>"+geography+"</tr>";
         content += "<tr><th>U.S. President: </th><td> At-large</td></tr>";
         content += "<tr><th>"+unit+" Winner: </th><td class='winner-"+winner+"'>"+winner+" </td></tr>";
@@ -259,7 +260,7 @@ function showResults(activeTab, feature){
         break;
     case "USSEN":
         $('.td-image').hide();
-        $('#thirdwheel').hide();
+        // $('#thirdwheel').hide();
         content += "<tr>"+geography+"</tr>";
         content += "<tr><th>U.S. Senate: </th><td> At-large</td></tr>";
         content += "<tr><th>"+unit+" Winner: </th><td class='winner-"+winner+"'>"+winner+" </td></tr>";
@@ -276,7 +277,7 @@ function showResults(activeTab, feature){
         break;
     case "USREP":
         $('.td-image').hide();
-        $('#thirdwheel').hide();
+        // $('#thirdwheel').hide();
         data['district'] = feature.CONGDIST;
         content += "<tr>"+geography+"</tr>";
         content += "<tr><th>"+unit+" Winner: </th><td class='winner-"+winner+"'>"+winner+" </td></tr>";
@@ -290,7 +291,7 @@ function showResults(activeTab, feature){
         break;
     case "MNSEN":
         $('.td-image').hide();
-        $('#thirdwheel').hide();
+        // $('#thirdwheel').hide();
         data['district'] = feature.MNSENDIST;
         content += "<tr>"+geography+"</tr>";
         content += "<tr><th>"+unit+" Winner: </th><td class='winner-"+winner+"'>"+winner+" </td></tr>";
@@ -303,7 +304,7 @@ function showResults(activeTab, feature){
         break;
     case "MNLEG":
         $('.td-image').hide();
-        $('#thirdwheel').hide();
+        // $('#thirdwheel').hide();
         data['district'] = feature.MNLEGDIST;
         content += "<tr>"+geography+"</tr>";
         content += "<tr><th>"+unit+" Winner: </th><td class='winner-"+winner+"'>"+winner+" </td></tr>";
