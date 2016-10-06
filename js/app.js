@@ -208,7 +208,7 @@ function showResults(activeTab, feature){
     	var percentage = feature[activeTab.selection+winner]*100/feature[activeTab.selection+'TOTAL'];
     }
 	
-	console.log(winner, feature[activeTab.selection+'WIN'])
+	// console.log(winner, feature[activeTab.selection+'WIN'])
 
  // //view feature properties for each selection
  //    var results = {};
