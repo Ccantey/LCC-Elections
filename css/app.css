@@ -85,6 +85,11 @@ a:hover {
 .btn-group.open .dropdown-toggle {
     box-shadow: none;
 }
+.dropdown-menu > li:focus, .dropdown-menu > li:hover {
+    background-color: #e8e8e8;
+    background-image: linear-gradient(to bottom, #f5f5f5 0px, #e8e8e8 100%);
+    background-repeat: repeat-x;
+}
 /*application CSS*/
 
 .mapbox-improve-map {
@@ -239,7 +244,8 @@ ul.election-navigation li{
     color: rgba(0, 0, 0, 0.5);
     font-family: arial,helvetica,sans-serif;
     border:none;
-    text-transform: none;	
+    text-transform: none;
+    padding:0;	
 }
 
 .share-group{
