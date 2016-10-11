@@ -329,6 +329,7 @@ function showResults(activeTab, feature){
 	});
 	document.getElementById('precinct-header').innerHTML = header;
     document.getElementById('precinct-results').innerHTML = content;
+    $('#clear').show();
 
 	// sort the results, which returns an array
 	// var resultsArray = sortObjectProperties(results);
@@ -488,6 +489,17 @@ function removeLayers(c){
 
 	switch (c){
 		case'all':
+		// map.setFilter("2012results-"+activeTab.geography, ['all', ['==', 'UNIT', 'vtd'], ["!=", "VTD",'any']]);
+  //       map.setFilter("2012results-vtd-hover", ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD",'all']]);
+  //       map.setFilter("2012results-cty", ['all', ['==', 'UNIT', 'cty'], ["!=", "cty",'any']]);
+  //       map.setFilter("2012results-cty-hover", ['all', ['==', 'UNIT', 'cty'], ["==", "cty",'all']]);
+
+        map.setFilter("2012results-"+activeTab.geography, ['all', ['==', 'UNIT', activeTab.geography], ["!=", activeTab.name, 'all']]);
+        map.setFilter("2012results-"+activeTab.geography+"-hover", ['all', ['==', 'UNIT', activeTab.geography], ["==", activeTab.name, 'all']]);
+
+        document.getElementById('precinct-header').innerHTML = "";
+        document.getElementById('precinct-results').innerHTML = "";
+        $('#clear').hide();
 		//remove old pushpin and previous selected district layers 
 		if (typeof map.getSource('pointclick') !== "undefined" ){ 
 			// console.log('remove previous marker');

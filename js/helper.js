@@ -3,7 +3,7 @@ $( document ).ready(function() {
 
   // document.getElementById("spanDate").innerHTML = today.getMonth()+1 + "/" + today.getDate()+ "/" + today.getFullYear();
   initialize();
-
+  $('#clear').hide();
   $('.mapboxgl-ctrl-top-right, #legend').affix({
     offset: {
     top: 210
@@ -58,9 +58,15 @@ $( document ).ready(function() {
    	window.open("http://www.gis.leg.mn")
   });
 
+  $('#clear').on('click', function(){
+    removeLayers('all');
+
+  })
+
   $('.election-navigation-a').on('click', function(e){
    	e.preventDefault();
     //remove previous layers
+    $('#clear').hide();
     document.getElementById('precinct-header').innerHTML = "";
     document.getElementById('precinct-results').innerHTML = "";
     map.removeLayer("2012results-"+ activeTab.geography);

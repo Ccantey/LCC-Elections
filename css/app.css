@@ -92,6 +92,13 @@ a:hover {
 }
 /*application CSS*/
 
+#clear{
+	cursor: pointer;
+}
+
+#clear:hover{
+	color:red;
+}
 .mapbox-improve-map {
     display: none;
 }
