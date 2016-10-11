@@ -73,8 +73,7 @@ function initialize(){
             ['cty-hover', 3, zoomThreshold, ['all', ['==', 'UNIT', 'cty'], ["==", "COUNTYNAME", ""]], 'USPRSTOTAL', [[6000, 'orange']], activeTab.selection+'TOTAL', [[6000, .5]], 'white']
 	    ];      
 
-        layers.forEach(addLayer)
-
+        layers.forEach(addLayer);
 	});//end map on load
 } //end initialize
 
