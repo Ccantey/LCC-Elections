@@ -93,7 +93,11 @@ a:hover {
 /*application CSS*/
 
 #clear{
+	position:absolute;
+	right:10px;
 	cursor: pointer;
+	font-size: 0.75rem;
+	color: #aaa;
 }
 
 #clear:hover{
@@ -343,6 +347,7 @@ ul.election-navigation li{
 
 #map{
 	float:right;
+	top:10px;
 }
 .map-container{
 	border: 1px solid #e6e6e6;
@@ -388,6 +393,9 @@ ul.election-navigation li{
 	.h5, h5{
 		font-size: 1rem;
 	}
+	.affix-container.affix > .sidebar {
+    width: 100%;
+}
 	.affix-container.affix{
 		position:relative;
 		width:100%;
