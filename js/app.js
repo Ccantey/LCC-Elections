@@ -488,10 +488,10 @@ function removeLayers(c){
 
 	switch (c){
 		case'all':
-		// map.setFilter("2012results-"+activeTab.geography, ['all', ['==', 'UNIT', 'vtd'], ["!=", "VTD",'any']]);
-  //       map.setFilter("2012results-vtd-hover", ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD",'all']]);
-  //       map.setFilter("2012results-cty", ['all', ['==', 'UNIT', 'cty'], ["!=", "cty",'any']]);
-  //       map.setFilter("2012results-cty-hover", ['all', ['==', 'UNIT', 'cty'], ["==", "cty",'all']]);
+		map.setFilter("2012results-vtd", ['all', ['==', 'UNIT', 'vtd'], ["!=", "VTD",'any']]);
+        map.setFilter("2012results-vtd-hover", ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD",'all']]);
+        // map.setFilter("2012results-cty", ['all', ['==', 'UNIT', 'cty'], ["!=", "cty",'any']]);
+        // map.setFilter("2012results-cty-hover", ['all', ['==', 'UNIT', 'cty'], ["==", "cty",'all']]);
 
         map.setFilter("2012results-"+activeTab.geography, ['all', ['==', 'UNIT', activeTab.geography], ["!=", activeTab.name, 'all']]);
         map.setFilter("2012results-"+activeTab.geography+"-hover", ['all', ['==', 'UNIT', activeTab.geography], ["==", activeTab.name, 'all']]);
@@ -499,6 +499,12 @@ function removeLayers(c){
         document.getElementById('precinct-header').innerHTML = "";
         document.getElementById('precinct-results').innerHTML = "";
         $('#clear').hide();
+
+        if(activeTab.selection == 'USPRS' || activeTab.selection == 'USSEN'){
+        	$('#candidate-table').show();
+        } else{
+        	$('#candidate-table').hide();
+        }
 		//remove old pushpin and previous selected district layers 
 		if (typeof map.getSource('pointclick') !== "undefined" ){ 
 			// console.log('remove previous marker');
