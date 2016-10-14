@@ -33,9 +33,8 @@ function initialize(){
 		minZoom: 6
 	});
 
-    map.addControl(new mapboxgl.Navigation({
-    	position:'top-right'
-    }));
+    var nav = new mapboxgl.NavigationControl({position: 'top-right'}); // position is optional
+    map.addControl(nav);
 
     // geocoder = new google.maps.Geocoder; //ccantey.dgxr9hbq
     geocoder = new mapboxgl.Geocoder();
