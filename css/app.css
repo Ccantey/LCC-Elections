@@ -97,7 +97,7 @@ a:hover {
 	right:10px;
 	cursor: pointer;
 	font-size: 0.75rem;
-	color: #ed1c24;
+	color: #d64f4f;
 }
 
 #clear:hover{
@@ -212,7 +212,7 @@ ul.election-navigation li{
 
 .election-navigation-a.active {
     text-decoration: underline;
-    color: #ed1c24;
+    color: #d64f4f;
 }
 
 .election-navigation-a:hover{

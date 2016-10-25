@@ -27,6 +27,11 @@ $( document ).ready(function() {
   map.on('mousemove', function (e) {
     var features = map.queryRenderedFeatures(e.point, { layers: layersArray });
     map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
+
+    // var feature = (features.length) ? features[0] : '';
+    // removeLayers('pushpin');
+    // showResults(activeTab, feature.properties);
+    // mapResults(feature); 
   });
 
   //show grab cursor
