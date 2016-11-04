@@ -54,7 +54,7 @@ function initialize(){
 		        zoomThreshold,                       //layers[2] = maxzoom
 		        ['==', 'UNIT', 'cty'],               //layers[3] = filter
 		        activeTab.selection+'WIN',           //layers[4] = fill-color property -- geojson.winner (add this property to geojson)
-		        [['DFL', '#6582ac'],['R', '#cc7575'],['TIE', '#333']],  //layers[5] = fill-color stops -- ['dfl':blue, 'r':red,'i':yellow]
+		        [['DFL', '#6582ac'],['R', '#cc7575'],['TIE', '#333'],['NOVOTE','gray']],  //layers[5] = fill-color stops -- ['dfl':blue, 'r':red,'i':yellow]
 		        activeTab.selection+'TOTAL',         //layers[6] = fill-opacity property
 		        [                                    //layers[7] = fill-opacity stops (based on MN population)
 		            [0, 0.25],
@@ -222,12 +222,13 @@ function showResults(activeTab, feature){
 			content += "<th>"+selectionMap[activeTab.selection]+": </th><td>"+feature[activeTab.selection+'DIST']+"</td>";
 		}
 	} else{
+		
 		if (feature.COUNTYNAME.length > 0){
 		    header += "<h5>County Results</h5>";
 			geography = "<th>County: </th><td>"+feature.COUNTYNAME+"</td>";
 			unit = "County";
 		}
-		if (feature[activeTab.selection+'DIST']>0){
+		if (feature[activeTab.selection+'DIST'].length>0){
 		   	header += "<h5>District Results</h5>";
 		   	content += "<th>"+selectionMap[activeTab.selection]+": </th><td>"+feature[activeTab.selection+'DIST']+"</td>";
 		}
