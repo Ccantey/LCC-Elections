@@ -299,15 +299,20 @@ function showResults(activeTab, feature){
         $('.td-image').hide();
         // $('#thirdwheel').hide();
         data['district'] = feature.MNLEGDIST;
-        content += "<tr>"+geography+"</tr>";
-        content += "<tr><th>"+unit+" Winner: </th><td class='winner-"+winner+"'>"+winner+" </td></tr>";
-        content += "<tr><th>Percentage: </th><td class='winner-"+winner+"'>"+percentage.toFixed(1)+"% </td></tr>";
-		for (var i=0;i<partyArray.length;i++){
-    		if(feature[activeTab.selection+partyArray[i]] > 0){
-    			content +="<tr><th>"+partyObject[partyArray[i]]+': </th><td>'+feature[activeTab.selection+partyArray[i]].toLocaleString()+"</td></tr>";
-    		}    	
-    	}
-        content += "<tr><th>Total Votes: </th><td>"+feature[activeTab.selection+'TOTAL'].toLocaleString()+"</td></tr>";
+
+        if(feature[activeTab.selection+'DIST'] =='32B'){
+        	content += "<tr><td>The Minnesota Supreme Court has determined that a vacancy in nomination exists for Legislative District 32B under Minnesota Statutes 204B.13 due to a candidate being ineligible to hold the office. The Governor has issued a Writ of Special Election which schedules the election for February 14, 2017.</td><tr>";
+        } else {
+        	content += "<tr>"+geography+"</tr>";
+        	content += "<tr><th>"+unit+" Winner: </th><td class='winner-"+winner+"'>"+winner+" </td></tr>";
+        	content += "<tr><th>Percentage: </th><td class='winner-"+winner+"'>"+percentage.toFixed(1)+"% </td></tr>";
+			for (var i=0;i<partyArray.length;i++){
+    			if(feature[activeTab.selection+partyArray[i]] > 0){
+    				content +="<tr><th>"+partyObject[partyArray[i]]+': </th><td>'+feature[activeTab.selection+partyArray[i]].toLocaleString()+"</td></tr>";
+    			}    	
+    		}
+        	content += "<tr><th>Total Votes: </th><td>"+feature[activeTab.selection+'TOTAL'].toLocaleString()+"</td></tr>";
+        }
         break;
     }
     $('#candidate-table').show();
