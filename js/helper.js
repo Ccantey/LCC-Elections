@@ -1,8 +1,9 @@
 $( document ).ready(function() {
 	//kickoff map logic
-        console.info("Welcome to the MN legislative elections application, developed by the MN State Legislative Coordinating Commission. The application's Mapbox-GL and responsive web design(RWD), open-source code can be found at 'https://github.com/Ccantey/LCC-Elections'.");
+  console.info("Welcome to the MN legislative elections application, developed by the MN State Legislative Coordinating Commission. The application's Mapbox-GL and responsive web design(RWD), open-source code can be found at 'https://github.com/Ccantey/LCC-Elections'.");
 
-  // document.getElementById("spanDate").innerHTML = today.getMonth()+1 + "/" + today.getDate()+ "/" + today.getFullYear();
+  document.getElementById("spanDate").innerHTML = today.getMonth()+1 + "/" + today.getDate()+ "/" + today.getFullYear();
+  
   initialize();
   $('#clear').hide();
   $('.mapboxgl-ctrl-top-right, #legend').affix({
@@ -75,15 +76,15 @@ $( document ).ready(function() {
     $('#clear').hide();
     document.getElementById('precinct-header').innerHTML = "";
     document.getElementById('precinct-results').innerHTML = "";
-    map.removeLayer("2012results-"+ activeTab.geography);
-    map.removeLayer("2012results-"+ activeTab.geography+"-hover");
-    spliceArray("2012results-"+ activeTab.geography);
-    spliceArray("2012results-"+ activeTab.geography+"-hover");
+    map.removeLayer("2016results-"+ activeTab.geography);
+    map.removeLayer("2016results-"+ activeTab.geography+"-hover");
+    spliceArray("2016results-"+ activeTab.geography);
+    spliceArray("2016results-"+ activeTab.geography+"-hover");
     map.setLayoutProperty(activeTab.geography + '-symbols', 'visibility', 'none');
     map.setLayoutProperty(activeTab.geography + '-lines', 'visibility', 'none');
     //remove any vtd selection
-    map.setFilter("2012results-vtd", ['all', ['==', 'UNIT', 'vtd'], ["!=", "VTD",'any']]);
-    map.setFilter("2012results-vtd-hover", ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD",'all']]);
+    map.setFilter("2016results-vtd", ['all', ['==', 'UNIT', 'vtd'], ["!=", "VTD",'any']]);
+    map.setFilter("2016results-vtd-hover", ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD",'all']]);
 
     $('.election-navigation-a').removeClass('active');
       
@@ -99,7 +100,7 @@ $( document ).ready(function() {
     FB.ui({
       method: 'share',
       display: 'popup',
-      href: 'http://gis.leg.mn/iMaps/elections/2012/',
+      href: 'http://gis.leg.mn/iMaps/elections/2016/all/',
     }, function(response){});
   };
 

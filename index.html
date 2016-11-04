@@ -6,25 +6,25 @@
     <meta name="viewport" content="width=device-width, minimal-ui, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="description" content="Interactive precinct level map of the 2012 Minnesota election.">
+    <meta name="description" content="Interactive precinct level map of the 2016 Minnesota election.">
     <meta name="author" content="Leg. Coordinating Commission GIS">
     <meta name="keywords" content="Election, Map, LCC, Minnesota">
     <!--Facebook Share customization open graph meta tags. https://developers.facebook.com/tools/debug/og/object/-->
     <meta property="fb:app_id" content="198230040600425" />
-    <meta property="og:url"                content="http://www.gis.leg.mn/iMaps/elections/2012/" />
+    <meta property="og:url"                content="http://www.gis.leg.mn/iMaps/elections/2016/all/" />
     <meta property="og:type"               content="website" />
-    <meta property="og:title"              content="2012 Minnesota Election" />
-    <meta property="og:description"        content="Interactive precinct level map of the 2012 Minnesota election." />
-    <meta property="og:image"              content="http://www.gis.leg.mn/iMaps/elections/2012/img/social.png" />
+    <meta property="og:title"              content="2016 Minnesota Election" />
+    <meta property="og:description"        content="Interactive precinct level map of the 2016 Minnesota election." />
+    <meta property="og:image"              content="http://www.gis.leg.mn/iMaps/elections/2016/all/img/social.png" />
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site:id" content="@ChrisCantey">
     <meta name="twitter:creator" content="@ChrisCantey">
-    <meta name="twitter:title" content="2012 Minnesota Election">
-    <meta name="twitter:description" content="Interactive precinct level map of the 2012 Minnesota election.">
-    <meta name="twitter:image" content="http://www.gis.leg.mn/iMaps/elections/2012/img/social.png">
+    <meta name="twitter:title" content="2016 Minnesota Election">
+    <meta name="twitter:description" content="Interactive precinct level map of the 2016 Minnesota election.">
+    <meta name="twitter:image" content="http://www.gis.leg.mn/iMaps/elections/2016/all/img/social.png">
 
-    <title>2012 MN Election Results</title>
+    <title>2016 MN Election Results</title>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -75,7 +75,7 @@
       <div class="container">
         <div id="navbar" class="navbar-center">
             <h5><a href="#">Legislative Coordinating Commission</a></h5>
-            <h5><image src="img/ballot-box4.png"/>Election 2012</h5>
+            <h5><image src="img/ballot-box4.png"/>Election 2016</h5>
         </div><!--/.nav-collapse -->
 
       </div>
@@ -91,7 +91,7 @@
           </li>
 
           <li id="twitter">
-              <a href="http://twitter.com/intent/tweet?url=http%3A%2F%2Fwww.gis.leg.mn%2FiMaps%2Felections%2F2012%2F&text=How%20every%20Minnesota%20precinct%20voted&hashtags=ElectionMap, Election2012, mnleg, mapbox" target="_blank">
+              <a href="http://twitter.com/intent/tweet?url=http%3A%2F%2Fwww.gis.leg.mn%2FiMaps%2Felections%2F2016%2Fall%2F&text=How%20every%20Minnesota%20precinct%20voted&hashtags=ElectionMap, Election2016, mnleg, mapbox" target="_blank">
                   <i class="fa fa-twitter" aria-hidden="true"></i> Twitter
               </a>
           </li>
@@ -99,7 +99,7 @@
 
           <!-- https://www.linkedin.com/developer/apps/4241784/auth -->
           <li id="linkedin">
-              <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://gis.leg.mn/iMaps/elections/2012/&title=How%20every%20Minnesota%20precinct%20voted&source=Minnesota Election Map" target="_blank">
+              <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://gis.leg.mn/iMaps/elections/2016/all/&title=How%20every%20Minnesota%20precinct%20voted&source=Minnesota Election Map" target="_blank">
                 <i class="fa fa-linkedin-square" aria-hidden="true"></i> LinkedIn
               </a>
           </li>
@@ -124,7 +124,7 @@
       </div>
 
       <div class="headline">
-          <h1 class="headline-title">Results of the 2012 Minnesota General Election.</h1>
+          <h1 class="headline-title">Results of the 2016 Minnesota General Election.</h1>
 
           <p class="lead">Zoom in to view summary of each voting precinct. Click anywhere within Minnesota to see results. Toggle elections results above in red.</p>
           <!-- <h6 class="text-danger"> * Unofficial Results *</h6> -->
@@ -139,7 +139,7 @@
         <div class="col-sm-3 sidebar">
           <div class="sidebar-results">
             <h4> Minnesota Results</h4>
-            <!-- <h6 class="text-danger"> Results unofficial as of <span id="spanDate"></span></h6> -->
+            <h6 class="text-danger"> Results unofficial as of <span id="spanDate"></span></h6>
             <table id="candidate-table" class="table table-responsive">
             <thead>
               <tr>

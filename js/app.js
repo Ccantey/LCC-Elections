@@ -90,13 +90,13 @@ function changeData(activetab){
             $('#candidate-table').show();
             if (activeTab.selection == 'USPRS'){
             	$('.td-image').show();
-            	$('#candidate1photo').attr('src',"img/barack.jpg");
-            	$('#candidate1').html('Barack Obama (DFL)');
+            	$('#candidate1photo').attr('src',"img/hillary.jpg");
+            	$('#candidate1').html('Hillary Clinton (DFL)');
 		        $('#candidate1votes').html('7,730,835');
 		        $('#candidate1percent').html('52.7% ');
 
-		        $('#candidate2photo').attr('src',"img/mitt.jpg");
-            	$('#candidate2').html('Mitt Romney (R)');
+		        $('#candidate2photo').attr('src',"img/trump.jpg");
+            	$('#candidate2').html('Donald Trump (R)');
 		        $('#candidate2votes').html('6,601,125');
 		        $('#candidate2percent').html('45.0% ');
 		        $('#totalvotes').html('14,682,805');
@@ -143,7 +143,7 @@ function changeData(activetab){
 	        break;
 	};
 
-    map.setPaintProperty("2012results-vtd", 'fill-color', {"type":'categorical', 'property': activeTab.selection+'WIN', 'stops':[['DFL', '#6582ac'],['R', '#cc7575'],['TIE', '#333']]})    // selection = map.querySourceFeatures('2012results-cty-hover', {sourceLayer:'AllResults', filter: ['has','COUNTYNAME']})
+    map.setPaintProperty("2016results-vtd", 'fill-color', {"type":'categorical', 'property': activeTab.selection+'WIN', 'stops':[['DFL', '#6582ac'],['R', '#cc7575'],['TIE', '#333']]})    // selection = map.querySourceFeatures('2012results-cty-hover', {sourceLayer:'AllResults', filter: ['has','COUNTYNAME']})
 	// showResults(activeTab, feature.properties);
 	var layer = [
 	    [activeTab.geography,          3, zoomThreshold, ['==', 'UNIT', activeTab.geography], activeTab.selection+'WIN', [['DFL', '#6582ac'],['R', '#cc7575'],['TIE', '#333']], opacityField, opacity, 'hsl(55, 11%, 96%)'],
@@ -164,7 +164,7 @@ function spliceArray(a){
 function addLayer(layer) {
              
 	         map.addLayer({
-		        "id": "2012results-"+ layer[0],
+		        "id": "2016results-"+ layer[0],
 		        "type": "fill",
 		        "source": "electionResults",
 		        "source-layer": "FinalTable-4ggmdu", //layer name in studio
@@ -186,7 +186,7 @@ function addLayer(layer) {
 		            "fill-outline-color": layer[8]
 		        }
 	         }, 'waterway-label');
-	         layersArray.push("2012results-"+ layer[0])
+	         layersArray.push("2016results-"+ layer[0])
 }; 
 
 function showResults(activeTab, feature){
@@ -373,15 +373,15 @@ function sortObjectProperties(obj){
 function mapResults(feature){
 	// console.log(feature.layer.id)
 	switch (feature.layer.id) {
-	    case "2012results-vtd":
-	        map.setFilter("2012results-vtd", ['all', ['==', 'UNIT', 'vtd'], ["!=", "VTD",feature.properties.VTD]]);
-            map.setFilter("2012results-vtd-hover", ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD",feature.properties.VTD]]);
+	    case "2016results-vtd":
+	        map.setFilter("2016results-vtd", ['all', ['==', 'UNIT', 'vtd'], ["!=", "VTD",feature.properties.VTD]]);
+            map.setFilter("2016results-vtd-hover", ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD",feature.properties.VTD]]);
 	        break;
-	    case "2012results-vtd-hover":
+	    case "2016results-vtd-hover":
 	        break;
 	    default:
-	        map.setFilter("2012results-"+activeTab.geography, ['all', ['==', 'UNIT', activeTab.geography], ["!=", activeTab.name, feature.properties[activeTab.name]]]);
-            map.setFilter("2012results-"+activeTab.geography+"-hover", ['all', ['==', 'UNIT', activeTab.geography], ["==", activeTab.name, feature.properties[activeTab.name]]]);
+	        map.setFilter("2016results-"+activeTab.geography, ['all', ['==', 'UNIT', activeTab.geography], ["!=", activeTab.name, feature.properties[activeTab.name]]]);
+            map.setFilter("2016results-"+activeTab.geography+"-hover", ['all', ['==', 'UNIT', activeTab.geography], ["==", activeTab.name, feature.properties[activeTab.name]]]);
     }
 }
 
@@ -432,7 +432,7 @@ function addMarker(e){
    map.on('zoomend', function(){
        //project latlong to screen pixels for qRF()
        var center = map.project([e.coordinates[0],e.coordinates[1]])      
-       var features = map.queryRenderedFeatures(center,{ layers: ["2012results-vtd"] }); //queryRenderedFeatures returns an array
+       var features = map.queryRenderedFeatures(center,{ layers: ["2016results-vtd"] }); //queryRenderedFeatures returns an array
        var feature = (features.length) ? features[0] : '';
        showResults(activeTab, feature.properties);
        mapResults(feature);
@@ -471,13 +471,13 @@ function removeLayers(c){
 
 	switch (c){
 		case'all':
-		map.setFilter("2012results-vtd", ['all', ['==', 'UNIT', 'vtd'], ["!=", "VTD",'any']]);
-        map.setFilter("2012results-vtd-hover", ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD",'all']]);
+		map.setFilter("2016results-vtd", ['all', ['==', 'UNIT', 'vtd'], ["!=", "VTD",'any']]);
+        map.setFilter("2016results-vtd-hover", ['all', ['==', 'UNIT', 'vtd'], ["==", "VTD",'all']]);
         // map.setFilter("2012results-cty", ['all', ['==', 'UNIT', 'cty'], ["!=", "cty",'any']]);
         // map.setFilter("2012results-cty-hover", ['all', ['==', 'UNIT', 'cty'], ["==", "cty",'all']]);
 
-        map.setFilter("2012results-"+activeTab.geography, ['all', ['==', 'UNIT', activeTab.geography], ["!=", activeTab.name, 'all']]);
-        map.setFilter("2012results-"+activeTab.geography+"-hover", ['all', ['==', 'UNIT', activeTab.geography], ["==", activeTab.name, 'all']]);
+        map.setFilter("2016results-"+activeTab.geography, ['all', ['==', 'UNIT', activeTab.geography], ["!=", activeTab.name, 'all']]);
+        map.setFilter("2016results-"+activeTab.geography+"-hover", ['all', ['==', 'UNIT', activeTab.geography], ["==", activeTab.name, 'all']]);
 
         document.getElementById('precinct-header').innerHTML = "";
         document.getElementById('precinct-results').innerHTML = "";
