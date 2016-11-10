@@ -2,7 +2,7 @@ $( document ).ready(function() {
 	//kickoff map logic
   console.info("Welcome to the MN legislative elections application, developed by the MN State Legislative Coordinating Commission. The application's Mapbox-GL and responsive web design(RWD), open-source code can be found at 'https://github.com/Ccantey/LCC-Elections'.");
 
-  document.getElementById("spanDate").innerHTML = today.getMonth()+1 + "/" + today.getDate()+ "/" + today.getFullYear();
+  // document.getElementById("spanDate").innerHTML = today.getMonth()+1 + "/" + today.getDate()+ "/" + today.getFullYear();
   
   initialize();
   $('#clear').hide();

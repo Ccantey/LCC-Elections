@@ -43,7 +43,7 @@ function initialize(){
     	// add vector source:
 	    map.addSource('electionResults', {
 	        type: 'vector',
-	        url: 'mapbox://ccantey.2vclm9ik'
+	        url: 'mapbox://ccantey.3rf8lrxs'
 	    });     
 
         var layers = [
@@ -92,12 +92,12 @@ function changeData(activetab){
             	$('.td-image').show();
             	$('#candidate1photo').attr('src',"img/hillary.jpg");
             	$('#candidate1').html('Hillary Clinton (DFL)');
-		        $('#candidate1votes').html('7,730,835');
-		        $('#candidate1percent').html('52.7% ');
+		        $('#candidate1votes').html('6,818,725');
+		        $('#candidate1percent').html('46.4% ');
 
 		        $('#candidate2photo').attr('src',"img/trump.jpg");
             	$('#candidate2').html('Donald Trump (R)');
-		        $('#candidate2votes').html('6,601,125');
+		        $('#candidate2votes').html('6,605,085');
 		        $('#candidate2percent').html('45.0% ');
 		        $('#totalvotes').html('14,682,805');
             } 
@@ -167,7 +167,7 @@ function addLayer(layer) {
 		        "id": "2016results-"+ layer[0],
 		        "type": "fill",
 		        "source": "electionResults",
-		        "source-layer": "FinalTable-4ggmdu", //layer name in studio
+		        "source-layer": "Election2016preliminaryResult-6l55xh", //layer name in studio
 		        "minzoom":layer[1],
 		        'maxzoom': layer[2],
 		        'filter': layer[3],
@@ -228,7 +228,7 @@ function showResults(activeTab, feature){
 			geography = "<th>County: </th><td>"+feature.COUNTYNAME+"</td>";
 			unit = "County";
 		}
-		if (feature[activeTab.selection+'DIST'].length>0){
+		else if (feature[activeTab.selection+'DIST'].length>0){
 		   	header += "<h5>District Results</h5>";
 		   	content += "<th>"+selectionMap[activeTab.selection]+": </th><td>"+feature[activeTab.selection+'DIST']+"</td>";
 		}
