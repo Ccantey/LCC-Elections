@@ -20,8 +20,9 @@ $( document ).ready(function() {
     var feature = (features.length) ? features[0] : '';
     // console.log(feature.properties);
     removeLayers('pushpin');
+    mapResults(feature);
     showResults(activeTab, feature.properties);
-    mapResults(feature);   
+       
   });
 
   //show pointer cursor

@@ -37,7 +37,12 @@ function initialize(){
     map.addControl(nav);
 
     // geocoder = new google.maps.Geocoder; //ccantey.dgxr9hbq
-    geocoder = new mapboxgl.Geocoder();
+    geocoder = new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken
+    });
+    window.geocoder = geocoder;
+
+    //map.addControl(geocoder);
 
     map.on('load', function () {
     	// add vector source:
@@ -190,7 +195,7 @@ function addLayer(layer) {
 }; 
 
 function showResults(activeTab, feature){
-    console.log(feature)
+    // console.log(feature)
 	var content = '';
 	var header ='';
 	var geography = '';
@@ -429,13 +434,14 @@ function geoCodeAddress(geocoder) {
 	  }
 	});
 
+
 	    return false;
-	}
+}
 
 function addMarker(e){
    removeLayers('pushpin');
 
-   map.on('zoomend', function(){
+   map.once('zoomend', function(){
        //project latlong to screen pixels for qRF()
        var center = map.project([e.coordinates[0],e.coordinates[1]])      
        var features = map.queryRenderedFeatures(center,{ layers: ["2016results-vtd"] }); //queryRenderedFeatures returns an array
