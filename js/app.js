@@ -148,7 +148,8 @@ function changeData(activetab){
 	        break;
 	};
 
-    map.setPaintProperty("2016results-vtd", 'fill-color', {"type":'categorical', 'property': activeTab.selection+'WIN', 'stops':[['DFL', '#6582ac'],['R', '#cc7575'],['TIE', '#333']]})    // selection = map.querySourceFeatures('2012results-cty-hover', {sourceLayer:'AllResults', filter: ['has','COUNTYNAME']})
+    map.setPaintProperty("2016results-vtd", 'fill-color', {"type":'categorical', 'property': activeTab.selection+'WIN', 'stops':[['DFL', '#6582ac'],['R', '#cc7575'],['TIE', '#333']]});  // selection = map.querySourceFeatures('2012results-cty-hover', {sourceLayer:'AllResults', filter: ['has','COUNTYNAME']})
+    map.setPaintProperty("2016results-vtd", 'fill-opacity', {"type":'interval', 'property': activeTab.selection+'PCT', 'stops': [[0, 0.25],[50, 0.45],[55, 0.6],[60, 0.7],[100, .99]]});
 	// showResults(activeTab, feature.properties);
 	var layer = [
 	    [activeTab.geography,          3, zoomThreshold, ['==', 'UNIT', activeTab.geography], activeTab.selection+'WIN', [['DFL', '#6582ac'],['R', '#cc7575'],['TIE', '#333']], opacityField, opacity, 'hsl(55, 11%, 96%)'],
