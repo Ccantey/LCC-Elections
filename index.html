@@ -10,7 +10,7 @@
     <meta name="author" content="Leg. Coordinating Commission GIS">
     <meta name="keywords" content="Election, Map, LCC, Minnesota">
     <!--Facebook Share customization open graph meta tags. https://developers.facebook.com/tools/debug/og/object/-->
-    <meta property="fb:app_id" content="198230040600425" />
+    <meta property="fb:app_id" content="1124840784290142" />
     <meta property="og:url"                content="http://www.gis.leg.mn/iMaps/elections/2016/all/" />
     <meta property="og:type"               content="website" />
     <meta property="og:title"              content="2016 Minnesota Election" />
@@ -49,22 +49,22 @@
   </head>
   <body>
   <script>
-    window.fbAsyncInit = function() {
-      FB.init({
-        appId      : '198230040600425',
-        xfbml      : true,
-        version    : 'v2.8'
-      });
-    };
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1124840784290142',
+      xfbml      : true,
+      version    : 'v2.8'
+    });
+  };
 
-    (function(d, s, id){
-       var js, fjs = d.getElementsByTagName(s)[0];
-       if (d.getElementById(id)) {return;}
-       js = d.createElement(s); js.id = id;
-       js.src = "//connect.facebook.net/en_US/sdk.js";
-       fjs.parentNode.insertBefore(js, fjs);
-     }(document, 'script', 'facebook-jssdk'));
-  </script>
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
 
   <nav class="navbar navbar-default navbar-fixed-top">
       <button id="home" class="home-button">
@@ -74,7 +74,7 @@
 
       <div class="container">
         <div id="navbar" class="navbar-center">
-            <h5><a href="#">Legislative Coordinating Commission</a></h5>
+            <h5><a href="#">Legislative Coordinating Commission GIS</a></h5>
             <h5><image src="img/ballot-box4.png"/>Election 2016</h5>
         </div><!--/.nav-collapse -->
 
@@ -150,13 +150,13 @@
             </thead>
               <tr>
                 <td><img id='candidate1photo' src="img/hillary.jpg" class="img-responsive td-image" alt="" title="" /><span id="candidate1"> Hillary Clinton (DFL)</span></td>
-                <td id="candidate1votes">6,818,725</td>
+                <td id="candidate1votes">1,363,745</td>
                 <td><span id="candidate1percent">46.4% </span><i class="fa fa-check fa-lg" aria-hidden="true"></i></td>
 
               </tr>
               <tr>
                 <td><img id='candidate2photo' src="img/trump.jpg" class="img-responsive td-image" alt="" title="" /><span id="candidate2"> Donald Trump (R)</span></td>
-                <td id="candidate2votes">6,605,085</td>
+                <td id="candidate2votes">1,321,017</td>
                 <td id="candidate2percent">45.0% </td>
               </tr>
           <!--     <tr id="thirdwheel">
@@ -167,7 +167,7 @@
               <thead>
               <tr>
                 <th>Total Votes</th>
-                <th id="totalvotes">14,682,805</th>
+                <th id="totalvotes">2,938,405</th>
                 <th></th>
                 <!-- <th>99 of 100</th> -->
                 

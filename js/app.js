@@ -92,14 +92,14 @@ function changeData(activetab){
             	$('.td-image').show();
             	$('#candidate1photo').attr('src',"img/hillary.jpg");
             	$('#candidate1').html('Hillary Clinton (DFL)');
-		        $('#candidate1votes').html('6,818,725');
+		        $('#candidate1votes').html('1,363,745');
 		        $('#candidate1percent').html('46.4% ');
 
 		        $('#candidate2photo').attr('src',"img/trump.jpg");
             	$('#candidate2').html('Donald Trump (R)');
-		        $('#candidate2votes').html('6,605,085');
+		        $('#candidate2votes').html('1,321,017');
 		        $('#candidate2percent').html('45.0% ');
-		        $('#totalvotes').html('14,682,805');
+		        $('#totalvotes').html('2,938,405');
             } 
             else {
             	$('#candidate1photo').attr('src',"");
