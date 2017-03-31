@@ -93,8 +93,8 @@ a:hover {
 /*application CSS*/
 
 #clear{
-	position:absolute;
-	right:10px;
+	position:relative;
+	float:right;
 	cursor: pointer;
 	font-size: 0.75rem;
 	color: #d64f4f;
@@ -366,6 +366,15 @@ ul.election-navigation li{
 }
 
 @media (max-width: 620px) { 
+	#map{
+		top:90px;
+	}
+	#clear{
+		font-size: 1rem;
+	}
+	.headline{
+		display:none;
+	}
 	.container-fluid{
 		margin-left:2%;
 		margin-right:2%;
@@ -387,7 +396,30 @@ ul.election-navigation li{
    }
    .affix-container.affix > .sidebar {
      width: 100%; 
-}
+	}
+	.sidebar{
+		position:fixed;
+		z-index: 1001;
+		width:100%;
+		bottom: 0px;
+		left: 0;
+		padding:0 8px;
+		background-color: white;
+		overflow-y:scroll;
+         overflow-x:hidden;
+
+         
+	}
+	#precinct-results{
+		-webkit-transition: all .3s ease .15s;
+-moz-transition: all .3s ease .15s;
+-o-transition: all .3s ease .15s;
+-ms-transition: all .3s ease .15s;
+transition: all .3s ease .15s;
+	}
+	.election-navigation{
+		margin-left:-50px;
+	}
 }
 @media (max-width: 800px){
 	.h5, h5{

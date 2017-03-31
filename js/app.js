@@ -15,7 +15,12 @@ var popLegendEl = document.getElementById('pop-legend');
 var pctLegendEl = document.getElementById('pct-legend');
 
 function initialize(){
-	$("#map").height('800px');
+	if ($( window ).width() < 620){
+		$("#map").height('500px');
+	} else{
+		$("#map").height('800px');
+	}
+	
 	southWest = new mapboxgl.LngLat( -104.7140625, 41.86956);
     northEast = new mapboxgl.LngLat( -84.202832, 50.1487464);
     bounds = new mapboxgl.LngLatBounds(southWest,northEast);
@@ -332,8 +337,12 @@ function showResults(activeTab, feature){
 			console.log('error');
 		}
 	});
+
 	document.getElementById('precinct-header').innerHTML = header;
     document.getElementById('precinct-results').innerHTML = content;
+    //  for some reason its only grabbing the last element in += content
+	// $('#precinct-header').html(header);
+ //    $('#precinct-results').html(content);
     $('#clear').show();
 }
 
@@ -492,8 +501,8 @@ function removeLayers(c){
         map.setFilter("2016results-"+activeTab.geography, ['all', ['==', 'UNIT', activeTab.geography], ["!=", activeTab.name, 'all']]);
         map.setFilter("2016results-"+activeTab.geography+"-hover", ['all', ['==', 'UNIT', activeTab.geography], ["==", activeTab.name, 'all']]);
 
-        document.getElementById('precinct-header').innerHTML = "";
-        document.getElementById('precinct-results').innerHTML = "";
+        $('#precinct-header').html("");
+        $('#precinct-results').html("");
         $('#clear').hide();
 
         if(activeTab.selection == 'USPRS' || activeTab.selection == 'USSEN'){
